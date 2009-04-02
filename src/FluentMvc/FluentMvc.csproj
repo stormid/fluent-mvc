@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3C4F825E-7713-430E-9E08-8D09C0798781}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentMvc</RootNamespace>
+    <AssemblyName>FluentMvc</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AbstractRegistry.cs" />
+    <Compile Include="ActionFilterRegistryItem.cs" />
+    <Compile Include="ActionFilterSelector.cs" />
+    <Compile Include="Configuration\ActionResultPipeline.cs" />
+    <Compile Include="Configuration\Apply.cs" />
+    <Compile Include="Configuration\ConstraintDsl.cs" />
+    <Compile Include="Configuration\TransientConstraintRegistration.cs" />
+    <Compile Include="Constraints\ControllerActionConstraint.cs" />
+    <Compile Include="Configuration\Except.cs" />
+    <Compile Include="Configuration\FluentMvcDslBase.cs" />
+    <Compile Include="Constraints\AcceptsJson.cs" />
+    <Compile Include="Constraints\InverseConstraint.cs" />
+    <Compile Include="EmptyActionDescriptor.cs" />
+    <Compile Include="Constraints\PredefinedConstraint.cs" />
+    <Compile Include="Constraints\ControllerTypeConstraint.cs" />
+    <Compile Include="Configuration\FluentMvcObjectFactory.cs" />
+    <Compile Include="Configuration\IActionResultPipeline.cs" />
+    <Compile Include="Configuration\IFluentMvcObjectFactory.cs" />
+    <Compile Include="IActionResultResolver.cs" />
+    <Compile Include="AbstractActionResultFactory.cs" />
+    <Compile Include="ActionResultRegistryItem.cs" />
+    <Compile Include="ActionResultFactories\ActionResultFactory.cs" />
+    <Compile Include="ActionFilterRegistry.cs" />
+    <Compile Include="ActionResultRegistry.cs" />
+    <Compile Include="IActionFilterRegistry.cs" />
+    <Compile Include="IActionResultRegistry.cs" />
+    <Compile Include="Constraints\IConstraint.cs" />
+    <Compile Include="ActionResultFactories\JsonResultFactory.cs" />
+    <Compile Include="Configuration\FluentMvcConvention.cs" />
+    <Compile Include="Configuration\MvcConvention.cs" />
+    <Compile Include="IRegistry.cs" />
+    <Compile Include="RegistryItem.cs" />
+    <Compile Include="RegistrySelector.cs" />
+    <Compile Include="Utils\DescriptorExtensions.cs" />
+    <Compile Include="Utils\ReflectionHelper.cs" />
+    <Compile Include="ActionResultFactories\ViewResultFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FluentMvcControllerFactory.cs" />
+    <Compile Include="ActionResultSelector.cs" />
+    <Compile Include="ActionResultResolver.cs" />
+    <Compile Include="ActionResultFactories\IActionResultFactory.cs" />
+    <Compile Include="FluentMvcActionInvoker.cs" />
+    <Compile Include="FluentMvcConfiguration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Web.Abstractions.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Web.Routing.dll</HintPath>
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
