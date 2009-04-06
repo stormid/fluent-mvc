@@ -23,6 +23,14 @@ namespace FluentMvc
             }
         }
 
+        public virtual void Add(TRegistryItem registryItem)
+        {
+            lock (monitor)
+            {
+                registry.Add(registryItem);
+            }
+        }
+
         public virtual TRegistryItem Create(TSelector selector)
         {
             TRegistryItem first = FindForSelector(selector).FirstOrDefault();
@@ -38,28 +46,25 @@ namespace FluentMvc
         {
             IEnumerable<TRegistryItem> items = registry;
 
-            IEnumerable<TRegistryItem> applicableFilters = FindApplicableFilters(items, selector);
-            IEnumerable<TRegistryItem> filtersToRemove = FindFiltersToRemove(items, selector);
+            IEnumerable<TRegistryItem> applicable = FindApplicableItems(items, selector);
+            IEnumerable<TRegistryItem> toRemove = FindItemsToRemove(items, selector);
 
-            return applicableFilters.Except(filtersToRemove, new RegistryEqualityComparer<TRegistryItem>()).Distinct().ToArray();
+            return applicable.Except(toRemove, new RegistryEqualityComparer<TRegistryItem>()).Distinct().ToArray();
         }
 
-        private IEnumerable<TRegistryItem> FindFiltersToRemove(IEnumerable<TRegistryItem> items, TSelector selector)
+        private IEnumerable<TRegistryItem> FindItemsToRemove(IEnumerable<TRegistryItem> items, TSelector selector)
         {
-            return items.Where(item => (item.AppliesToController(selector) && item.AppliesToAction(selector)) && !item.Satisfies(selector));
+            return items.Where(item => (AppliesToCurrentControllerAndAction(item, selector)) && !item.Satisfies(selector));
         }
 
-        private IEnumerable<TRegistryItem> FindApplicableFilters(IEnumerable<TRegistryItem> items, TSelector selector)
+        private bool AppliesToCurrentControllerAndAction(TRegistryItem item, TSelector selector)
         {
-            return items.Where(item => item.AppliesToController(selector) && item.AppliesToAction(selector) && item.Satisfies(selector));
+            return item.AppliesToController(selector) && item.AppliesToAction(selector);
         }
 
-        public virtual void Add(TRegistryItem registryItem)
+        private IEnumerable<TRegistryItem> FindApplicableItems(IEnumerable<TRegistryItem> items, TSelector selector)
         {
-            lock (monitor)
-            {
-                registry.Add(registryItem);
-            }
+            return items.Where(item => AppliesToCurrentControllerAndAction(item, selector) && item.Satisfies(selector));
         }
     }
 

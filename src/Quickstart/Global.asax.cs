@@ -37,7 +37,7 @@ namespace Quickstart
                 .WithDefaultFactory(new ViewResultFactory())            // This will wrap the return of a controlelr in a ViewResult, this is the catchall factory of the pipeline
                 .AddFilter<HandleErrorAttribute>()                      // This filter will apply to all controllers
                 .AddFilter<AuthorizeAttribute>(Except
-                                                   .For<AccountController>(ac => ac.LogOn()) // Applies AuthorizeAttribute to the ChangePassword action on the AccountController  
+                                                   .For<AccountController>(ac => ac.LogOn())
                                                    .AndFor<AccountController>(ac => ac.LogOn(null, null, false, null))
                                                    .AndFor<HomeController>())
                 .BuildControllerFactory();

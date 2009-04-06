@@ -103,7 +103,7 @@
     <Compile Include="Unit\ActionResultFactories\ViewResultSpec.cs" />
     <Compile Include="Unit\ConfigurationDsl\ConfigurationDslSpec.cs" />
     <Compile Include="Unit\ConfigurationDsl\DslSpecBase.cs" />
-    <Compile Include="Unit\Conventions\DefaultJSConventions.cs" />
+    <Compile Include="Unit\Conventions\MvcConventions.cs" />
     <Compile Include="Unit\ActionInvoker\FluentMvcActionInvokerSpec.cs" />
     <Compile Include="Unit\FluentMvcControllerFactory\FluentMvcControllerFactoryBase.cs" />
     <Compile Include="Unit\FluentMvcControllerFactory\FluentMvcControllerFactorySpec.cs" />

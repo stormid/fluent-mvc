@@ -46,10 +46,10 @@ namespace FluentMvc
 
         public bool AppliesToController<T>(T selector) where T : RegistrySelector
         {
-
             if (ControllerDescriptor == EmptyControllerDescriptor.Instance)
                 return true;
 
+            // HACK: Fugly and makes kittens cry, sort it!
             return ControllerDescriptor.ControllerType.Equals(selector.ControllerDescriptor.ControllerType) && ControllerDescriptor.ControllerName.Equals(selector.ControllerDescriptor.ControllerName, StringComparison.InvariantCultureIgnoreCase);
         }
 

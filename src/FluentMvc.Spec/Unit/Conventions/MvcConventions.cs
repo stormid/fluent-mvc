@@ -18,7 +18,7 @@ namespace FluentMvc.Spec.Unit.Conventions
         [Test]
         public void ControllerFactory_will_be_DefaultControllerFactory()
         {
-            Convention.ControllerFactory.ShouldBeOfType(typeof(IControllerFactory));
+            Convention.ControllerFactory.ShouldBeOfType(typeof(DefaultControllerFactory));
         }
 
         [Test]

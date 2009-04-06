@@ -32,8 +32,19 @@ namespace FluentMvc
         {
             foreach (var item in FilterActionFilters<T>(applicableFilters))
             {
-                baseFiltersList.Add(objectFactory.Resolve<T>(item.Type));
+                var filter = CreateFilter<T>(item);
+                AddFilter(baseFiltersList, filter);
             }
+        }
+
+        private void AddFilter<T>(ICollection<T> baseFiltersList, T filter)
+        {
+            baseFiltersList.Add(filter);
+        }
+
+        private T CreateFilter<T>(RegistryItem item)
+        {
+            return objectFactory.Resolve<T>(item.Type);
         }
 
         private IEnumerable<ActionFilterRegistryItem> FilterActionFilters<T>(IEnumerable<ActionFilterRegistryItem> applicableFilters)
