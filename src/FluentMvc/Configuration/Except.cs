@@ -36,6 +36,7 @@ namespace FluentMvc.Configuration
 
         private static void CreateAndAddControllerTypeConstraint<TController>(Except dsl, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor) where TController : Controller
         {
+            // TODO: Chnage the ControllerTypeConstaint to use the ControllerDescriptor
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(controllerTypeConstraint, actionDescriptor);
             var inverseConstraint = new InverseConstraint(actionConstraint);

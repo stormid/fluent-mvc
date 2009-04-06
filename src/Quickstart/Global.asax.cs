@@ -1,13 +1,11 @@
-﻿using System.Web.Mvc;
-using System.Web.Routing;
-
-namespace Quickstart
+﻿namespace Quickstart
 {
+    using System.Web.Mvc;
+    using System.Web.Routing;
     using Controllers;
     using FluentMvc;
     using FluentMvc.ActionResultFactories;
     using FluentMvc.Configuration;
-    using FluentMvc.Utils;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
