@@ -35,7 +35,7 @@ namespace FluentMvc.Configuration
         public virtual TDsl AddResultFactory<TFactory>()
             where TFactory : IActionResultFactory
         {
-            return AddResultFactory(objectFactory.Resolve<TFactory>());
+            return AddResultFactory(CreateFactory<TFactory>());
         }
 
         public virtual TDsl AddResultFactory(IActionResultFactory factory, ConstraintDsl constraintDsl)
@@ -50,20 +50,41 @@ namespace FluentMvc.Configuration
         public virtual TDsl AddResultFactory<TFactory>(ConstraintDsl constraintDsl)
             where TFactory : IActionResultFactory
         {
-            IActionResultFactory factory = objectFactory.Resolve<TFactory>();
+            IActionResultFactory factory = CreateFactory<TFactory>();
+
             return AddResultFactory(factory, constraintDsl);
+        }
+
+        private IActionResultFactory CreateFactory<TFactory>()
+            where TFactory : IActionResultFactory
+        {
+            return objectFactory.Resolve<TFactory>();
         }
 
         public virtual TDsl AddResultFactory(IActionResultFactory resultFactory)
         {
             Convention.Factories.Enqueue(resultFactory);
+
             return (TDsl)this;
         }
 
-        public virtual TDsl WithDefaultFactory(IActionResultFactory defaultFactory)
+        public virtual TDsl AddResultFactory(IActionResultFactory defaultFactory, bool isDefault)
         {
-            Convention.DefaultFactory = defaultFactory;
+            if (isDefault)
+            {
+                Convention.DefaultFactory = defaultFactory;
+            }
+            else
+            {
+                AddResultFactory(defaultFactory);
+            }
+
             return (TDsl)this;
+        }
+
+        public TDsl AddResultFactory<TResultFactory>(bool isDefault) where TResultFactory : IActionResultFactory
+        {
+            return AddResultFactory(CreateFactory<TResultFactory>(), isDefault);
         }
 
         public TDsl AddFilter<TFilter>()

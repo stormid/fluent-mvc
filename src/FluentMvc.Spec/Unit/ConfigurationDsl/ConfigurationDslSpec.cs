@@ -196,13 +196,36 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
 
         public override void Because()
         {
-            Configuration.WithDefaultFactory(ExpectedDefaultFactory);
+            Configuration.AddResultFactory(ExpectedDefaultFactory, true);
         }
 
         [Test]
         public void Should_set_the_inner_convention()
         {
             Configuration.Convention.DefaultFactory.ShouldBeTheSameAs(ExpectedDefaultFactory);
+        }
+    }
+
+    [TestFixture]
+    public class When_setting_the_default_factory_generically : DslSpecBase
+    {
+        private IActionResultFactory ExpectedDefaultFactory;
+
+        public override void Given()
+        {
+            ExpectedDefaultFactory = CreateStub<IActionResultFactory>();
+            Configuration = FluentMvcConfiguration.Create();
+        }
+
+        public override void Because()
+        {
+           Configuration.AddResultFactory<TestActionResultFactory>(true);
+        }
+
+        [Test]
+        public void Should_set_the_inner_convention()
+        {
+            Configuration.Convention.DefaultFactory.ShouldBe(typeof(TestActionResultFactory));
         }
     }
 

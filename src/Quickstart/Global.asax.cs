@@ -34,7 +34,7 @@ namespace Quickstart
                 .WithControllerFactory(new DefaultControllerFactory())  // Replace this with your ControllerFactory of factory
                 .AddResultFactory<ActionResultFactory>()                // This supplies the backwards compatibility with standard Mvc controller actions
                 .AddResultFactory<JsonResultFactory>()                  // This will automatically wrap a response in a JsonResult if the borwser is expecting a JSON response
-                .WithDefaultFactory(new ViewResultFactory())            // This will wrap the return of a controlelr in a ViewResult, this is the catchall factory of the pipeline
+                .AddResultFactory(new ViewResultFactory(), true)            // This will wrap the return of a controlelr in a ViewResult, this is the catchall factory of the pipeline
                 .AddFilter<HandleErrorAttribute>()                      // This filter will apply to all controllers
                 .AddFilter<AuthorizeAttribute>(Except
                                                    .For<AccountController>(ac => ac.LogOn())
