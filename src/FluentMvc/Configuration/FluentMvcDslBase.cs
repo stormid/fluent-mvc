@@ -26,33 +26,33 @@ namespace FluentMvc.Configuration
             return (TDsl)this;
         }
 
-        public virtual TDsl WithControllerFactory(IControllerFactory defaultControllerFactory)
+        public virtual TDsl UsingControllerFactory(IControllerFactory defaultControllerFactory)
         {
             Convention.ControllerFactory = defaultControllerFactory;
             return (TDsl)this;
         }
 
-        public virtual TDsl AddResultFactory<TFactory>()
+        public virtual TDsl WithResultFactory<TFactory>()
             where TFactory : IActionResultFactory
         {
-            return AddResultFactory(CreateFactory<TFactory>());
+            return WithResultFactory(CreateFactory<TFactory>());
         }
 
-        public virtual TDsl AddResultFactory(IActionResultFactory factory, ConstraintDsl constraintDsl)
+        public virtual TDsl WithResultFactory(IActionResultFactory factory, ConstraintDsl constraintDsl)
         {
             var constraint = constraintDsl.CreateConstraints(objectFactory);
 
             factory.OverrideConstraint(constraint);
 
-            return AddResultFactory(factory);
+            return WithResultFactory(factory);
         }
 
-        public virtual TDsl AddResultFactory<TFactory>(ConstraintDsl constraintDsl)
+        public virtual TDsl WithResultFactory<TFactory>(ConstraintDsl constraintDsl)
             where TFactory : IActionResultFactory
         {
             IActionResultFactory factory = CreateFactory<TFactory>();
 
-            return AddResultFactory(factory, constraintDsl);
+            return WithResultFactory(factory, constraintDsl);
         }
 
         private IActionResultFactory CreateFactory<TFactory>()
@@ -61,14 +61,14 @@ namespace FluentMvc.Configuration
             return objectFactory.Resolve<TFactory>();
         }
 
-        public virtual TDsl AddResultFactory(IActionResultFactory resultFactory)
+        public virtual TDsl WithResultFactory(IActionResultFactory resultFactory)
         {
             Convention.Factories.Enqueue(resultFactory);
 
             return (TDsl)this;
         }
 
-        public virtual TDsl AddResultFactory(IActionResultFactory defaultFactory, bool isDefault)
+        public virtual TDsl WithResultFactory(IActionResultFactory defaultFactory, bool isDefault)
         {
             if (isDefault)
             {
@@ -76,29 +76,29 @@ namespace FluentMvc.Configuration
             }
             else
             {
-                AddResultFactory(defaultFactory);
+                WithResultFactory(defaultFactory);
             }
 
             return (TDsl)this;
         }
 
-        public TDsl AddResultFactory<TResultFactory>(bool isDefault) where TResultFactory : IActionResultFactory
+        public TDsl WithResultFactory<TResultFactory>(bool isDefault) where TResultFactory : IActionResultFactory
         {
-            return AddResultFactory(CreateFactory<TResultFactory>(), isDefault);
+            return WithResultFactory(CreateFactory<TResultFactory>(), isDefault);
         }
 
-        public TDsl AddFilter<TFilter>()
+        public TDsl WithFilter<TFilter>()
         {
             constaintRegistrations.Add(typeof(TFilter), new HashSet<TransientConstraintRegistration> { new TransientConstraintRegistration(new PredefinedConstraint(true), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance)});
             return (TDsl)this;
         }
 
-        public TDsl AddFilter<T>(ConstraintDsl apply)
+        public TDsl WithFilter<T>(ConstraintDsl apply)
         {
-            return AddFilter<T>(apply.CreateConstraints(objectFactory));
+            return WithFilter<T>(apply.CreateConstraints(objectFactory));
         }
 
-        public TDsl AddFilter<TFilter>(IEnumerable<TransientConstraintRegistration> constraints)
+        public TDsl WithFilter<TFilter>(IEnumerable<TransientConstraintRegistration> constraints)
         {
             if ( !constaintRegistrations.ContainsKey(typeof(TFilter)))
                 constaintRegistrations.Add(typeof(TFilter), new HashSet<TransientConstraintRegistration>());

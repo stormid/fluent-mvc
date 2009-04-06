@@ -68,6 +68,7 @@
     <Compile Include="IRegistry.cs" />
     <Compile Include="RegistryItem.cs" />
     <Compile Include="RegistrySelector.cs" />
+    <Compile Include="Utils\ControllerBuilder.cs" />
     <Compile Include="Utils\DescriptorExtensions.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
     <Compile Include="ActionResultFactories\ViewResultFactory.cs" />

@@ -34,4 +34,16 @@ namespace FluentMvc.Configuration
             return dsl;
         }
     }
+
+
+
+    public class Is
+    {
+        private static bool isDefault = true;
+
+        public static bool Default
+        {
+            get { return isDefault; }
+        }
+    }
 }

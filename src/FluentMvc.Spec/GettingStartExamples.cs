@@ -32,7 +32,7 @@ namespace FluentMvc.Spec
 
             FluentMvcConfiguration.Create()
                 .WithConvention(new MvcConvention())
-                .WithControllerFactory(customControllerFactory)
+                .UsingControllerFactory(customControllerFactory)
                 .BuildControllerFactory();
         }
 
@@ -40,9 +40,9 @@ namespace FluentMvc.Spec
         public void Securing_a_speicfic_action()
         {
             FluentMvcConfiguration.Create()
-                .WithControllerFactory(new DefaultControllerFactory())
+                .UsingControllerFactory(new DefaultControllerFactory())
                 .WithConvention(new MvcConvention())
-                .AddFilter<AuthorizeAttribute>(Apply.For<TestController>(tc => tc.ReturnPost()))
+                .WithFilter<AuthorizeAttribute>(Apply.For<TestController>(tc => tc.ReturnPost()))
                 .BuildControllerFactory();
         }
 

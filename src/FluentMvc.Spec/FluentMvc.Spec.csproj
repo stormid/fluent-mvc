@@ -93,6 +93,7 @@
     <Compile Include="SecondTestController.cs" />
     <Compile Include="TrueReturningConstraint.cs" />
     <Compile Include="Unit\ConfigurationDsl\ApplySpec.cs" />
+    <Compile Include="Unit\ConfigurationDsl\ConfigurationDsl_Take2Spec.cs" />
     <Compile Include="Unit\DefaultActionResultResolver\DefaultActionResultResolverCreateSpec.cs" />
     <Compile Include="Unit\DefaultActionResultResolver\DefaultActionResultResolverSpecBase.cs" />
     <Compile Include="TestActionResultFactory.cs" />

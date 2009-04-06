@@ -11,6 +11,8 @@ namespace FluentMvc
         private IActionResultResolver actionResultResolver;
         private readonly IActionResultPipeline pipeline;
 
+        public static Action<FluentMvcConfiguration> Configure { get; set; }
+
         private FluentMvcConfiguration()
         {
             pipeline = new ActionResultPipeline();
@@ -98,6 +100,14 @@ namespace FluentMvc
         protected IControllerFactory CreateControllerFactory()
         {
             return new FluentMvcControllerFactory(Convention.ControllerFactory, actionResultResolver);
+        }
+
+        public static IControllerFactory ConfigureAndBuildControllerFactory()
+        {
+            var config = new FluentMvcConfiguration();
+            Configure(config);
+
+            return config.BuildControllerFactory();
         }
     }
 }

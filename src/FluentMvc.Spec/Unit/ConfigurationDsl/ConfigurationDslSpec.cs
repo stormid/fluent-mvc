@@ -39,7 +39,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         {
             ExpectedControllerFactory = new DefaultControllerFactory();
             Configuration = FluentMvcConfiguration.Create()
-                .WithControllerFactory(ExpectedControllerFactory);
+                .UsingControllerFactory(ExpectedControllerFactory);
         }
 
         public override void Because()
@@ -77,8 +77,8 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public override void Because()
         {
             Configuration
-                .AddResultFactory(Child1)
-                .AddResultFactory(Child2);
+                .WithResultFactory(Child1)
+                .WithResultFactory(Child2);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public override void Because()
         {
             Configuration
-                .AddResultFactory<TestActionResultFactory>();
+                .WithResultFactory<TestActionResultFactory>();
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public override void Because()
         {
             Configuration
-                .AddResultFactory(resultFactory, Apply.When<AcceptsJson>());
+                .WithResultFactory(resultFactory, Apply.When<AcceptsJson>());
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
 
         public override void Because()
         {
-            Configuration.AddResultFactory(ExpectedDefaultFactory, true);
+            Configuration.WithResultFactory(ExpectedDefaultFactory, true);
         }
 
         [Test]
@@ -219,7 +219,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
 
         public override void Because()
         {
-           Configuration.AddResultFactory<TestActionResultFactory>(true);
+           Configuration.WithResultFactory<TestActionResultFactory>(true);
         }
 
         [Test]
@@ -285,7 +285,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             filterRegistry = CreateStub<IActionFilterRegistry>();
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), filterRegistry, CreateStub<IActionResultRegistry>())
                 .ResolveWith(objectFactory)
-                .AddResultFactory<JsonResultFactory>();
+                .WithResultFactory<JsonResultFactory>();
         }
 
         public override void Because()
@@ -319,7 +319,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionDescriptor = func.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<TestActionFilter>();
+                .WithFilter<TestActionFilter>();
         }
 
         public override void Because()
@@ -352,8 +352,8 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionDescriptor = func.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<TestActionFilter>()
-                .AddFilter<AuthorizeAttribute>(Apply.For<SecondTestController>());
+                .WithFilter<TestActionFilter>()
+                .WithFilter<AuthorizeAttribute>(Apply.For<SecondTestController>());
         }
 
         public override void Because()
@@ -383,7 +383,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         {
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<TestActionFilter>(Apply.When<TrueReturningConstraint>());
+                .WithFilter<TestActionFilter>(Apply.When<TrueReturningConstraint>());
         }
 
         public override void Because()
@@ -413,7 +413,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             anotherActionDescriptor = func2.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<TestActionFilter>(Except.For<TestController>());
+                .WithFilter<TestActionFilter>(Except.For<TestController>());
         }
 
         public override void Because()
@@ -452,7 +452,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             thirdActionDescriptor = func3.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<TestActionFilter>(Except.For<TestController>().AndFor<ThirdTestController>());
+                .WithFilter<TestActionFilter>(Except.For<TestController>().AndFor<ThirdTestController>());
         }
 
         public override void Because()
@@ -497,7 +497,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             thirdActionDescriptor = func3.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>());
+                .WithFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>());
         }
 
         public override void Because()
@@ -542,8 +542,8 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             excludedActionDescriptor = func3.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<AcceptVerbsAttribute>()
-                .AddFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>(func3));
+                .WithFilter<AcceptVerbsAttribute>()
+                .WithFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>(func3));
         }
 
         public override void Because()
@@ -597,7 +597,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionDescriptor = func.CreateActionDescriptor();
             incorrectActionDescriptor = otherFunc.CreateActionDescriptor();
             Configuration = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
-                .AddFilter<TestActionFilter>(Except.For<SecondTestController>().AndFor<TestController>(func).AndFor<TestController>(t => t.ReturnNull()));
+                .WithFilter<TestActionFilter>(Except.For<SecondTestController>().AndFor<TestController>(func).AndFor<TestController>(t => t.ReturnNull()));
 
             registryTester = new ActionFilterRegistryTester(actionFilterRegistry);
         }
