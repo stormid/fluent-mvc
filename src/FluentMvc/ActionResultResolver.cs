@@ -49,7 +49,8 @@ namespace FluentMvc
         private ActionResult CreateActionResultFromRegistry(ActionResultSelector selector)
         {
             var registryItem = actionResultRegistry.Create(selector);
-            var resultFactory = objectFactory.Resolve<IActionResultFactory>(registryItem.Type);
+            var resultFactory = registryItem.Create<IActionResultFactory>(objectFactory);
+
             return resultFactory.Create(selector);
         }
 

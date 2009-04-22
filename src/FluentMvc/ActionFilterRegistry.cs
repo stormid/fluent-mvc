@@ -44,7 +44,7 @@ namespace FluentMvc
 
         private T CreateFilter<T>(RegistryItem item)
         {
-            return objectFactory.Resolve<T>(item.Type);
+            return item.Create<T>(objectFactory);
         }
 
         private IEnumerable<ActionFilterRegistryItem> FilterActionFilters<T>(IEnumerable<ActionFilterRegistryItem> applicableFilters)

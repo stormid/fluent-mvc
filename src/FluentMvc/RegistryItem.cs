@@ -3,6 +3,7 @@ namespace FluentMvc
     using System;
     using System.Linq;
     using System.Web.Mvc;
+    using Configuration;
     using Constraints;
 
     public class RegistryItem
@@ -74,5 +75,14 @@ namespace FluentMvc
             return reflectedActionDescriptor.MethodInfo.Equals(selectorReflectedActionDescriptor.MethodInfo);
         }
 
+        public TItem Create<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
+        {
+            return CreateCore<TItem>(fluentMvcObjectFactory);
+        }
+
+        private TItem CreateCore<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
+        {
+            return fluentMvcObjectFactory.Resolve<TItem>(Type);
+        }
     }
 }
