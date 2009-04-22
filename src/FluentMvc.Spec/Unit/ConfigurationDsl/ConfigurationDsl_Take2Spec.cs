@@ -1,6 +1,7 @@
 namespace FluentMvc.Spec.Unit.ConfigurationDsl
 {
     using System.Web.Mvc;
+    using Configuration;
     using NUnit.Framework;
 
     // Spike test for Mark Nijhof's suggested solution for config
@@ -15,6 +16,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             FluentMvcConfiguration
                 .Configure = x =>
                                  {
+                                     x.ResolveWith(CreateStub<IFluentMvcObjectFactory>());
                                      x.WithResultFactory(new TestActionResultFactory());
                                  };
 

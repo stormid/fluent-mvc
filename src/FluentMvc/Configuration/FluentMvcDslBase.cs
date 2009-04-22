@@ -104,13 +104,16 @@ namespace FluentMvc.Configuration
                 constaintRegistrations.Add(typeof(TFilter), new HashSet<TransientConstraintRegistration>());
 
             constaintRegistrations[typeof(TFilter)] = new HashSet<TransientConstraintRegistration>(constaintRegistrations[typeof(TFilter)].Concat(constraints));
+
             return (TDsl)this;
         }
 
         public TDsl ResolveWith(IFluentMvcObjectFactory factory)
         {
             objectFactory = factory;
-            actionFilterRegistry.SetObjectFactory(factory);
+            if (actionFilterRegistry != null)
+                actionFilterRegistry.SetObjectFactory(factory);
+
             return (TDsl)this;
         }
     }
