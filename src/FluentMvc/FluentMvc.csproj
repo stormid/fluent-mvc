@@ -38,6 +38,7 @@
     <Compile Include="AbstractRegistry.cs" />
     <Compile Include="ActionFilterRegistryItem.cs" />
     <Compile Include="ActionFilterSelector.cs" />
+    <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Configuration\ActionResultPipeline.cs" />
     <Compile Include="Configuration\Apply.cs" />
     <Compile Include="Configuration\ConstraintDsl.cs" />
@@ -45,7 +46,7 @@
     <Compile Include="Constraints\ControllerActionConstraint.cs" />
     <Compile Include="Configuration\Except.cs" />
     <Compile Include="Configuration\FluentMvcDslBase.cs" />
-    <Compile Include="Constraints\AcceptsJson.cs" />
+    <Compile Include="Constraints\ExpectsJson.cs" />
     <Compile Include="Constraints\InverseConstraint.cs" />
     <Compile Include="EmptyActionDescriptor.cs" />
     <Compile Include="Constraints\PredefinedConstraint.cs" />

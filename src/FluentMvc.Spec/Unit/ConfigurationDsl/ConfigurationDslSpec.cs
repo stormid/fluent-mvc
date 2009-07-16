@@ -125,13 +125,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public override void Because()
         {
             Configuration
-                .WithResultFactory(resultFactory, Apply.When<AcceptsJson>());
+                .WithResultFactory(resultFactory, Apply.When<ExpectsJson>());
         }
 
         [Test]
         public void should_override_factory_constraint()
         {
-            resultFactory.AssertWasCalled(x => x.OverrideConstraint(Arg<IEnumerable<TransientConstraintRegistration>>.Is.Anything));
+            resultFactory.AssertWasCalled(x => x.SetConstraint(Arg<IEnumerable<IConstraint>>.Is.Anything));
         }
     }
 

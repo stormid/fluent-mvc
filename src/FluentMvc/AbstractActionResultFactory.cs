@@ -4,20 +4,21 @@ namespace FluentMvc
     using System.Linq;
     using System.Web.Mvc;
     using ActionResultFactories;
-    using Configuration;
+    using Constraints;
+    using Utils;
 
     public abstract class AbstractActionResultFactory : IActionResultFactory
     {
-        private IEnumerable<TransientConstraintRegistration> constaints;
+        private IEnumerable<IConstraint> constaints;
 
-        public void OverrideConstraint(IEnumerable<TransientConstraintRegistration> constraintRegistrations)
+        public void SetConstraint(IEnumerable<IConstraint> constraintRegistrations)
         {
             constaints = constraintRegistrations;
         }
 
         public virtual bool ShouldBeReturnedFor(ActionResultSelector selector)
         {
-            bool shouldApplyFactory = constaints != null && constaints.Any(x => x.Constraint.IsSatisfiedBy(selector));
+            bool shouldApplyFactory = constaints.HasItems() && constaints.Any(x => x.IsSatisfiedBy(selector));
 
             if (shouldApplyFactory)
                 return true;
@@ -27,7 +28,10 @@ namespace FluentMvc
             return shouldApplyFactory;
         }
 
-        protected abstract bool ShouldApplyFactory(ActionResultSelector selector);
+        protected virtual bool ShouldApplyFactory(ActionResultSelector selector)
+        {
+            return false;
+        }
 
         public virtual ActionResult Create(ActionResultSelector selector)
         {
@@ -51,7 +55,7 @@ namespace FluentMvc
             return new EmptyResult();
         }
 
-        public void OverrideConstraint(IEnumerable<TransientConstraintRegistration> constraintRegistrations)
+        public void SetConstraint(IEnumerable<IConstraint> constraintRegistrations)
         {
             
         }

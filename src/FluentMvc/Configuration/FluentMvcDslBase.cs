@@ -42,7 +42,7 @@ namespace FluentMvc.Configuration
         {
             var constraint = constraintDsl.CreateConstraints(objectFactory);
 
-            factory.OverrideConstraint(constraint);
+            factory.SetConstraint(constraint.Select(x => x.Constraint));
 
             return WithResultFactory(factory);
         }

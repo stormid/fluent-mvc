@@ -28,6 +28,29 @@ namespace FluentMvc.Spec.Unit.ActionResultFactories
     }
 
     [TestFixture]
+    public class When_JsonFactory_checking_if_the_factory_should_be_used_with_correct_accept_type_and_accept_types_is_null_and_is_not_an_ajax_request : SpecificationBase
+    {
+        private bool Result;
+        private ActionResultFactoryTester<JsonResultFactory> actionResultFactoryTester;
+
+        public override void Given()
+        {
+            actionResultFactoryTester = new ActionResultFactoryTester<JsonResultFactory>(null, null);
+        }
+
+        public override void Because()
+        {
+            Result = actionResultFactoryTester.GetShouldbeReturned();
+        }
+
+        [Test]
+        public void Result_should_be_false()
+        {
+            Result.ShouldBeFalse();
+        }
+    }
+
+    [TestFixture]
     public class When_JsonFactory_checking_if_the_factory_should_be_used_with_incorrect_accept_type : SpecificationBase
     {
         private bool Result;

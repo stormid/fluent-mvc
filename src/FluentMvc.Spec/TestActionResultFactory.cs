@@ -4,7 +4,7 @@ namespace FluentMvc.Spec
     using System.Collections.Generic;
     using System.Web.Mvc;
     using ActionResultFactories;
-    using Configuration;
+    using Constraints;
     using FluentMvc;
     using System.Linq;
 
@@ -20,39 +20,9 @@ namespace FluentMvc.Spec
             return selector.AcceptTypes.Contains("accept");
         }
 
-        public IActionResultFactory Child
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public void SetChild(IActionResultFactory newChild)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OverrideConstraint(IEnumerable<TransientConstraintRegistration> constraintRegistrations)
+        public void SetConstraint(IEnumerable<IConstraint> constraintRegistrations)
         {
             throw new NotImplementedException();
-        }
-
-        public void AddFiltersTo(FilterInfo baseBilterInfo, ActionFilterSelector context)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RegisterFilter(IActionFilter actionFilter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RegisterFilter(IAuthorizationFilter authorizefilter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RegisterFilter(IResultFilter resultFilter)
-        {
-            throw new System.NotImplementedException();
         }
     }
 

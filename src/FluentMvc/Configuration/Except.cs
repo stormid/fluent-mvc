@@ -29,15 +29,14 @@ namespace FluentMvc.Configuration
         public static ConstraintDsl<Except> For<TController>(ActionDescriptor actionDescriptor) where TController : Controller
         {
             var dsl = new Except();
-            CreateAndAddControllerTypeConstraint<TController>(dsl, actionDescriptor, actionDescriptor.ControllerDescriptor);
+            CreateAndAddControllerTypeConstraint(dsl, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
 
             return dsl;
         }
 
-        private static void CreateAndAddControllerTypeConstraint<TController>(Except dsl, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor) where TController : Controller
+        private static void CreateAndAddControllerTypeConstraint(Except dsl, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            // TODO: Chnage the ControllerTypeConstaint to use the ControllerDescriptor
-            var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
+            var controllerTypeConstraint = new ControllerTypeConstraint(controllerDescriptor);
             var actionConstraint = new ControllerActionConstraint(controllerTypeConstraint, actionDescriptor);
             var inverseConstraint = new InverseConstraint(actionConstraint);
 
@@ -47,14 +46,14 @@ namespace FluentMvc.Configuration
         public override ConstraintDsl<Except> AndFor<TController>()
         {
             ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
-            CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
+            CreateAndAddControllerTypeConstraint(this, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
             return this;
         }
 
         public override ConstraintDsl<Except> AndFor<TController>(Expression<Func<TController, object>> func)
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, actionDescriptor.ControllerDescriptor);
+            CreateAndAddControllerTypeConstraint(this, actionDescriptor, actionDescriptor.ControllerDescriptor);
             return this;
         }
 

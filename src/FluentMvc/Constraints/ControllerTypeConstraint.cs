@@ -2,12 +2,18 @@ namespace FluentMvc.Constraints
 {
     using System.Web.Mvc;
 
-    public class ControllerTypeConstraint<TController> : IConstraint
-        where TController : Controller
+    public class ControllerTypeConstraint : IConstraint
     {
+        private readonly ControllerDescriptor controllerDescriptor;
+
+        public ControllerTypeConstraint(ControllerDescriptor controllerDescriptor)
+        {
+            this.controllerDescriptor = controllerDescriptor;
+        }
+
         public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
         {
-            return selector.ControllerDescriptor.ControllerType.Equals(typeof(TController));
+            return selector.ControllerDescriptor.ControllerType.Equals(controllerDescriptor.ControllerType);
         }
     }
 }

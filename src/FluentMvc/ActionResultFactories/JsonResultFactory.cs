@@ -1,18 +1,18 @@
 namespace FluentMvc.ActionResultFactories
 {
-    using System.Linq;
     using System.Web.Mvc;
+    using Constraints;
 
     public class JsonResultFactory : AbstractActionResultFactory
     {
+        public JsonResultFactory()
+        {
+            SetConstraint(new[] { new ExpectsJson() });
+        }
+
         protected override ActionResult CreateResult(ActionResultSelector selector)
         {
             return new JsonResult {Data = selector.ReturnValue};
-        }
-
-        protected override bool ShouldApplyFactory(ActionResultSelector selector)
-        {
-            return selector.AcceptTypes.Contains("application/json");
         }
     }
 }

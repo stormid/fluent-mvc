@@ -1,18 +1,18 @@
 namespace FluentMvc.ActionResultFactories
 {
-    using System.Linq;
     using System.Web.Mvc;
+    using Constraints;
 
     public class ViewResultFactory : AbstractActionResultFactory
     {
+        public ViewResultFactory()
+        {
+            SetConstraint(new[] {new ExpectsHtml()});
+        }
+
         protected override ActionResult CreateResult(ActionResultSelector selector)
         {
             return new ViewResult { ViewData = selector.ViewData };
-        }
-
-        protected override bool ShouldApplyFactory(ActionResultSelector selector)
-        {
-            return selector.AcceptTypes.Contains("text/html");
         }
     }
 }

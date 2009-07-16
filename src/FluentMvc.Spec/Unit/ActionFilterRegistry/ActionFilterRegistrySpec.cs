@@ -92,7 +92,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), new ControllerTypeConstraint<SecondTestController>(), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), new ControllerTypeConstraint(new ReflectedControllerDescriptor(typeof(SecondTestController))), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
         }
 
         [Test]
