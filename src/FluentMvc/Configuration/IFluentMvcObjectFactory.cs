@@ -9,6 +9,6 @@ namespace FluentMvc.Configuration
         // TODO: Review
         IConstraint CreateConstraint(Type type);
         T CreateFactory<T>() where T : IActionResultFactory;
-        T CreateFactory<T>(Type concreteFilter);
+        T CreateFilter<T>(Type concreteFilter);
     }
 }

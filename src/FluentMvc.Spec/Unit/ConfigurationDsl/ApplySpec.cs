@@ -3,6 +3,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
     using System;
     using System.Linq.Expressions;
     using Configuration;
+    using Constraints;
     using NUnit.Framework;
     using Utils;
 

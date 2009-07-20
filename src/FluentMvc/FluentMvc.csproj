@@ -38,6 +38,7 @@
     <Compile Include="AbstractRegistry.cs" />
     <Compile Include="ActionFilterRegistryItem.cs" />
     <Compile Include="ActionFilterSelector.cs" />
+    <Compile Include="ItemActivator.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Configuration\ActionResultPipeline.cs" />
     <Compile Include="Configuration\Apply.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="IRegistry.cs" />
     <Compile Include="RegistryItem.cs" />
     <Compile Include="RegistrySelector.cs" />
-    <Compile Include="Utils\ControllerBuilder.cs" />
+    <Compile Include="Utils\ControllerBuilderExtensions.cs" />
     <Compile Include="Utils\DescriptorExtensions.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
     <Compile Include="ActionResultFactories\ViewResultFactory.cs" />

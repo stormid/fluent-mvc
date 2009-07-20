@@ -8,6 +8,7 @@ namespace FluentMvc.Configuration
     {
         private ControllerDescriptor controllerDescriptor;
         private ActionDescriptor actionDescriptor;
+        private object itemInstance;
 
         public Type Type { get; private set; }
         public IConstraint Constraint { get; set; }
@@ -24,18 +25,28 @@ namespace FluentMvc.Configuration
             private set { controllerDescriptor = value; }
         }
 
-        public TransientConstraintRegistration(Type type, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        private TransientConstraintRegistration(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            Type = type;
             ActionDescriptor = actionDescriptor;
             ControllerDescriptor = controllerDescriptor;
         }
 
+        public TransientConstraintRegistration(Type type, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+            : this(actionDescriptor, controllerDescriptor)
+        {
+            Type = type;
+        }
+
         public TransientConstraintRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+            : this(actionDescriptor, controllerDescriptor)
         {
             Constraint = constraint;
-            ActionDescriptor = actionDescriptor;
-            ControllerDescriptor = controllerDescriptor;
+        }
+
+        public TransientConstraintRegistration(object itemInstance, IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+            : this(constraint, actionDescriptor, controllerDescriptor)
+        {
+            this.itemInstance = itemInstance;
         }
 
         public void CreateConstaintInstance(IFluentMvcObjectFactory factory)
@@ -46,7 +57,10 @@ namespace FluentMvc.Configuration
 
         public ActionFilterRegistryItem CreateRegistryItem(Type filterType)
         {
-            return new ActionFilterRegistryItem(filterType, Constraint, ActionDescriptor, ControllerDescriptor);
+            if ( itemInstance == null)
+                return new ActionFilterRegistryItem(new TypeBasedItemActivator(filterType), Constraint, ActionDescriptor, ControllerDescriptor);
+
+            return new ActionFilterRegistryItem(new InstanceItemActivator(itemInstance), Constraint, ActionDescriptor, ControllerDescriptor);
         }
     }
 }

@@ -12,7 +12,10 @@ namespace FluentMvc
         private ControllerDescriptor controllerDescriptor;
         private ActionDescriptor actionDescriptor;
 
-        public Type Type { get; protected set; }
+        public Type Type
+        {
+            get { return ItemActivator.Type; }
+        }
 
         public ActionDescriptor ActionDescriptor
         {
@@ -32,10 +35,12 @@ namespace FluentMvc
             protected set { constraint = value; }
         }
 
-        public RegistryItem(Type actionFilterType, IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        protected ItemActivator ItemActivator { get; set; }
+
+        protected RegistryItem(ItemActivator itemActivator, IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
             Constraint = constraint;
-            Type = actionFilterType;
+            ItemActivator = itemActivator;
             ActionDescriptor = actionDescriptor;
             ControllerDescriptor = controllerDescriptor;
         }
@@ -77,12 +82,7 @@ namespace FluentMvc
 
         public TItem Create<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
         {
-            return CreateCore<TItem>(fluentMvcObjectFactory);
-        }
-
-        private TItem CreateCore<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
-        {
-            return fluentMvcObjectFactory.CreateFactory<TItem>(Type);
+            return ItemActivator.Activate<TItem>(fluentMvcObjectFactory);
         }
     }
 }

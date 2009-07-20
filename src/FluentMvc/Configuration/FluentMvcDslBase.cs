@@ -98,14 +98,29 @@ namespace FluentMvc.Configuration
             return WithFilter<T>(apply.CreateConstraints(objectFactory));
         }
 
-        public TDsl WithFilter<TFilter>(IEnumerable<TransientConstraintRegistration> constraints)
+        public TDsl WithFilter<T>(T filterInstance)
         {
-            if ( !constaintRegistrations.ContainsKey(typeof(TFilter)))
-                constaintRegistrations.Add(typeof(TFilter), new HashSet<TransientConstraintRegistration>());
+            var registration = new TransientConstraintRegistration(filterInstance, new PredefinedConstraint(true), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
 
-            constaintRegistrations[typeof(TFilter)] = new HashSet<TransientConstraintRegistration>(constaintRegistrations[typeof(TFilter)].Concat(constraints));
+            RegisterFilter(filterInstance.GetType(), new[] {registration});
 
             return (TDsl)this;
+        }
+
+        public TDsl WithFilter<TFilter>(IEnumerable<TransientConstraintRegistration> constraints)
+        {
+            Type filterType = typeof(TFilter);
+            RegisterFilter(filterType, constraints);
+
+            return (TDsl)this;
+        }
+
+        private void RegisterFilter(Type filterType, IEnumerable<TransientConstraintRegistration> constraints)
+        {
+            if ( !constaintRegistrations.ContainsKey(filterType))
+                constaintRegistrations.Add(filterType, new HashSet<TransientConstraintRegistration>());
+
+            constaintRegistrations[filterType] = new HashSet<TransientConstraintRegistration>(constaintRegistrations[filterType].Concat(constraints));
         }
 
         public TDsl ResolveWith(IFluentMvcObjectFactory factory)

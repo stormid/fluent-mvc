@@ -30,6 +30,27 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
     }
 
     [TestFixture]
+    public class when_registering_an_instance_of_a_filter_with_no_contraints : DslSpecBase
+    {
+        private ActionFilterRegistry actionFilterRegistry;
+        private IActionFilter filterInstance;
+
+        public override void Because()
+        {
+            actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
+            filterInstance = CreateStub<IActionFilter>();
+            FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+                .WithFilter(filterInstance).BuildControllerFactory();
+        }
+
+        [Test]
+        public void should_be_registered_using_the_supplied_type()
+        {
+            actionFilterRegistry.Registrations.First().Create<IActionFilter>(CreateStub<IFluentMvcObjectFactory>()).ShouldEqual(filterInstance);
+        }
+    }
+
+    [TestFixture]
     public class When_creating_a_factory_with_an_inner_controllerfactory : DslSpecBase
     {
         private IControllerFactory Factory;
