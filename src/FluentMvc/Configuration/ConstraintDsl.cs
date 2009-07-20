@@ -19,12 +19,12 @@ namespace FluentMvc.Configuration
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>() where TController : Controller
         {
-            return Add<ControllerTypeConstraint>(EmptyActionDescriptor.Instance);
+            return Add<ControllerTypeConstraint<TController>>(EmptyActionDescriptor.Instance);
         }
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>(Expression<Func<TController, object>> func) where TController : Controller
         {
-            return Add<ControllerTypeConstraint>(func.CreateActionDescriptor());
+            return Add<ControllerTypeConstraint<TController>>(func.CreateActionDescriptor());
         }
 
         protected virtual ConstraintDsl<TDsl> Add<TConstraint>(ActionDescriptor actionDescriptor)

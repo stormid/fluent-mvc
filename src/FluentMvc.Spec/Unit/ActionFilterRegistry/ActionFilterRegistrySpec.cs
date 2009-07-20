@@ -20,7 +20,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.CreateFactory<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter);
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);
@@ -52,7 +52,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.CreateFactory<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter);
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);
@@ -83,7 +83,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.CreateFactory<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter);
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);
@@ -92,7 +92,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), new ControllerTypeConstraint(new ReflectedControllerDescriptor(typeof(SecondTestController))), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), new ControllerTypeConstraint<SecondTestController>(), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
         }
 
         [Test]

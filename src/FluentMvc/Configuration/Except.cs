@@ -29,14 +29,14 @@ namespace FluentMvc.Configuration
         public static ConstraintDsl<Except> For<TController>(ActionDescriptor actionDescriptor) where TController : Controller
         {
             var dsl = new Except();
-            CreateAndAddControllerTypeConstraint(dsl, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
+            CreateAndAddControllerTypeConstraint<TController>(dsl, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
 
             return dsl;
         }
 
-        private static void CreateAndAddControllerTypeConstraint(Except dsl, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        private static void CreateAndAddControllerTypeConstraint<TController>(Except dsl, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            var controllerTypeConstraint = new ControllerTypeConstraint(controllerDescriptor);
+            var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(controllerTypeConstraint, actionDescriptor);
             var inverseConstraint = new InverseConstraint(actionConstraint);
 
@@ -46,14 +46,14 @@ namespace FluentMvc.Configuration
         public override ConstraintDsl<Except> AndFor<TController>()
         {
             ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
-            CreateAndAddControllerTypeConstraint(this, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
+            CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
             return this;
         }
 
         public override ConstraintDsl<Except> AndFor<TController>(Expression<Func<TController, object>> func)
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            CreateAndAddControllerTypeConstraint(this, actionDescriptor, actionDescriptor.ControllerDescriptor);
+            CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, actionDescriptor.ControllerDescriptor);
             return this;
         }
 

@@ -302,7 +302,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_use_object_factory()
         {
-            objectFactory.AssertWasCalled(o => o.Resolve<JsonResultFactory>());
+            objectFactory.AssertWasCalled(o => o.CreateFactory<JsonResultFactory>());
         }
 
     }

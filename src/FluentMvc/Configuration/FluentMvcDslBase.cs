@@ -58,7 +58,7 @@ namespace FluentMvc.Configuration
         private IActionResultFactory CreateFactory<TFactory>()
             where TFactory : IActionResultFactory
         {
-            return objectFactory.Resolve<TFactory>();
+            return objectFactory.CreateFactory<TFactory>();
         }
 
         public virtual TDsl WithResultFactory(IActionResultFactory resultFactory)

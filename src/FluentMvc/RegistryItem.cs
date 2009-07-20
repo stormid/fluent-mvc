@@ -82,7 +82,7 @@ namespace FluentMvc
 
         private TItem CreateCore<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
         {
-            return fluentMvcObjectFactory.Resolve<TItem>(Type);
+            return fluentMvcObjectFactory.CreateFactory<TItem>(Type);
         }
     }
 }

@@ -1,7 +1,6 @@
 namespace FluentMvc.Constraints
 {
     using System.Linq;
-    using ActionResultFactories;
 
     public class ExpectsJson : IConstraint
     {

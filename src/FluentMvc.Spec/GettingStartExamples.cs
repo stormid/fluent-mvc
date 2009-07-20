@@ -8,14 +8,6 @@ namespace FluentMvc.Spec
     [TestFixture]
     public class GettingStartExamples
     {
-        private IActionResultRegistry actionResultRegistry;
-
-        [SetUp]
-        public void Setup()
-        {
-            actionResultRegistry = new ActionResultRegistry();
-        }
-
         [Test]
         public void Standard_Mvc()
         {
@@ -37,7 +29,7 @@ namespace FluentMvc.Spec
         }
 
         [Test]
-        public void Securing_a_speicfic_action()
+        public void Securing_a_specific_action()
         {
             FluentMvcConfiguration.Create()
                 .UsingControllerFactory(new DefaultControllerFactory())

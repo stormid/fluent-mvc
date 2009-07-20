@@ -1,7 +1,7 @@
 namespace FluentMvc.Configuration
 {
     using System;
-    using System.Collections.Generic;
+    using ActionResultFactories;
     using Constraints;
 
     public class FluentMvcObjectFactory : IFluentMvcObjectFactory
@@ -11,12 +11,12 @@ namespace FluentMvc.Configuration
             return (IConstraint)Activator.CreateInstance(type);
         }
 
-        public T Resolve<T>()
+        public T CreateFactory<T>() where T : IActionResultFactory
         {
             return (T) Activator.CreateInstance(typeof (T));
         }
 
-        public virtual T Resolve<T>(Type concreteFilter)
+        public virtual T CreateFactory<T>(Type concreteFilter)
         {
             return (T)Activator.CreateInstance(concreteFilter);
         }
