@@ -33,8 +33,7 @@ namespace FluentMvc.Spec.Bugs
                                            {
                                                x.WithFilter<TestActionFilter>(Except.For<ThirdTestController>());
 
-                                               x.WithFilter<TestActionFilter>(Apply.For<TestController>())
-                                                   .WithFilter<TestActionFilter>(Apply.For<SecondTestController>());
+                                               x.WithFilter<TestActionFilter>(Apply.For<TestController>().AndFor<SecondTestController>());
                                            });
 
             config.BuildControllerFactory();

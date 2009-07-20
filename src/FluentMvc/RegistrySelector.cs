@@ -6,17 +6,19 @@ namespace FluentMvc
 
     public abstract class RegistrySelector
     {
+        private string[] acceptTypes;
+
         public ActionDescriptor ActionDescriptor { get; set; }
         public ControllerDescriptor ControllerDescriptor { get; set; }
         public ControllerContext ControllerContext { get; set; }
-        private string[] acceptTypes;
+
         public string[] AcceptTypes
         {
             get { return acceptTypes.HasItems() ? acceptTypes : new string[] {}; }
             set { acceptTypes = value; }
         }
 
-        public bool IsAjaxRequest { get; set; }
+        public bool IsAjaxRequest { get; private set; }
 
         protected RegistrySelector()
         {
@@ -28,12 +30,22 @@ namespace FluentMvc
             ControllerDescriptor = controllerDescriptor;
             ControllerContext = controllerContext;
 
-            // HACK: ControllerContext.HttpContext default value is EmptyHttpContext, which is private sealed, so we can't check for that type... :(
-            if (ControllerContext != null && typeof(HttpContextWrapper).IsAssignableFrom(ControllerContext.HttpContext.GetType()) && ControllerContext.HttpContext.Request != null)
+            if (ControllerContextIsValid())
             {
-                AcceptTypes = ControllerContext.HttpContext.Request.AcceptTypes;
-                IsAjaxRequest = ControllerContext.HttpContext.Request.IsAjaxRequest();
+                RegisterControllerRequestData(ControllerContext.HttpContext.Request);
             }
+        }
+
+        private void RegisterControllerRequestData(HttpRequestBase request)
+        {
+            AcceptTypes = request.AcceptTypes;
+            IsAjaxRequest = request.IsAjaxRequest();
+        }
+
+        private bool ControllerContextIsValid()
+        {
+            // HACK: ControllerContext.HttpContext default value is EmptyHttpContext, which is private sealed, so we can't check for that type... :(
+            return ControllerContext != null && typeof(HttpContextWrapper).IsAssignableFrom(ControllerContext.HttpContext.GetType()) && ControllerContext.HttpContext.Request != null;
         }
     }
 }

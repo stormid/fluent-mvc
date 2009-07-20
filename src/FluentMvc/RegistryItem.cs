@@ -26,7 +26,7 @@ namespace FluentMvc
         public ControllerDescriptor ControllerDescriptor
         {
             get { return controllerDescriptor ?? EmptyControllerDescriptor.Instance; }
-            set { controllerDescriptor = value; }
+            protected set { controllerDescriptor = value; }
         }
 
         public IConstraint Constraint
