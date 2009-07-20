@@ -40,14 +40,14 @@ namespace FluentMvc.Configuration
 
         public virtual TDsl WithResultFactory(IActionResultFactory factory, ConstraintDsl constraintDsl)
         {
-            var constraint = constraintDsl.CreateConstraints(objectFactory);
+            var constraint = constraintDsl.CreateConstraintsRegistrations(objectFactory);
 
             factory.SetConstraint(constraint.Select(x => x.Constraint));
 
             return WithResultFactory(factory);
         }
 
-        public virtual TDsl WithResultFactory<TFactory>(ConstraintDsl constraintDsl)
+        public TDsl WithResultFactory<TFactory>(ConstraintDsl constraintDsl)
             where TFactory : IActionResultFactory
         {
             IActionResultFactory factory = CreateFactory<TFactory>();
@@ -61,14 +61,14 @@ namespace FluentMvc.Configuration
             return objectFactory.CreateFactory<TFactory>();
         }
 
-        public virtual TDsl WithResultFactory(IActionResultFactory resultFactory)
+        public TDsl WithResultFactory(IActionResultFactory resultFactory)
         {
             Convention.Factories.Enqueue(resultFactory);
 
             return (TDsl)this;
         }
 
-        public virtual TDsl WithResultFactory(IActionResultFactory defaultFactory, bool isDefault)
+        public TDsl WithResultFactory(IActionResultFactory defaultFactory, bool isDefault)
         {
             if (isDefault)
             {
@@ -95,7 +95,7 @@ namespace FluentMvc.Configuration
 
         public TDsl WithFilter<T>(ConstraintDsl apply)
         {
-            return WithFilter<T>(apply.CreateConstraints(objectFactory));
+            return WithFilter<T>(apply.CreateConstraintsRegistrations(objectFactory));
         }
 
         public TDsl WithFilter<T>(T filterInstance)
@@ -107,10 +107,19 @@ namespace FluentMvc.Configuration
             return (TDsl)this;
         }
 
-        public TDsl WithFilter<TFilter>(IEnumerable<TransientConstraintRegistration> constraints)
+        public TDsl WithFilter<T>(T filterInstance, ConstraintDsl constraint)
+        {
+            IEnumerable<TransientConstraintRegistration> registrations = constraint.CreateConstraintsRegistrations(objectFactory);
+
+            RegisterFilter(filterInstance.GetType(), registrations.Select(x => new TransientConstraintRegistration(filterInstance, x.Constraint, x.ActionDescriptor, x.ControllerDescriptor)));
+
+            return (TDsl)this;
+        }
+
+        public TDsl WithFilter<TFilter>(IEnumerable<TransientConstraintRegistration> registrations)
         {
             Type filterType = typeof(TFilter);
-            RegisterFilter(filterType, constraints);
+            RegisterFilter(filterType, registrations);
 
             return (TDsl)this;
         }

@@ -8,7 +8,7 @@ namespace FluentMvc.Configuration
     {
         private ControllerDescriptor controllerDescriptor;
         private ActionDescriptor actionDescriptor;
-        private object itemInstance;
+        private readonly object itemInstance;
 
         public Type Type { get; private set; }
         public IConstraint Constraint { get; set; }

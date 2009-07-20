@@ -48,7 +48,7 @@ namespace FluentMvc.Configuration
             constaintRegistrations.Add(constraintRegistration);
         }
 
-        public virtual IEnumerable<TransientConstraintRegistration> CreateConstraints(IFluentMvcObjectFactory objectFactory)
+        public virtual IEnumerable<TransientConstraintRegistration> CreateConstraintsRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             foreach (var registration in constaintRegistrations)
             {

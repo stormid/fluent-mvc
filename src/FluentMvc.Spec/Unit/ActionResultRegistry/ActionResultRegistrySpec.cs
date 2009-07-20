@@ -33,7 +33,7 @@ namespace FluentMvc.Spec.Unit.ActionResultRegistry
     }
 
     [TestFixture]
-    public class when_adding_one_filter_targeting_a_certain_action : ActionResultRegistrySpecBase
+    public class when_adding_one_action_result_factory_targeting_a_certain_action : ActionResultRegistrySpecBase
     {
         private ActionDescriptor actionDescriptor;
         private Expression<Func<TestController, object>> controllerAction;

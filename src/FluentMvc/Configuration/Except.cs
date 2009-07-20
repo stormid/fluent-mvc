@@ -57,7 +57,7 @@ namespace FluentMvc.Configuration
             return this;
         }
 
-        public override IEnumerable<TransientConstraintRegistration> CreateConstraints(IFluentMvcObjectFactory objectFactory)
+        public override IEnumerable<TransientConstraintRegistration> CreateConstraintsRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             foreach (var registration in constaintRegistrations)
             {
