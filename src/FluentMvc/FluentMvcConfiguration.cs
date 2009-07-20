@@ -20,7 +20,8 @@ namespace FluentMvc
             objectFactory = new FluentMvcObjectFactory();
         }
 
-        private FluentMvcConfiguration(IActionResultResolver actionResultResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry): this()
+        private FluentMvcConfiguration(IActionResultResolver actionResultResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
+            : this()
         {
             this.actionResultResolver = actionResultResolver;
             this.actionResultRegistry = actionResultRegistry;
@@ -108,6 +109,11 @@ namespace FluentMvc
             Configure(config);
 
             return config.BuildControllerFactory();
+        }
+
+        public void ExposeConfiguration(Action<FluentMvcConfiguration> action)
+        {
+            action(this);
         }
     }
 }

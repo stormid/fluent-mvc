@@ -19,7 +19,9 @@ namespace FluentMvc.Configuration
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>() where TController : Controller
         {
-            return Add<ControllerTypeConstraint<TController>>(EmptyActionDescriptor.Instance);
+            // NOTE: Do we need a controller type contraint? Registration is constrained to the controller type with the ControllerDescriptor
+            AddConstraint(new TransientConstraintRegistration(typeof(ControllerTypeConstraint<TController>), EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController))));
+            return this;
         }
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>(Expression<Func<TController, object>> func) where TController : Controller

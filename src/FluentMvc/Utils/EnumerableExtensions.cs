@@ -1,13 +1,13 @@
 namespace FluentMvc.Utils
 {
-    using System;
-    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public static class EnumerableExtensions
     {
-        public static bool HasItems(this IEnumerable enumerable)
+        public static bool HasItems<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable != null && ((Array) enumerable).Length > 0;
+            return enumerable != null && enumerable.Count() > 0;
         }
     }
 }

@@ -1,11 +1,13 @@
 namespace FluentMvc.Spec.Unit.ActionFilterRegistry
 {
     using System;
+    using System.Linq.Expressions;
     using System.Web.Mvc;
     using Configuration;
     using Constraints;
     using NUnit.Framework;
     using Rhino.Mocks;
+    using Utils;
     using ActionFilterRegistry=FluentMvc.ActionFilterRegistry;
 
     [TestFixture]
@@ -107,5 +109,4 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
             actionFilterRegistryTester.CountReturnedForControllerAndAction<SecondTestController>(controller => controller.ReturnPost()).ShouldEqual(1);
         }
     }
-
 }

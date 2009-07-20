@@ -8,6 +8,7 @@ namespace FluentMvc.Spec
     [TestFixture]
     public class GettingStartExamples
     {
+        
         [Test]
         public void Standard_Mvc()
         {
@@ -35,6 +36,16 @@ namespace FluentMvc.Spec
                 .UsingControllerFactory(new DefaultControllerFactory())
                 .WithConvention(new MvcConvention())
                 .WithFilter<AuthorizeAttribute>(Apply.For<TestController>(tc => tc.ReturnPost()))
+                .BuildControllerFactory();
+        }
+
+        [Test]
+        public void Securing_a_specific_action_for_a_role()
+        {
+            FluentMvcConfiguration.Create()
+                .UsingControllerFactory(new DefaultControllerFactory())
+                .WithConvention(new MvcConvention())
+                .WithFilter(new AuthorizeAttribute { Roles = "Role"}, Apply.For<TestController>(tc => tc.ReturnPost()))
                 .BuildControllerFactory();
         }
 
