@@ -38,12 +38,15 @@
     <Compile Include="AbstractRegistry.cs" />
     <Compile Include="ActionFilterRegistryItem.cs" />
     <Compile Include="ActionFilterSelector.cs" />
+    <Compile Include="Configuration\AbstractTransientConstraintRegistration.cs" />
+    <Compile Include="Configuration\FilterInstanceInstanceBasedTransientConstraintRegistration.cs" />
+    <Compile Include="Configuration\TypeBasedTransientConstraintRegistration.cs" />
     <Compile Include="ItemActivator.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Configuration\ActionResultPipeline.cs" />
     <Compile Include="Configuration\Apply.cs" />
     <Compile Include="Configuration\ConstraintDsl.cs" />
-    <Compile Include="Configuration\TransientConstraintRegistration.cs" />
+    <Compile Include="Configuration\InstanceBasedTransientConstraintRegistration.cs" />
     <Compile Include="Constraints\ControllerActionConstraint.cs" />
     <Compile Include="Configuration\Except.cs" />
     <Compile Include="Configuration\FluentMvcDslBase.cs" />

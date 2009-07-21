@@ -40,7 +40,7 @@ namespace FluentMvc.Configuration
             var actionConstraint = new ControllerActionConstraint(controllerTypeConstraint, actionDescriptor);
             var inverseConstraint = new InverseConstraint(actionConstraint);
 
-            dsl.AddConstraint(new TransientConstraintRegistration(inverseConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            dsl.AddConstraint(new InstanceBasedTransientConstraintRegistration(inverseConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
         }
 
         public override ConstraintDsl<Except> AndFor<TController>()
@@ -56,15 +56,5 @@ namespace FluentMvc.Configuration
             CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, actionDescriptor.ControllerDescriptor);
             return this;
         }
-
-        public override IEnumerable<TransientConstraintRegistration> CreateConstraintsRegistrations(IFluentMvcObjectFactory objectFactory)
-        {
-            foreach (var registration in constaintRegistrations)
-            {
-                registration.CreateConstaintInstance(objectFactory);
-                yield return registration;
-            }
-        }
-
     }
 }

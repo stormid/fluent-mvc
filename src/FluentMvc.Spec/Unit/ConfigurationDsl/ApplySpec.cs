@@ -27,7 +27,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void For_AndFor()
         {
-            TransientConstraintRegistration[] registrations = Apply.For<TestController>().AndFor<SecondTestController>().ConstraintRegistrations;
+            AbstractTransientConstraintRegistration[] registrations = Apply.For<TestController>().AndFor<SecondTestController>().ConstraintRegistrations;
             registrations.Length.ShouldEqual(2);
         }
 
@@ -35,7 +35,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public void For_with_action()
         {
             Expression<Func<TestController, object>> expression = x => x.ReturnPost();
-            TransientConstraintRegistration[] registrations = Apply.For(expression).ConstraintRegistrations;
+            AbstractTransientConstraintRegistration[] registrations = Apply.For(expression).ConstraintRegistrations;
             registrations.Length.ShouldEqual(1);
             registrations[0].ActionDescriptor.ActionName.ShouldEqual(expression.CreateActionDescriptor().ActionName);
         }

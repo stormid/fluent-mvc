@@ -7,7 +7,9 @@ namespace FluentMvc.Configuration
     public class FluentMvcConvention
     {
         public virtual IControllerFactory ControllerFactory { get; set; }
+
         private Queue<IActionResultFactory> factories = new Queue<IActionResultFactory>();
+
         public virtual Queue<IActionResultFactory> Factories
         {
             get { return factories; }

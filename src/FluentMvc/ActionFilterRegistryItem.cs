@@ -7,7 +7,7 @@ namespace FluentMvc
     public class ActionFilterRegistryItem : RegistryItem
     {
         public ActionFilterRegistryItem(Type actionFilterType, IConstraint constraints, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
-            : this(new TypeBasedItemActivator(actionFilterType), constraints, actionDescriptor, controllerDescriptor)
+            : this(new TypeItemActivator(actionFilterType), constraints, actionDescriptor, controllerDescriptor)
         {
         }
 

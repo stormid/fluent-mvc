@@ -14,47 +14,47 @@ namespace FluentMvc.Configuration
         public ConstraintDsl<TDsl> Add<T>()
             where T : IConstraint
         {
-            return Add<T>(EmptyActionDescriptor.Instance);
+            ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
+            return Add<T>(actionDescriptor, actionDescriptor.ControllerDescriptor);
         }
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>() where TController : Controller
         {
-            // NOTE: Do we need a controller type contraint? Registration is constrained to the controller type with the ControllerDescriptor
-            AddConstraint(new TransientConstraintRegistration(typeof(ControllerTypeConstraint<TController>), EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController))));
-            return this;
+            return Add<ControllerTypeConstraint<TController>>(EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController)));
         }
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>(Expression<Func<TController, object>> func) where TController : Controller
         {
-            return Add<ControllerTypeConstraint<TController>>(func.CreateActionDescriptor());
+            ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
+            return Add<ControllerTypeConstraint<TController>>(actionDescriptor, actionDescriptor.ControllerDescriptor);
         }
 
-        protected virtual ConstraintDsl<TDsl> Add<TConstraint>(ActionDescriptor actionDescriptor)
+        protected virtual ConstraintDsl<TDsl> Add<TConstraint>(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            AddConstraint(new TransientConstraintRegistration(typeof(TConstraint), actionDescriptor, actionDescriptor.ControllerDescriptor));
+            AddConstraint(new TypeBasedTransientConstraintRegistration(typeof(TConstraint), actionDescriptor, controllerDescriptor));
             return this;
         }
     }
 
     public class ConstraintDsl
     {
-        protected readonly HashSet<TransientConstraintRegistration> constaintRegistrations = new HashSet<TransientConstraintRegistration>();
+        protected readonly HashSet<AbstractTransientConstraintRegistration> constaintRegistrations = new HashSet<AbstractTransientConstraintRegistration>();
 
-        public TransientConstraintRegistration[] ConstraintRegistrations
+        public AbstractTransientConstraintRegistration[] ConstraintRegistrations
         {
             get { return constaintRegistrations.ToArray(); }
         }
 
-        protected void AddConstraint(TransientConstraintRegistration constraintRegistration)
+        protected void AddConstraint(AbstractTransientConstraintRegistration constraintRegistration)
         {
             constaintRegistrations.Add(constraintRegistration);
         }
 
-        public virtual IEnumerable<TransientConstraintRegistration> CreateConstraintsRegistrations(IFluentMvcObjectFactory objectFactory)
+        public virtual IEnumerable<AbstractTransientConstraintRegistration> CreateConstraintsRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             foreach (var registration in constaintRegistrations)
             {
-                registration.CreateConstaintInstance(objectFactory);
+                registration.Prepare(objectFactory);
                 yield return registration;
             }
         }

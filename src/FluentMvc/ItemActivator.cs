@@ -18,9 +18,9 @@ namespace FluentMvc
         }
     }
 
-    public class TypeBasedItemActivator : ItemActivator
+    public class TypeItemActivator : ItemActivator
     {
-        public TypeBasedItemActivator(Type type)
+        public TypeItemActivator(Type type)
         {
             Type = type;
         }

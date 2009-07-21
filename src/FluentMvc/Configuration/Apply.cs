@@ -16,17 +16,17 @@ namespace FluentMvc.Configuration
 
         public static ConstraintDsl<Apply> For<TController>() where TController : Controller
         {
-            var registration = new TransientConstraintRegistration(new ControllerTypeConstraint<TController>(), EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController)));
+            var registration = new InstanceBasedTransientConstraintRegistration(new ControllerTypeConstraint<TController>(), EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController)));
             return CreateDsl(registration);
         }
 
         public static ConstraintDsl<Apply> For<TController>(Expression<Func<TController, object>> func) where TController : Controller
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            return CreateDsl(new TransientConstraintRegistration(new ControllerTypeConstraint<TController>(), actionDescriptor, actionDescriptor.ControllerDescriptor));
+            return CreateDsl(new InstanceBasedTransientConstraintRegistration(new ControllerTypeConstraint<TController>(), actionDescriptor, actionDescriptor.ControllerDescriptor));
         }
 
-        private static Apply CreateDsl(TransientConstraintRegistration constraintRegistration)
+        private static Apply CreateDsl(AbstractTransientConstraintRegistration constraintRegistration)
         {
             var dsl = new Apply();
             dsl.AddConstraint(constraintRegistration);
