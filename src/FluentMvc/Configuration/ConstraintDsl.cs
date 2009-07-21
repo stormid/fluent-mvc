@@ -31,7 +31,7 @@ namespace FluentMvc.Configuration
 
         protected virtual ConstraintDsl<TDsl> Add<TConstraint>(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            AddRegistration(new TypeBasedTransientConstraintRegistration(typeof(TConstraint), actionDescriptor, controllerDescriptor));
+            AddRegistration(CreateTypeRegistration(typeof(TConstraint), actionDescriptor, controllerDescriptor));
             return this;
         }
     }
@@ -55,19 +55,19 @@ namespace FluentMvc.Configuration
 
     public class ConstraintDsl
     {
-        protected readonly HashSet<AbstractTransientConstraintRegistration> constaintRegistrations = new HashSet<AbstractTransientConstraintRegistration>();
+        protected readonly HashSet<TransientConstraintRegistration> constaintRegistrations = new HashSet<TransientConstraintRegistration>();
 
-        public virtual AbstractTransientConstraintRegistration[] ConstraintRegistrations
+        public virtual TransientConstraintRegistration[] ConstraintRegistrations
         {
             get { return constaintRegistrations.ToArray(); }
         }
 
-        protected void AddRegistration(AbstractTransientConstraintRegistration constraintRegistration)
+        protected void AddRegistration(TransientConstraintRegistration constraintRegistration)
         {
             constaintRegistrations.Add(constraintRegistration);
         }
 
-        public virtual IEnumerable<AbstractTransientConstraintRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
+        public virtual IEnumerable<TransientConstraintRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             foreach (var registration in constaintRegistrations)
             {
@@ -81,9 +81,9 @@ namespace FluentMvc.Configuration
             return new InstanceBasedTransientConstraintRegistration(guardConstraint, actionDescriptor, controllerDescriptor);
         }
 
-        protected TypeBasedTransientConstraintRegistration CreateTypeRegistration(Type guardConstraintType)
+        protected TransientConstraintRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            return new TypeBasedTransientConstraintRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
+            return new TransientConstraintRegistration(guardConstraintType, actionDescriptor, controllerDescriptor);
         }
     }
 }

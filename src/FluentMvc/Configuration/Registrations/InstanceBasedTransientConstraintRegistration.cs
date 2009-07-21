@@ -4,10 +4,10 @@ namespace FluentMvc.Configuration.Registrations
     using System.Web.Mvc;
     using Constraints;
 
-    public class InstanceBasedTransientConstraintRegistration : AbstractTransientConstraintRegistration
+    public class InstanceBasedTransientConstraintRegistration : TransientConstraintRegistration
     {
         public InstanceBasedTransientConstraintRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
-            : base(actionDescriptor, controllerDescriptor)
+            : base(constraint.GetType(),actionDescriptor, controllerDescriptor)
         {
             if (constraint == null)
             {

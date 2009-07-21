@@ -10,17 +10,17 @@ namespace FluentMvc.Configuration
 
     public class WhenDsl<TDsl> : ConstraintDsl<WhenDsl<TDsl>> where TDsl : ConstraintDsl<TDsl>
     {
-        private readonly AbstractTransientConstraintRegistration guardContraintRegistration;
+        private readonly TransientConstraintRegistration guardContraintRegistration;
         private readonly TDsl innerDsl;
 
-        public override AbstractTransientConstraintRegistration[] ConstraintRegistrations
+        public override TransientConstraintRegistration[] ConstraintRegistrations
         {
             get { return innerDsl.ConstraintRegistrations.Concat(new[] { guardContraintRegistration }).ToArray(); }
         }
 
         internal WhenDsl(TDsl innerDsl, Type guardConstraintType)
         {
-            guardContraintRegistration = CreateTypeRegistration(guardConstraintType);
+            guardContraintRegistration = CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
             this.innerDsl = innerDsl;
         }
 
@@ -48,7 +48,7 @@ namespace FluentMvc.Configuration
             return this;
         }
 
-        public override IEnumerable<AbstractTransientConstraintRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
+        public override IEnumerable<TransientConstraintRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             IConstraint guardConstraint = CreateGuardConstraint(objectFactory);
 

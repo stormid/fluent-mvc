@@ -27,7 +27,7 @@ namespace FluentMvc.Configuration
             return CreateDsl(new InstanceBasedTransientConstraintRegistration(new ControllerTypeConstraint<TController>(), actionDescriptor, actionDescriptor.ControllerDescriptor));
         }
 
-        private static Apply CreateDsl(AbstractTransientConstraintRegistration constraintRegistration)
+        private static Apply CreateDsl(TransientConstraintRegistration constraintRegistration)
         {
             var dsl = new Apply();
             dsl.AddRegistration(constraintRegistration);

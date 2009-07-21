@@ -93,7 +93,7 @@ namespace FluentMvc
             }
         }
 
-        private IEnumerable<ActionFilterRegistryItem> CreateRegistryItem(KeyValuePair<Type, HashSet<AbstractTransientConstraintRegistration>> registration)
+        private IEnumerable<ActionFilterRegistryItem> CreateRegistryItem(KeyValuePair<Type, HashSet<TransientConstraintRegistration>> registration)
         {
             Type key = registration.Key;
 
