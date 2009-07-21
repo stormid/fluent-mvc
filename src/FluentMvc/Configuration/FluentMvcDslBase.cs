@@ -6,6 +6,7 @@ namespace FluentMvc.Configuration
     using System.Web.Mvc;
     using ActionResultFactories;
     using Constraints;
+    using Registrations;
 
     public abstract class FluentMvcDslBase<TDsl> where TDsl : FluentMvcDslBase<TDsl>
     {
@@ -40,7 +41,7 @@ namespace FluentMvc.Configuration
 
         public virtual TDsl WithResultFactory(IActionResultFactory factory, ConstraintDsl constraintDsl)
         {
-            var constraint = constraintDsl.CreateConstraintsRegistrations(objectFactory);
+            var constraint = constraintDsl.GetConstraintRegistrations(objectFactory);
 
             factory.SetConstraint(constraint.Select(x => x.Constraint));
 
@@ -93,9 +94,9 @@ namespace FluentMvc.Configuration
             return (TDsl)this;
         }
 
-        public TDsl WithFilter<T>(ConstraintDsl apply)
+        public TDsl WithFilter<T>(ConstraintDsl constraint)
         {
-            return WithFilter<T>(apply.CreateConstraintsRegistrations(objectFactory));
+            return WithFilter<T>(constraint.GetConstraintRegistrations(objectFactory));
         }
 
         public TDsl WithFilter<T>(T filterInstance)
@@ -109,7 +110,7 @@ namespace FluentMvc.Configuration
 
         public TDsl WithFilter<T>(T filterInstance, ConstraintDsl constraint)
         {
-            IEnumerable<AbstractTransientConstraintRegistration> registrations = constraint.CreateConstraintsRegistrations(objectFactory);
+            IEnumerable<AbstractTransientConstraintRegistration> registrations = constraint.GetConstraintRegistrations(objectFactory);
 
             RegisterFilter(filterInstance.GetType(), registrations.Select(x => new FilterInstanceInstanceBasedTransientConstraintRegistration(filterInstance, x.Constraint, x.ActionDescriptor, x.ControllerDescriptor)).Cast<AbstractTransientConstraintRegistration>());
 

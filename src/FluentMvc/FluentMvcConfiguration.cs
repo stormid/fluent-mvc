@@ -38,7 +38,7 @@ namespace FluentMvc
         {
             return new FluentMvcConfiguration(fluentMvcResolver, actionFilterRegistry, actionResultRegistry);
         }
-
+        
         public virtual IControllerFactory BuildControllerFactory()
         {
             CreateDependencies();

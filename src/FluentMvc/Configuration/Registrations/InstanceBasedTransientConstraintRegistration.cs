@@ -1,5 +1,6 @@
 namespace FluentMvc.Configuration.Registrations
 {
+    using System;
     using System.Web.Mvc;
     using Constraints;
 
@@ -8,6 +9,11 @@ namespace FluentMvc.Configuration.Registrations
         public InstanceBasedTransientConstraintRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
             : base(actionDescriptor, controllerDescriptor)
         {
+            if (constraint == null)
+            {
+                throw new ArgumentNullException("constraint", "Constraint instance can not be null");
+            }
+
             Constraint = constraint;
             ConstraintType = Constraint.GetType();
         }

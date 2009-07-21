@@ -1,4 +1,4 @@
-namespace FluentMvc.Utils
+namespace FluentMvc
 {
     using System.Web.Mvc;
 

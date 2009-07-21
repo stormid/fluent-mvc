@@ -1,18 +1,18 @@
 namespace FluentMvc.Configuration
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Web.Mvc;
     using Constraints;
+    using Registrations;
     using Utils;
 
     public class Except : ConstraintDsl<Except>
     {
-        public static ConstraintDsl<Except> When<T>()
+        public static WhenDsl<Except> When<T>()
             where T : IConstraint
         {
-            return new Except().Add<T>();
+            return When<T>(new Except());
         }
 
         public static ConstraintDsl<Except> For<TController>() where TController : Controller
@@ -29,31 +29,29 @@ namespace FluentMvc.Configuration
         public static ConstraintDsl<Except> For<TController>(ActionDescriptor actionDescriptor) where TController : Controller
         {
             var dsl = new Except();
-            CreateAndAddControllerTypeConstraint<TController>(dsl, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
+            dsl.AddRegistration(dsl.CreateInstanceRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
 
             return dsl;
         }
 
-        private static void CreateAndAddControllerTypeConstraint<TController>(Except dsl, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        private static InverseConstraint CreateConstraint<TController>(ActionDescriptor actionDescriptor)
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(controllerTypeConstraint, actionDescriptor);
-            var inverseConstraint = new InverseConstraint(actionConstraint);
-
-            dsl.AddConstraint(new InstanceBasedTransientConstraintRegistration(inverseConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            return new InverseConstraint(actionConstraint);
         }
 
         public override ConstraintDsl<Except> AndFor<TController>()
         {
             ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
-            CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, new ReflectedControllerDescriptor(typeof(TController)));
+            this.AddRegistration(new InstanceBasedTransientConstraintRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
             return this;
         }
 
         public override ConstraintDsl<Except> AndFor<TController>(Expression<Func<TController, object>> func)
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            CreateAndAddControllerTypeConstraint<TController>(this, actionDescriptor, actionDescriptor.ControllerDescriptor);
+            this.AddRegistration(new InstanceBasedTransientConstraintRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
             return this;
         }
     }

@@ -4,14 +4,15 @@ namespace FluentMvc.Configuration
     using System.Linq.Expressions;
     using System.Web.Mvc;
     using Constraints;
+    using Registrations;
     using Utils;
 
     public class Apply : ConstraintDsl<Apply>
     {
-        public static ConstraintDsl<Apply> When<T>()
+        public static WhenDsl<Apply> When<T>()
             where T : IConstraint
         {
-            return new Apply().Add<T>();
+            return When<T>(new Apply());
         }
 
         public static ConstraintDsl<Apply> For<TController>() where TController : Controller
@@ -29,7 +30,7 @@ namespace FluentMvc.Configuration
         private static Apply CreateDsl(AbstractTransientConstraintRegistration constraintRegistration)
         {
             var dsl = new Apply();
-            dsl.AddConstraint(constraintRegistration);
+            dsl.AddRegistration(constraintRegistration);
 
             return dsl;
         }

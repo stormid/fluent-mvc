@@ -7,7 +7,7 @@ namespace FluentMvc.Utils
     {
         public static bool HasItems<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable != null && enumerable.Count() > 0;
+            return enumerable != null && enumerable.Any();
         }
     }
 }

@@ -4,6 +4,7 @@ namespace FluentMvc.Configuration.Registrations
     using System.Web.Mvc;
     using Constraints;
 
+    // TODO: Needs another refactoring
     public class FilterInstanceInstanceBasedTransientConstraintRegistration : InstanceBasedTransientConstraintRegistration
     {
         private readonly object itemInstance;
