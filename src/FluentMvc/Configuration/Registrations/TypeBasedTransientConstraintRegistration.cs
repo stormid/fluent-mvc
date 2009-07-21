@@ -1,4 +1,4 @@
-namespace FluentMvc.Configuration
+namespace FluentMvc.Configuration.Registrations
 {
     using System;
     using System.Web.Mvc;

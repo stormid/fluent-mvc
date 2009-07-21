@@ -4,6 +4,7 @@ namespace FluentMvc
     using System.Collections.Generic;
     using System.Web.Mvc;
     using Configuration;
+    using Configuration.Registrations;
 
     public class FluentMvcConfiguration : FluentMvcDslBase<FluentMvcConfiguration>
     {
