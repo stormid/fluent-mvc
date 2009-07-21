@@ -16,9 +16,9 @@ namespace FluentMvc.Configuration
             return (T) Activator.CreateInstance(typeof (T));
         }
 
-        public virtual T CreateFilter<T>(Type concreteFilter)
+        public virtual T Resolve<T>(Type concreteType)
         {
-            return (T)Activator.CreateInstance(concreteFilter);
+            return (T)Activator.CreateInstance(concreteType);
         }
     }
 }

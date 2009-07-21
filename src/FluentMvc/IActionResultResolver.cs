@@ -7,11 +7,10 @@ namespace FluentMvc
     public interface IActionResultResolver
     {
         IActionResultPipeline ActionResultPipeLine { get; }
-        void SetDefaultFactory(IActionResultFactory factory);
+        IActionResultFactory DefaultFactory { get; }
         ActionResult CreateActionResult(ActionResultSelector selector);
+        void SetDefaultFactory(IActionResultFactory factory);
         void SetActionResultRegistry(IActionResultRegistry registry);
-        void SetActionFilterRegistry(IActionFilterRegistry registry);
-        void AddFiltersTo(FilterInfo filters, ActionFilterSelector actionFilterSelector);
         void RegisterActionResultPipeline(IActionResultPipeline pipeline);
     }
 }

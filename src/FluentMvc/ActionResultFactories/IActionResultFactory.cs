@@ -2,7 +2,6 @@ namespace FluentMvc.ActionResultFactories
 {
     using System.Collections.Generic;
     using System.Web.Mvc;
-    using Configuration;
     using Constraints;
 
     public interface IActionResultFactory

@@ -22,7 +22,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.CreateFilter<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter);
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);
@@ -54,7 +54,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.CreateFilter<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter);
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);
@@ -85,7 +85,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistry
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.CreateFilter<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter);
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);

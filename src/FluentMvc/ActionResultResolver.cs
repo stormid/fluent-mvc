@@ -7,9 +7,8 @@ namespace FluentMvc
     public class ActionResultResolver : IActionResultResolver
     {
         private IActionResultFactory defaultFactory;
-        private IActionResultRegistry actionResultRegistry;
         private IActionResultPipeline actionResultPipeLine;
-        private IActionFilterRegistry actionFilterRegistry;
+        private IActionResultRegistry actionResultRegistry;
         private readonly IFluentMvcObjectFactory objectFactory;
 
         public IActionResultFactory DefaultFactory
@@ -23,13 +22,11 @@ namespace FluentMvc
             set { actionResultPipeLine = value; }
         }
 
-        public ActionResultResolver(IActionResultRegistry actionResultRegistry, IActionFilterRegistry actionFilterRegistry, IFluentMvcObjectFactory objectFactory)
+        public ActionResultResolver(IActionResultRegistry actionResultRegistry, IFluentMvcObjectFactory objectFactory)
         {
             this.actionResultRegistry = actionResultRegistry;
             this.objectFactory = objectFactory;
-            this.actionFilterRegistry = actionFilterRegistry;
         }
-
 
         public void SetDefaultFactory(IActionResultFactory factory)
         {
@@ -38,7 +35,7 @@ namespace FluentMvc
 
         public ActionResult CreateActionResult(ActionResultSelector selector)
         {
-            if ( actionResultRegistry.CanSatisfy(selector))
+            if (actionResultRegistry.CanSatisfy(selector))
             {
                 return CreateActionResultFromRegistry(selector);
             }
@@ -57,16 +54,6 @@ namespace FluentMvc
         public void SetActionResultRegistry(IActionResultRegistry registry)
         {
             actionResultRegistry = registry;
-        }
-
-        public void SetActionFilterRegistry(IActionFilterRegistry registry)
-        {
-            actionFilterRegistry = registry;
-        }
-
-        public void AddFiltersTo(FilterInfo baseFilterInfo, ActionFilterSelector selector)
-        {
-            actionFilterRegistry.AddFiltersTo(baseFilterInfo, selector);
         }
 
         public void RegisterActionResultPipeline(IActionResultPipeline pipeline)

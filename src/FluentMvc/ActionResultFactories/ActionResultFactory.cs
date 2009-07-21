@@ -9,12 +9,12 @@ namespace FluentMvc.ActionResultFactories
     /// </summary>
     public class ActionResultFactory : AbstractActionResultFactory
     {
-        protected override bool ShouldApplyFactory(ActionResultSelector selector)
+        protected override bool ShouldBeReturnedForCore(ActionResultSelector selector)
         {
             return selector.ReturnValue != null && typeof(ActionResult).IsAssignableFrom(selector.ReturnValue.GetType());
         }
 
-        protected override ActionResult CreateResult(ActionResultSelector selector)
+        protected override ActionResult CreateCore(ActionResultSelector selector)
         {
             return selector.ReturnValue as ActionResult;
         }

@@ -78,7 +78,6 @@
     </Compile>
     <Compile Include="Bugs\HasItemsExtensionMethod.cs" />
     <Compile Include="Bugs\RegisteringFilterTypeForMultipileControllersRemovesIt.cs" />
-    <Compile Include="DomainBuilder.cs" />
     <Compile Include="ControllerContextBuilder.cs" />
     <Compile Include="GettingStartExamples.cs" />
     <Compile Include="SpecificationExtensions.cs" />
@@ -96,8 +95,8 @@
     <Compile Include="TrueReturningConstraint.cs" />
     <Compile Include="Unit\ConfigurationDsl\ApplySpec.cs" />
     <Compile Include="Unit\ConfigurationDsl\ConfigurationDsl_Take2Spec.cs" />
-    <Compile Include="Unit\DefaultActionResultResolver\DefaultActionResultResolverCreateSpec.cs" />
-    <Compile Include="Unit\DefaultActionResultResolver\DefaultActionResultResolverSpecBase.cs" />
+    <Compile Include="Unit\Resolvers\FluentMvcResolverCreateSpec.cs" />
+    <Compile Include="Unit\Resolvers\FluentMvcResolverSpecBase.cs" />
     <Compile Include="TestActionResultFactory.cs" />
     <Compile Include="ActionResultRegistryTester.cs" />
     <Compile Include="Unit\ActionResultFactories\ActionResultSubFactorySpec.cs" />

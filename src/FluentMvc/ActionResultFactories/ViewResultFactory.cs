@@ -10,7 +10,7 @@ namespace FluentMvc.ActionResultFactories
             SetConstraint(new[] {new ExpectsHtml()});
         }
 
-        protected override ActionResult CreateResult(ActionResultSelector selector)
+        protected override ActionResult CreateCore(ActionResultSelector selector)
         {
             return new ViewResult { ViewData = selector.ViewData };
         }

@@ -8,14 +8,14 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
     using Rhino.Mocks;
 
     [TestFixture]
-    public class when_registering_action_result_pipeline : DefaultActionResultResolverSpecBase
+    public class when_registering_action_result_pipeline : FluentMvcResolverSpecBase
     {
         private IActionResultPipeline pipeline;
 
         public override void Given()
         {
             pipeline = CreateStub<IActionResultPipeline>();
-            actionResultResolver = new ActionResultResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
         }
 
         public override void Because()
@@ -31,7 +31,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
     }
 
     [TestFixture]
-    public class When_creating_an_action_result_with_no_factories : DefaultActionResultResolverSpecBase
+    public class When_creating_an_action_result_with_no_factories : FluentMvcResolverSpecBase
     {
         private ActionResultSelector Selector;
         private IActionResultFactory CatchAllFactory;
@@ -39,7 +39,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
         public override void Given()
         {
             Selector = CreateStub<ActionResultSelector>();
-            actionResultResolver = new ActionResultResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
             CatchAllFactory = CreateStub<IActionResultFactory>();
             actionResultResolver.SetDefaultFactory(CatchAllFactory);
         }
@@ -63,7 +63,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
     }
 
     [TestFixture]
-    public class When_creating_an_action_result_with_a_factory_that_is_applicable : DefaultActionResultResolverSpecBase
+    public class When_creating_an_action_result_with_a_factory_that_is_applicable : FluentMvcResolverSpecBase
     {
         private IActionResultPipeline pipeline;
         private ActionResultSelector FactoryOptions;
@@ -79,7 +79,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
                 .Return(ExpectedActionResult);
 
             FactoryOptions = CreateStub<ActionResultSelector>();
-            actionResultResolver = new ActionResultResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
             actionResultResolver.RegisterActionResultPipeline(pipeline);
         }
 
@@ -96,7 +96,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
     }
 
     [TestFixture]
-    public class when_creating_an_action_result_that_is_present_in_the_registry : DefaultActionResultResolverSpecBase
+    public class when_creating_an_action_result_that_is_present_in_the_registry : FluentMvcResolverSpecBase
     {
         private IActionResultPipeline pipeline;
         private ActionResultSelector FactoryOptions;
@@ -112,7 +112,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
                 .Return(ExpectedActionResult);
 
             FactoryOptions = CreateStub<ActionResultSelector>();
-            actionResultResolver = new ActionResultResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
             actionResultResolver.RegisterActionResultPipeline(pipeline);
         }
 

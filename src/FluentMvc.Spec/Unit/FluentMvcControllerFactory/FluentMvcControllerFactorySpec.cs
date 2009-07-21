@@ -17,7 +17,7 @@ namespace FluentMvc.Spec.Unit.FluentMvcControllerFactory
             ControllerFactory.Stub(controller => controller.CreateController(Arg<RequestContext>.Is.Anything, Arg<string>.Is.Anything))
                 .Return(null);
 
-            fluentMvcControllerFactory = new FluentMvcControllerFactory(ControllerFactory, CreateStub<IActionResultResolver>());
+            fluentMvcControllerFactory = new FluentMvcControllerFactory(ControllerFactory, CreateStub<IFluentMvcResolver>());
         }
 
         public override void Because()
@@ -44,7 +44,7 @@ namespace FluentMvc.Spec.Unit.FluentMvcControllerFactory
             ControllerFactory.Stub(controllerFactory => controllerFactory.CreateController(Arg<RequestContext>.Is.Anything, Arg<string>.Is.Anything))
                 .Return(Controller);
 
-            fluentMvcControllerFactory = new FluentMvcControllerFactory(ControllerFactory, CreateStub<IActionResultResolver>());
+            fluentMvcControllerFactory = new FluentMvcControllerFactory(ControllerFactory, CreateStub<IFluentMvcResolver>());
         }
 
         public override void Because()
@@ -72,7 +72,7 @@ namespace FluentMvc.Spec.Unit.FluentMvcControllerFactory
         {
             Controller = CreateStub<Controller>();
             ControllerFactory = CreateStub<IControllerFactory>();
-            fluentMvcControllerFactory = new FluentMvcControllerFactory(ControllerFactory, CreateStub<IActionResultResolver>());
+            fluentMvcControllerFactory = new FluentMvcControllerFactory(ControllerFactory, CreateStub<IFluentMvcResolver>());
         }
 
         public override void Because()

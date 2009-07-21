@@ -4,9 +4,9 @@ namespace FluentMvc
 
     public class FluentMvcActionInvoker : ControllerActionInvoker
     {
-        private readonly IActionResultResolver fluentMvcResolver;
+        private readonly IFluentMvcResolver fluentMvcResolver;
 
-        private FluentMvcActionInvoker(IActionResultResolver fluentMvcResolver)
+        private FluentMvcActionInvoker(IFluentMvcResolver fluentMvcResolver)
         {
             this.fluentMvcResolver = fluentMvcResolver;
         }
@@ -37,9 +37,9 @@ namespace FluentMvc
             return new ActionResultSelector(actionReturnValue, controllerContext, actionDescriptor, actionDescriptor.ControllerDescriptor);
         }
 
-        public static IActionInvoker Create(IActionResultResolver actionResultFactory)
+        public static IActionInvoker Create(IFluentMvcResolver fluentMvcFactory)
         {
-            return new FluentMvcActionInvoker(actionResultFactory);
+            return new FluentMvcActionInvoker(fluentMvcFactory);
         }
     }
 }

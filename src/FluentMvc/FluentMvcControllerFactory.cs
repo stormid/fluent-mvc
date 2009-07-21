@@ -7,9 +7,9 @@ namespace FluentMvc
     public class FluentMvcControllerFactory : IControllerFactory
     {
         private readonly IControllerFactory innerControllerFactory;
-        private readonly IActionResultResolver resolver;
+        private readonly IFluentMvcResolver resolver;
 
-        public FluentMvcControllerFactory(IControllerFactory innerControllerFactory, IActionResultResolver resolver)
+        public FluentMvcControllerFactory(IControllerFactory innerControllerFactory, IFluentMvcResolver resolver)
         {
             this.innerControllerFactory = innerControllerFactory;
             this.resolver = resolver;

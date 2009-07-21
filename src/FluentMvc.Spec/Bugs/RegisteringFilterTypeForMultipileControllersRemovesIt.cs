@@ -20,14 +20,14 @@ namespace FluentMvc.Spec.Bugs
         {
             actionFilter = new TestActionFilter();
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            objectFactory.Stub(of => of.CreateFilter<IActionFilter>(Arg<Type>.Is.Anything))
+            objectFactory.Stub(of => of.Resolve<IActionFilter>(Arg<Type>.Is.Anything))
                 .Return(actionFilter).Repeat.Any();
 
             actionFilterRegistry = new ActionFilterRegistry(objectFactory);
 
             func = c => c.ReturnPost();
 
-            var config = FluentMvcConfiguration.Create(CreateStub<IActionResultResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>());
+            var config = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>());
 
             config.ExposeConfiguration(x =>
                                            {

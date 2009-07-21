@@ -8,7 +8,7 @@ namespace FluentMvc
     public class FluentMvcConfiguration : FluentMvcDslBase<FluentMvcConfiguration>
     {
         private IActionResultRegistry actionResultRegistry;
-        private IActionResultResolver actionResultResolver;
+        private IFluentMvcResolver fluentMvcResolver;
         private readonly IActionResultPipeline pipeline;
 
         public static Action<FluentMvcConfiguration> Configure { get; set; }
@@ -20,10 +20,10 @@ namespace FluentMvc
             objectFactory = new FluentMvcObjectFactory();
         }
 
-        private FluentMvcConfiguration(IActionResultResolver actionResultResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
+        private FluentMvcConfiguration(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
             : this()
         {
-            this.actionResultResolver = actionResultResolver;
+            this.fluentMvcResolver = fluentMvcResolver;
             this.actionResultRegistry = actionResultRegistry;
             this.actionFilterRegistry = actionFilterRegistry;
         }
@@ -33,9 +33,9 @@ namespace FluentMvc
             return Create(null, new ActionFilterRegistry(new FluentMvcObjectFactory()), new ActionResultRegistry());
         }
 
-        public static FluentMvcConfiguration Create(IActionResultResolver actionResultResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
+        public static FluentMvcConfiguration Create(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
         {
-            return new FluentMvcConfiguration(actionResultResolver, actionFilterRegistry, actionResultRegistry);
+            return new FluentMvcConfiguration(fluentMvcResolver, actionFilterRegistry, actionResultRegistry);
         }
 
         public virtual IControllerFactory BuildControllerFactory()
@@ -44,14 +44,18 @@ namespace FluentMvc
             SetDefaultFactory();
             BuildActionResultFactoryPipeline();
             RegisterFilters();
-
-            actionResultResolver.RegisterActionResultPipeline(pipeline);
-            actionResultResolver.SetActionResultRegistry(actionResultRegistry);
-            actionResultResolver.SetActionFilterRegistry(actionFilterRegistry);
+            PrepareResolver();
 
             IControllerFactory controllerFactory = CreateControllerFactory();
 
             return controllerFactory;
+        }
+
+        private void PrepareResolver()
+        {
+            fluentMvcResolver.RegisterActionResultPipeline(pipeline);
+            fluentMvcResolver.SetActionResultRegistry(actionResultRegistry);
+            fluentMvcResolver.SetActionFilterRegistry(actionFilterRegistry);
         }
 
         private void CreateDependencies()
@@ -62,13 +66,13 @@ namespace FluentMvc
             if ( actionResultRegistry == null)
                 actionResultRegistry = new ActionResultRegistry();
 
-            if (actionResultResolver == null)
-                actionResultResolver = new ActionResultResolver(actionResultRegistry, actionFilterRegistry, objectFactory);
+            if (fluentMvcResolver == null)
+                fluentMvcResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, objectFactory);
         }
 
         private void SetDefaultFactory()
         {
-            actionResultResolver.SetDefaultFactory(Convention.DefaultFactory);
+            fluentMvcResolver.SetDefaultFactory(Convention.DefaultFactory);
         }
 
         private void BuildActionResultFactoryPipeline()
@@ -100,7 +104,7 @@ namespace FluentMvc
 
         protected IControllerFactory CreateControllerFactory()
         {
-            return new FluentMvcControllerFactory(Convention.ControllerFactory, actionResultResolver);
+            return new FluentMvcControllerFactory(Convention.ControllerFactory, fluentMvcResolver);
         }
 
         public static IControllerFactory ConfigureAndBuildControllerFactory()

@@ -8,16 +8,16 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
     [TestFixture]
     public class when_an_action_is_invoked_and_the_action_return_value_is_not_null_or_an_action_result : SpecificationBase
     {
-        private IActionResultResolver ActionResultFactory;
+        private IFluentMvcResolver fluentMvcFactory;
         private FluentMvcActionInvoker ActionInvocker;
         private ControllerContext ControllerContext;
 
         public override void Given()
         {
-            ActionResultFactory = CreateStub<IActionResultResolver>();
+            fluentMvcFactory = CreateStub<IFluentMvcResolver>();
             ControllerContext = new ControllerContextBuilder().WithController(new TestController()).Build();
 
-            ActionInvocker = FluentMvcActionInvoker.Create(ActionResultFactory) as FluentMvcActionInvoker;
+            ActionInvocker = FluentMvcActionInvoker.Create(fluentMvcFactory) as FluentMvcActionInvoker;
         }
 
         public override void Because()
@@ -34,23 +34,23 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
         [Test]
         public void Should_Delegate_To_The_ActionResultResolver()
         {
-            ActionResultFactory.AssertWasCalled(x => x.CreateActionResult(Arg<ActionResultSelector>.Is.Anything));
+            fluentMvcFactory.AssertWasCalled(x => x.CreateActionResult(Arg<ActionResultSelector>.Is.Anything));
         }
     }
 
     [TestFixture]
     public class when_an_action_is_invoked_and_the_action_return_value_is_null : SpecificationBase
     {
-        private IActionResultResolver ActionResultFactory;
+        private IFluentMvcResolver fluentMvcFactory;
         private FluentMvcActionInvoker ActionInvocker;
         private ControllerContext ControllerContext;
 
         public override void Given()
         {
-            ActionResultFactory = CreateStub<IActionResultResolver>();
+            fluentMvcFactory = CreateStub<IFluentMvcResolver>();
             ControllerContext = new ControllerContextBuilder().WithController(new TestController()).Build();
 
-            ActionInvocker = FluentMvcActionInvoker.Create(ActionResultFactory) as FluentMvcActionInvoker;
+            ActionInvocker = FluentMvcActionInvoker.Create(fluentMvcFactory) as FluentMvcActionInvoker;
         }
 
         public override void Because()
@@ -61,23 +61,23 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
         [Test]
         public void Should_Delegate_To_The_ActionResultResolver()
         {
-            ActionResultFactory.AssertWasCalled(x => x.CreateActionResult(Arg<ActionResultSelector>.Is.Anything));
+            fluentMvcFactory.AssertWasCalled(x => x.CreateActionResult(Arg<ActionResultSelector>.Is.Anything));
         }
     }
 
     [TestFixture]
     public class when_an_action_is_invoked_and_the_action_return_value_an_action_result : SpecificationBase
     {
-        private IActionResultResolver ActionResultFactory;
+        private IFluentMvcResolver fluentMvcFactory;
         private FluentMvcActionInvoker ActionInvocker;
         private ControllerContext ControllerContext;
 
         public override void Given()
         {
-            ActionResultFactory = CreateStub<IActionResultResolver>();
+            fluentMvcFactory = CreateStub<IFluentMvcResolver>();
             ControllerContext = new ControllerContextBuilder().WithController(new TestController()).Build();
 
-            ActionInvocker = FluentMvcActionInvoker.Create(ActionResultFactory) as FluentMvcActionInvoker;
+            ActionInvocker = FluentMvcActionInvoker.Create(fluentMvcFactory) as FluentMvcActionInvoker;
         }
 
         public override void Because()
@@ -94,7 +94,7 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
         [Test]
         public void Should_Delegate_To_The_ActionResultResolver()
         {
-            ActionResultFactory.AssertWasCalled(x => x.CreateActionResult(Arg<ActionResultSelector>.Is.Anything));
+            fluentMvcFactory.AssertWasCalled(x => x.CreateActionResult(Arg<ActionResultSelector>.Is.Anything));
         }
     }
 }

@@ -6,9 +6,8 @@ namespace FluentMvc.Configuration
 
     public interface IFluentMvcObjectFactory
     {
-        // TODO: Review
         IConstraint CreateConstraint(Type type);
         T CreateFactory<T>() where T : IActionResultFactory;
-        T CreateFilter<T>(Type concreteFilter);
+        T Resolve<T>(Type concreteType);
     }
 }

@@ -33,7 +33,7 @@
                 .UsingControllerFactory(new DefaultControllerFactory())  // Replace this with your ControllerFactory of factory
                 .WithResultFactory<ActionResultFactory>()                // This supplies the backwards compatibility with standard Mvc controller actions
                 .WithResultFactory<JsonResultFactory>()                  // This will automatically wrap a response in a JsonResult if the borwser is expecting a JSON response
-                .WithResultFactory(new ViewResultFactory(), true)            // This will wrap the return of a controlelr in a ViewResult, this is the catchall factory of the pipeline
+                .WithResultFactory(new ViewResultFactory(), true)            // This will wrap the return of a controller in a ViewResult, this is the catchall factory of the pipeline
                 .WithFilter<HandleErrorAttribute>()                      // This filter will apply to all controllers
                 .WithFilter<AuthorizeAttribute>(Except
                                                    .For<AccountController>(ac => ac.LogOn())

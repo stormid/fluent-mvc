@@ -2,9 +2,9 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
 {
     using FluentMvc;
 
-    public abstract class DefaultActionResultResolverSpecBase : SpecificationBase
+    public abstract class FluentMvcResolverSpecBase : SpecificationBase
     {
-        protected ActionResultResolver actionResultResolver;
+        protected IActionResultResolver actionResultResolver;
         protected IActionResultRegistry actionResultRegistry;
         protected IActionFilterRegistry actionFilterRegistry;
 

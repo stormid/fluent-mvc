@@ -14,7 +14,7 @@ namespace FluentMvc
 
         protected virtual T ActivateCore<T>(IFluentMvcObjectFactory fluentMvcObjectFactory)
         {
-            return fluentMvcObjectFactory.CreateFilter<T>(Type);
+            return fluentMvcObjectFactory.Resolve<T>(Type);
         }
     }
 

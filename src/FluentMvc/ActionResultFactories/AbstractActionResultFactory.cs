@@ -1,9 +1,8 @@
-namespace FluentMvc
+namespace FluentMvc.ActionResultFactories
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
-    using ActionResultFactories;
     using Constraints;
     using Utils;
 
@@ -18,29 +17,26 @@ namespace FluentMvc
 
         public virtual bool ShouldBeReturnedFor(ActionResultSelector selector)
         {
-            bool shouldApplyFactory = constaints.HasItems() && constaints.Any(x => x.IsSatisfiedBy(selector));
-
-            if (shouldApplyFactory)
-                return true;
-
-            shouldApplyFactory = ShouldApplyFactory(selector);
-
-            return shouldApplyFactory;
+            return IsConstraintSatisfied(selector) || ShouldBeReturnedForCore(selector);
         }
 
-        protected virtual bool ShouldApplyFactory(ActionResultSelector selector)
+        private bool IsConstraintSatisfied(ActionResultSelector selector)
+        {
+            return constaints.HasItems() && constaints.Any(x => x.IsSatisfiedBy(selector));
+        }
+
+        protected virtual bool ShouldBeReturnedForCore(ActionResultSelector selector)
         {
             return false;
         }
 
         public virtual ActionResult Create(ActionResultSelector selector)
         {
-            return CreateResult(selector);
+            return CreateCore(selector);
         }
 
-        protected abstract ActionResult CreateResult(ActionResultSelector selector);
+        protected abstract ActionResult CreateCore(ActionResultSelector selector);
     }
-
 
     internal class EmptyActionResultFactory : IActionResultFactory
     {

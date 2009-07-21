@@ -1,14 +1,30 @@
 namespace FluentMvc.Spec
 {
     using System.Web.Mvc;
+    using ActionResultFactories;
     using Configuration;
     using FluentMvc;
     using NUnit.Framework;
+    using Utils;
 
     [TestFixture]
     public class GettingStartExamples
     {
-        
+        [Test]
+        public void new_configuration()
+        {
+            FluentMvcConfiguration.Configure = config =>
+                                                   {
+                                                       config.UsingControllerFactory(new DefaultControllerFactory());
+
+                                                       config.WithResultFactory<ActionResultFactory>(Is.Default);
+
+                                                       config.WithFilter<AuthorizeAttribute>();
+                                                   };
+
+            ControllerBuilder.Current.BuildFromFluentMcv();
+        }
+
         [Test]
         public void Standard_Mvc()
         {
@@ -48,6 +64,5 @@ namespace FluentMvc.Spec
                 .WithFilter(new AuthorizeAttribute { Roles = "Role"}, Apply.For<TestController>(tc => tc.ReturnPost()))
                 .BuildControllerFactory();
         }
-
     }
 }

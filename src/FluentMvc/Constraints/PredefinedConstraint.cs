@@ -1,8 +1,6 @@
 namespace FluentMvc.Constraints
 {
-    using System.Web.Mvc;
-
-    public sealed class PredefinedConstraint : IConstraint
+    public class PredefinedConstraint : IConstraint
     {
         private readonly bool value;
 
