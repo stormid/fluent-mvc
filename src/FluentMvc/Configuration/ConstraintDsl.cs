@@ -55,19 +55,19 @@ namespace FluentMvc.Configuration
 
     public class ConstraintDsl
     {
-        protected readonly HashSet<TransientConstraintRegistration> constaintRegistrations = new HashSet<TransientConstraintRegistration>();
+        protected readonly HashSet<TransientRegistration> constaintRegistrations = new HashSet<TransientRegistration>();
 
-        public virtual TransientConstraintRegistration[] ConstraintRegistrations
+        public virtual TransientRegistration[] ConstraintRegistrations
         {
             get { return constaintRegistrations.ToArray(); }
         }
 
-        protected void AddRegistration(TransientConstraintRegistration constraintRegistration)
+        protected void AddRegistration(TransientRegistration constraintRegistration)
         {
             constaintRegistrations.Add(constraintRegistration);
         }
 
-        public virtual IEnumerable<TransientConstraintRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
+        public virtual IEnumerable<TransientRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             foreach (var registration in constaintRegistrations)
             {
@@ -76,14 +76,14 @@ namespace FluentMvc.Configuration
             }
         }
 
-        protected InstanceBasedTransientConstraintRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        protected InstanceRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            return new InstanceBasedTransientConstraintRegistration(guardConstraint, actionDescriptor, controllerDescriptor);
+            return new InstanceRegistration(guardConstraint, actionDescriptor, controllerDescriptor);
         }
 
-        protected TransientConstraintRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        protected TransientRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            return new TransientConstraintRegistration(guardConstraintType, actionDescriptor, controllerDescriptor);
+            return new TransientRegistration(guardConstraintType, actionDescriptor, controllerDescriptor);
         }
     }
 }

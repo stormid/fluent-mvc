@@ -11,7 +11,7 @@ namespace FluentMvc.Configuration
     public abstract class FluentMvcDslBase<TDsl> where TDsl : FluentMvcDslBase<TDsl>
     {
         protected IActionFilterRegistry actionFilterRegistry;
-        protected readonly IDictionary<Type, HashSet<TransientConstraintRegistration>> constaintRegistrations = new Dictionary<Type, HashSet<TransientConstraintRegistration>>();
+        protected readonly IDictionary<Type, HashSet<TransientRegistration>> constaintRegistrations = new Dictionary<Type, HashSet<TransientRegistration>>();
         protected IFluentMvcObjectFactory objectFactory;
         public FluentMvcConvention Convention { get; protected set; }
 
@@ -90,7 +90,7 @@ namespace FluentMvc.Configuration
 
         public TDsl WithFilter<TFilter>()
         {
-            constaintRegistrations.Add(typeof(TFilter), new HashSet<TransientConstraintRegistration> { new InstanceBasedTransientConstraintRegistration(new PredefinedConstraint(true), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance) });
+            constaintRegistrations.Add(typeof(TFilter), new HashSet<TransientRegistration> { new InstanceRegistration(new PredefinedConstraint(true), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance) });
             return (TDsl)this;
         }
 
@@ -101,7 +101,7 @@ namespace FluentMvc.Configuration
 
         public TDsl WithFilter<T>(T filterInstance)
         {
-            var registration = new FilterInstanceInstanceBasedTransientConstraintRegistration(filterInstance, new PredefinedConstraint(true), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
+            var registration = new FilterInstanceInstanceRegistration(new PredefinedConstraint(true), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, filterInstance);
 
             RegisterFilter(filterInstance.GetType(), new[] {registration});
 
@@ -110,14 +110,14 @@ namespace FluentMvc.Configuration
 
         public TDsl WithFilter<T>(T filterInstance, ConstraintDsl constraint)
         {
-            IEnumerable<TransientConstraintRegistration> registrations = constraint.GetConstraintRegistrations(objectFactory);
+            IEnumerable<TransientRegistration> registrations = constraint.GetConstraintRegistrations(objectFactory);
 
-            RegisterFilter(filterInstance.GetType(), registrations.Select(x => new FilterInstanceInstanceBasedTransientConstraintRegistration(filterInstance, x.Constraint, x.ActionDescriptor, x.ControllerDescriptor)).Cast<TransientConstraintRegistration>());
+            RegisterFilter(filterInstance.GetType(), registrations.Select(x => new FilterInstanceInstanceRegistration(x.Constraint, x.ActionDescriptor, x.ControllerDescriptor, filterInstance)).Cast<TransientRegistration>());
 
             return (TDsl)this;
         }
 
-        public TDsl WithFilter<TFilter>(IEnumerable<TransientConstraintRegistration> registrations)
+        public TDsl WithFilter<TFilter>(IEnumerable<TransientRegistration> registrations)
         {
             Type filterType = typeof(TFilter);
             RegisterFilter(filterType, registrations);
@@ -125,12 +125,12 @@ namespace FluentMvc.Configuration
             return (TDsl)this;
         }
 
-        private void RegisterFilter(Type filterType, IEnumerable<TransientConstraintRegistration> constraints)
+        private void RegisterFilter(Type filterType, IEnumerable<TransientRegistration> constraints)
         {
             if ( !constaintRegistrations.ContainsKey(filterType))
-                constaintRegistrations.Add(filterType, new HashSet<TransientConstraintRegistration>());
+                constaintRegistrations.Add(filterType, new HashSet<TransientRegistration>());
 
-            constaintRegistrations[filterType] = new HashSet<TransientConstraintRegistration>(constaintRegistrations[filterType].Concat(constraints));
+            constaintRegistrations[filterType] = new HashSet<TransientRegistration>(constaintRegistrations[filterType].Concat(constraints));
         }
 
         public TDsl ResolveWith(IFluentMvcObjectFactory factory)

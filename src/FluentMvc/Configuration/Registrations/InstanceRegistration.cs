@@ -4,10 +4,10 @@ namespace FluentMvc.Configuration.Registrations
     using System.Web.Mvc;
     using Constraints;
 
-    public class InstanceBasedTransientConstraintRegistration : TransientConstraintRegistration
+    public class InstanceRegistration : TransientRegistration
     {
-        public InstanceBasedTransientConstraintRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
-            : base(constraint.GetType(),actionDescriptor, controllerDescriptor)
+        public InstanceRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+            : base(actionDescriptor, controllerDescriptor)
         {
             if (constraint == null)
             {
@@ -20,8 +20,6 @@ namespace FluentMvc.Configuration.Registrations
 
         public override void Prepare(IFluentMvcObjectFactory factory)
         {
-            if (Constraint == null)
-                base.Prepare(factory);
         }
     }
 }

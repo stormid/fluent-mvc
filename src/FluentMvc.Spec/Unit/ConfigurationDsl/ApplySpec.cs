@@ -52,7 +52,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public void For_with_action()
         {
             Expression<Func<TestController, object>> expression = x => x.ReturnPost();
-            TransientConstraintRegistration[] registrations = Apply.For(expression).ConstraintRegistrations;
+            TransientRegistration[] registrations = Apply.For(expression).ConstraintRegistrations;
             registrations.Length.ShouldEqual(1);
             registrations[0].ActionDescriptor.ActionName.ShouldEqual(expression.CreateActionDescriptor().ActionName);
         }

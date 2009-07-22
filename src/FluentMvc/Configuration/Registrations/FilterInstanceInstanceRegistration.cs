@@ -5,11 +5,11 @@ namespace FluentMvc.Configuration.Registrations
     using Constraints;
 
     // TODO: Needs another refactoring
-    public class FilterInstanceInstanceBasedTransientConstraintRegistration : InstanceBasedTransientConstraintRegistration
+    public class FilterInstanceInstanceRegistration : InstanceRegistration
     {
         private readonly object itemInstance;
 
-        public FilterInstanceInstanceBasedTransientConstraintRegistration(object itemInstance, IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        public FilterInstanceInstanceRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, object itemInstance)
             : base(constraint, actionDescriptor, controllerDescriptor)
         {
             this.itemInstance = itemInstance;

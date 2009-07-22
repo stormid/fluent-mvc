@@ -39,8 +39,8 @@
     <Compile Include="ActionFilterRegistryItem.cs" />
     <Compile Include="ActionFilterSelector.cs" />
     <Compile Include="ActionResultResolver.cs" />
-    <Compile Include="Configuration\Registrations\TransientConstraintRegistration.cs" />
-    <Compile Include="Configuration\Registrations\FilterInstanceInstanceBasedTransientConstraintRegistration.cs" />
+    <Compile Include="Configuration\Registrations\FilterInstanceInstanceRegistration.cs" />
+    <Compile Include="Configuration\Registrations\TransientRegistration.cs" />
     <Compile Include="Configuration\WhenDsl.cs" />
     <Compile Include="IActionFilterResolver.cs" />
     <Compile Include="IActionResultResolver.cs" />
@@ -49,7 +49,7 @@
     <Compile Include="Configuration\ActionResultPipeline.cs" />
     <Compile Include="Configuration\Apply.cs" />
     <Compile Include="Configuration\ConstraintDsl.cs" />
-    <Compile Include="Configuration\Registrations\InstanceBasedTransientConstraintRegistration.cs" />
+    <Compile Include="Configuration\Registrations\InstanceRegistration.cs" />
     <Compile Include="Constraints\ControllerActionConstraint.cs" />
     <Compile Include="Configuration\Except.cs" />
     <Compile Include="Configuration\FluentMvcDslBase.cs" />

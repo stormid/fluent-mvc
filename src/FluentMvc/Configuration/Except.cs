@@ -44,14 +44,14 @@ namespace FluentMvc.Configuration
         public override ConstraintDsl<Except> AndFor<TController>()
         {
             ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
-            this.AddRegistration(new InstanceBasedTransientConstraintRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            this.AddRegistration(new InstanceRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
             return this;
         }
 
         public override ConstraintDsl<Except> AndFor<TController>(Expression<Func<TController, object>> func)
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            this.AddRegistration(new InstanceBasedTransientConstraintRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            this.AddRegistration(new InstanceRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
             return this;
         }
     }
