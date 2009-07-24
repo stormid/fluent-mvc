@@ -61,7 +61,7 @@ namespace FluentMvc.Configuration
             foreach (var registration in innerDsl.ConstraintRegistrations)
             {
                 registration.Prepare(objectFactory);
-                yield return CreateInstanceRegistration(new WhenConstraint(guardConstraint, registration.Constraint), registration.ActionDescriptor, registration.ControllerDescriptor);
+                yield return CreateInstanceRegistration(new ContinuationConstraint(guardConstraint, registration.Constraint), registration.ActionDescriptor, registration.ControllerDescriptor);
             }
         }
 

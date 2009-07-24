@@ -18,8 +18,6 @@ namespace FluentMvc.Configuration.Registrations
             ConstraintType = Constraint.GetType();
         }
 
-        public override void Prepare(IFluentMvcObjectFactory factory)
-        {
-        }
+        public override void Prepare(IFluentMvcObjectFactory factory) { }
     }
 }

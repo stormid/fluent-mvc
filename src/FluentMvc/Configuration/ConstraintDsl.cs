@@ -36,23 +36,6 @@ namespace FluentMvc.Configuration
         }
     }
 
-    public class WhenConstraint : IConstraint
-    {
-        private readonly IConstraint constraint;
-        private readonly IConstraint constraints;
-
-        public WhenConstraint(IConstraint constraint, IConstraint constraints)
-        {
-            this.constraint = constraint;
-            this.constraints = constraints;
-        }
-
-        public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
-        {
-            return constraint.IsSatisfiedBy(selector) && constraints.IsSatisfiedBy(selector);
-        }
-    }
-
     public class ConstraintDsl
     {
         protected readonly HashSet<TransientRegistration> constaintRegistrations = new HashSet<TransientRegistration>();
