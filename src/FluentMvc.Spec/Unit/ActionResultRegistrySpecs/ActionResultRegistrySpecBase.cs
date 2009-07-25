@@ -1,6 +1,6 @@
-namespace FluentMvc.Spec.Unit.ActionResultRegistry
+namespace FluentMvc.Spec.Unit.ActionResultRegistrySpecs
 {
-    using FluentMvc;
+    using ActionResultRegistry=FluentMvc.ActionResultRegistry;
 
     public abstract class ActionResultRegistrySpecBase : SpecificationBase
     {

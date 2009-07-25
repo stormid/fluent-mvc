@@ -1,11 +1,11 @@
-namespace FluentMvc.Spec.Unit.ActionResultRegistry
+namespace FluentMvc.Spec.Unit.ActionResultRegistrySpecs
 {
     using System;
     using System.Linq.Expressions;
     using System.Web.Mvc;
-    using FluentMvc;
     using NUnit.Framework;
     using Utils;
+    using ActionResultRegistry=FluentMvc.ActionResultRegistry;
 
     [TestFixture]
     public class When_registering_an_item : ActionResultRegistrySpecBase
@@ -77,5 +77,4 @@ namespace FluentMvc.Spec.Unit.ActionResultRegistry
         }
 
     }
-
 }

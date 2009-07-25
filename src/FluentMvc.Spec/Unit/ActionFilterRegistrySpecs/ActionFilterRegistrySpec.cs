@@ -1,13 +1,11 @@
-namespace FluentMvc.Spec.Unit.ActionFilterRegistry
+namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 {
     using System;
-    using System.Linq.Expressions;
     using System.Web.Mvc;
     using Configuration;
     using Constraints;
     using NUnit.Framework;
     using Rhino.Mocks;
-    using Utils;
     using ActionFilterRegistry=FluentMvc.ActionFilterRegistry;
 
     [TestFixture]

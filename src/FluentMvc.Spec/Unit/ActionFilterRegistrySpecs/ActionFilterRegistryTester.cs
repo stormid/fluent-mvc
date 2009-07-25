@@ -1,4 +1,4 @@
-namespace FluentMvc.Spec.Unit.ActionFilterRegistry
+namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 {
     using System;
     using System.Collections.Generic;
