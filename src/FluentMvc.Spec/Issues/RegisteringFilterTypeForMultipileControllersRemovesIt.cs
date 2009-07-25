@@ -1,4 +1,4 @@
-namespace FluentMvc.Spec.Bugs
+namespace FluentMvc.Spec.Issues
 {
     using System;
     using System.Linq.Expressions;

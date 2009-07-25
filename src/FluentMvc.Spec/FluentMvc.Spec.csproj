@@ -76,8 +76,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Bugs\HasItemsExtensionMethod.cs" />
-    <Compile Include="Bugs\RegisteringFilterTypeForMultipileControllersRemovesIt.cs" />
+    <Compile Include="Issues\HasItemsExtensionMethod.cs" />
+    <Compile Include="Issues\RegisteringFilterTypeForMultipileControllersRemovesIt.cs" />
     <Compile Include="ControllerContextBuilder.cs" />
     <Compile Include="GettingStartExamples.cs" />
     <Compile Include="SpecificationExtensions.cs" />

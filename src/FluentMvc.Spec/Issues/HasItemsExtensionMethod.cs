@@ -1,10 +1,10 @@
-namespace FluentMvc.Spec.Bugs
+namespace FluentMvc.Spec.Issues
 {
     using NUnit.Framework;
     using Utils;
 
     [TestFixture]
-    public class HasItemsExtensionMethodBug
+    public class HasItemsExtensionMethod
     {
         [Test]
         public void should_be_true_when_there_are_items()

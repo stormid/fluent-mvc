@@ -8,7 +8,8 @@ namespace FluentMvc.Configuration
     using Constraints;
     using Registrations;
 
-    public abstract class FluentMvcDslBase<TDsl> where TDsl : FluentMvcDslBase<TDsl>
+    public abstract class FluentMvcDslBase<TDsl>
+        where TDsl : FluentMvcDslBase<TDsl>
     {
         protected IActionFilterRegistry actionFilterRegistry;
         protected readonly IDictionary<Type, HashSet<TransientRegistration>> constaintRegistrations = new Dictionary<Type, HashSet<TransientRegistration>>();
