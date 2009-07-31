@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Todo.txt = Todo.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc.Windsor", "FluentMvc.Windsor\FluentMvc.Windsor.csproj", "{D5D3D0BE-D04A-495E-9349-1D10CD1EA51C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuickStart", "QuickStart", "{B440C02D-2E84-4647-BADB-2325F5E8D0BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8B6CF4B3-65BC-40BC-BF85-020A15AD9709}"
@@ -35,10 +33,6 @@ Global
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5D3D0BE-D04A-495E-9349-1D10CD1EA51C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5D3D0BE-D04A-495E-9349-1D10CD1EA51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5D3D0BE-D04A-495E-9349-1D10CD1EA51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5D3D0BE-D04A-495E-9349-1D10CD1EA51C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
