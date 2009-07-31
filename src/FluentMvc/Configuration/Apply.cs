@@ -24,7 +24,7 @@ namespace FluentMvc.Configuration
         public static ConstraintDsl<Apply> For<TController>(Expression<Func<TController, object>> func) where TController : Controller
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            return CreateDsl(new InstanceRegistration(new ControllerActionConstraint(new ControllerTypeConstraint<TController>(), actionDescriptor), actionDescriptor, actionDescriptor.ControllerDescriptor));
+            return CreateDsl(new InstanceRegistration(new ControllerActionConstraint(actionDescriptor), actionDescriptor, actionDescriptor.ControllerDescriptor));
         }
 
         private static Apply CreateDsl(TransientRegistration constraintRegistration)
