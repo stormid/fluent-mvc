@@ -1,6 +1,7 @@
 ﻿namespace Quickstart
 {
     using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Routing;
     using Controllers;
@@ -41,6 +42,9 @@
                                          .WithResultFactory<JsonResultFactory>()
                                          .WithResultFactory<ViewResultFactory>(Is.Default);
 
+                                     x.WithResultFactory<ErrorThrowingResultFactory>(
+                                         Apply.For<HomeController>(hc => hc.ErrorResultFactory()));
+
                                      x.WithFilter<HandleErrorAttribute>();
                                      x.WithFilter<AuthorizeAttribute>(
                                          Except
@@ -48,10 +52,18 @@
                                              .AndFor<AccountController>(ac => ac.LogOn(null, null, false, null))
                                              .AndFor<HomeController>());
 
-                                     x.WithFilter<ErrorThrowingFilter>(Apply.When<ExpectsHtml>());
+                                     x.WithFilter<ErrorThrowingFilter>(Apply.When<ExpectsHtml>().For<HomeController>(hc => hc.About()));
                                  };
 
             ControllerBuilder.Current.BuildFromFluentMcv();
+        }
+    }
+
+    public class ErrorThrowingResultFactory : AbstractActionResultFactory
+    {
+        protected override ActionResult CreateCore(ActionResultSelector selector)
+        {
+            throw new Exception("ErrorThrowingResultFactory");
         }
     }
 
@@ -59,7 +71,7 @@
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            throw new NotImplementedException();
+            throw new Exception("ErrorThrowingFilter");
         }
     }
 }

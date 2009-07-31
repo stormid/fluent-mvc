@@ -7,7 +7,7 @@ namespace FluentMvc.ActionResultFactories
     {
         public ViewResultFactory()
         {
-            SetConstraint(new[] {new ExpectsHtml()});
+            SetConstraints(new[] {new ExpectsHtml()});
         }
 
         protected override ActionResult CreateCore(ActionResultSelector selector)

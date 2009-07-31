@@ -8,9 +8,14 @@ namespace FluentMvc.ActionResultFactories
 
     public abstract class AbstractActionResultFactory : IActionResultFactory
     {
-        private IEnumerable<IConstraint> constaints;
+        private IEnumerable<IConstraint> constaints = Enumerable.Empty<IConstraint>();
 
-        public void SetConstraint(IEnumerable<IConstraint> constraintRegistrations)
+        public IEnumerable<IConstraint> Constraints
+        {
+            get { return constaints; }
+        }
+
+        public void SetConstraints(IEnumerable<IConstraint> constraintRegistrations)
         {
             constaints = constraintRegistrations;
         }
@@ -51,9 +56,14 @@ namespace FluentMvc.ActionResultFactories
             return new EmptyResult();
         }
 
-        public void SetConstraint(IEnumerable<IConstraint> constraintRegistrations)
+        public void SetConstraints(IEnumerable<IConstraint> constraintRegistrations)
         {
             
+        }
+
+        public IEnumerable<IConstraint> Constraints
+        {
+            get { return Enumerable.Empty<IConstraint>(); }
         }
 
         public bool ShouldBeReturnedFor(ActionResultSelector selector)

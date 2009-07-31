@@ -7,7 +7,7 @@ namespace FluentMvc.ActionResultFactories
     {
         public JsonResultFactory()
         {
-            SetConstraint(new[] { new ExpectsJson() });
+            SetConstraints(new[] { new ExpectsJson() });
         }
 
         protected override ActionResult CreateCore(ActionResultSelector selector)

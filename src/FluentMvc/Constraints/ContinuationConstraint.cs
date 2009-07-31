@@ -2,18 +2,18 @@ namespace FluentMvc.Constraints
 {
     public class ContinuationConstraint : IConstraint
     {
-        private readonly IConstraint constraint;
-        private readonly IConstraint constraints;
+        private readonly IConstraint firstConstraint;
+        private readonly IConstraint secondConstraint;
 
-        public ContinuationConstraint(IConstraint constraint, IConstraint constraints)
+        public ContinuationConstraint(IConstraint firstConstraint, IConstraint secondConstraint)
         {
-            this.constraint = constraint;
-            this.constraints = constraints;
+            this.firstConstraint = firstConstraint;
+            this.secondConstraint = secondConstraint;
         }
 
         public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
         {
-            return constraint.IsSatisfiedBy(selector) && constraints.IsSatisfiedBy(selector);
+            return firstConstraint.IsSatisfiedBy(selector) && secondConstraint.IsSatisfiedBy(selector);
         }
     }
 }

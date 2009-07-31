@@ -8,6 +8,7 @@ namespace FluentMvc.ActionResultFactories
     {
         ActionResult Create(ActionResultSelector selector);
         bool ShouldBeReturnedFor(ActionResultSelector selector);
-        void SetConstraint(IEnumerable<IConstraint> constraintRegistrations);
+        void SetConstraints(IEnumerable<IConstraint> constraintRegistrations);
+        IEnumerable<IConstraint> Constraints { get; }
     }
 }

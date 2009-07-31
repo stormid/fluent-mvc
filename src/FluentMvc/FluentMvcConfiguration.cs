@@ -8,9 +8,7 @@ namespace FluentMvc
 
     public class FluentMvcConfiguration : FluentMvcDslBase<FluentMvcConfiguration>
     {
-        private IActionResultRegistry actionResultRegistry;
         private IFluentMvcResolver fluentMvcResolver;
-        private readonly IActionResultPipeline pipeline;
 
         public static Action<FluentMvcConfiguration> Configure { get; set; }
 
@@ -86,7 +84,7 @@ namespace FluentMvc
 
         private void RegisterFilters()
         {
-            foreach (var registration in constaintRegistrations)
+            foreach (var registration in filterConstaintRegistrations)
             {
                 IEnumerable<ActionFilterRegistryItem> registryItem = CreateRegistryItem(registration);
                 actionFilterRegistry.Add(registryItem);
@@ -108,17 +106,17 @@ namespace FluentMvc
             return new FluentMvcControllerFactory(Convention.ControllerFactory, fluentMvcResolver);
         }
 
-        public static IControllerFactory ConfigureAndBuildControllerFactory()
-        {
-            var config = new FluentMvcConfiguration();
-            Configure(config);
-
-            return config.BuildControllerFactory();
-        }
-
         public void ExposeConfiguration(Action<FluentMvcConfiguration> action)
         {
             action(this);
+        }
+
+        public static IControllerFactory ConfigureAndBuildControllerFactory()
+        {
+            var config = Create();
+            Configure(config);
+
+            return config.BuildControllerFactory();
         }
     }
 }

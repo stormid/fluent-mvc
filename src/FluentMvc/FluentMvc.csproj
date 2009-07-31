@@ -46,6 +46,7 @@
     <Compile Include="IActionFilterResolver.cs" />
     <Compile Include="IActionResultResolver.cs" />
     <Compile Include="ItemActivator.cs" />
+    <Compile Include="Constraints\ListConstraint.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Configuration\ActionResultPipeline.cs" />
     <Compile Include="Configuration\Apply.cs" />

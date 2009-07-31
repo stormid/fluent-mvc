@@ -5,9 +5,44 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
     using System.Web.Mvc;
     using ActionFilterRegistrySpecs;
     using Configuration;
+    using FluentMvc.ActionResultFactories;
     using NUnit.Framework;
+    using Rhino.Mocks;
     using Utils;
 
+    [TestFixture]
+    public class when_registering_a_custom_object_factory_with_a_result_factory : DslSpecBase
+    {
+        private IFluentMvcObjectFactory objectFactory;
+        private IActionFilterRegistry actionFilterRegistry;
+
+        public override void Given()
+        {
+            objectFactory = CreateStub<IFluentMvcObjectFactory>();
+            actionFilterRegistry = CreateStub<IActionFilterRegistry>();
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+                .ResolveWith(objectFactory)
+                .WithResultFactory<JsonResultFactory>();
+        }
+
+        public override void Because()
+        {
+            Configuration.BuildControllerFactory();
+        }
+
+        [Test]
+        public void should_set_the_object_factory()
+        {
+            actionFilterRegistry.AssertWasCalled(f => f.SetObjectFactory(Arg<IFluentMvcObjectFactory>.Is.Anything));
+        }
+
+        [Test]
+        public void should_use_object_factory()
+        {
+            objectFactory.AssertWasCalled(o => o.CreateFactory<JsonResultFactory>());
+        }
+
+    }
 
     [TestFixture]
     public class when_registering_an_action_filter_with_no_constraint : DslSpecBase

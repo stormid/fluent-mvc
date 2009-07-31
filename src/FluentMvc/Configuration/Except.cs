@@ -29,12 +29,12 @@ namespace FluentMvc.Configuration
         public static ConstraintDsl<Except> For<TController>(ActionDescriptor actionDescriptor) where TController : Controller
         {
             var dsl = new Except();
-            dsl.AddRegistration(dsl.CreateInstanceRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            dsl.AddRegistration(dsl.CreateInstanceRegistration(CreateActionConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
 
             return dsl;
         }
 
-        private static InverseConstraint CreateConstraint<TController>(ActionDescriptor actionDescriptor)
+        private static InverseConstraint CreateActionConstraint<TController>(ActionDescriptor actionDescriptor)
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(controllerTypeConstraint, actionDescriptor);
@@ -44,14 +44,14 @@ namespace FluentMvc.Configuration
         public override ConstraintDsl<Except> AndFor<TController>()
         {
             ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
-            this.AddRegistration(new InstanceRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            this.AddRegistration(new InstanceRegistration(CreateActionConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
             return this;
         }
 
         public override ConstraintDsl<Except> AndFor<TController>(Expression<Func<TController, object>> func)
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            this.AddRegistration(new InstanceRegistration(CreateConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            this.AddRegistration(new InstanceRegistration(CreateActionConstraint<TController>(actionDescriptor), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
             return this;
         }
     }

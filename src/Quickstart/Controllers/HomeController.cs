@@ -2,6 +2,8 @@
 
 namespace Quickstart.Controllers
 {
+    using System;
+
     [HandleError]
     public class HomeController : Controller
     {
@@ -13,6 +15,11 @@ namespace Quickstart.Controllers
         }
 
         public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult ErrorResultFactory()
         {
             return View();
         }

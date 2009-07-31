@@ -152,7 +152,55 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_override_factory_constraint()
         {
-            resultFactory.AssertWasCalled(x => x.SetConstraint(Arg<IEnumerable<IConstraint>>.Is.Anything));
+            resultFactory.AssertWasCalled(x => x.SetConstraints(Arg<IEnumerable<IConstraint>>.Is.Anything));
+        }
+    }
+
+    [TestFixture]
+    public class When_adding_one_action_result_factories_with_a_controller_speicific_constraint : DslSpecBase
+    {
+        private IActionResultFactory resultFactory;
+
+        public override void Given()
+        {
+            resultFactory = CreateStub<AbstractActionResultFactory>();
+            Configuration = FluentMvcConfiguration.Create();
+        }
+
+        public override void Because()
+        {
+            Configuration
+                .WithResultFactory(resultFactory, Apply.For<TestController>());
+        }
+
+        [Test]
+        public void should_set_the_correct_controller_type_contraint()
+        {
+            resultFactory.Constraints.First().ShouldBe(typeof(ControllerTypeConstraint<TestController>));
+        }
+    }
+
+    [TestFixture]
+    public class When_adding_one_action_result_factories_with_an_action_speicific_constraint : DslSpecBase
+    {
+        private IActionResultFactory resultFactory;
+
+        public override void Given()
+        {
+            resultFactory = CreateStub<AbstractActionResultFactory>();
+            Configuration = FluentMvcConfiguration.Create();
+        }
+
+        public override void Because()
+        {
+            Configuration
+                .WithResultFactory(resultFactory, Apply.For<TestController>(x => x.ReturnNull()));
+        }
+
+        [Test]
+        public void should_set_the_correct_controller_type_contraint()
+        {
+            resultFactory.Constraints.First().ShouldBe(typeof(ControllerActionConstraint));
         }
     }
 
@@ -294,19 +342,18 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         }
     }
 
+    
+
     [TestFixture]
-    public class when_registering_a_custom_object_factory_with_a_result_factory : DslSpecBase
+    public class when_registering_an_result_factory_with_a_constraint_that_is_satified : DslSpecBase
     {
-        private IFluentMvcObjectFactory objectFactory;
-        private IActionFilterRegistry filterRegistry;
+        private IActionResultRegistry actionResultRegistry;
 
         public override void Given()
         {
-            objectFactory = CreateStub<IFluentMvcObjectFactory>();
-            filterRegistry = CreateStub<IActionFilterRegistry>();
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), filterRegistry, CreateStub<IActionResultRegistry>())
-                .ResolveWith(objectFactory)
-                .WithResultFactory<JsonResultFactory>();
+            actionResultRegistry = new ActionResultRegistry();
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), CreateStub<IActionFilterRegistry>(), actionResultRegistry)
+                .WithResultFactory<JsonResultFactory>(Apply.When<TrueReturningConstraint>());
         }
 
         public override void Because()
@@ -315,20 +362,15 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         }
 
         [Test]
-        public void should_set_action_filter_registries_object_factory()
+        public void should_register_with_constraint()
         {
-            filterRegistry.AssertWasCalled(f => f.SetObjectFactory(Arg<IFluentMvcObjectFactory>.Is.Anything));
+            actionResultRegistry.Registrations.Length.ShouldEqual(1);
         }
 
         [Test]
-        public void should_use_object_factory()
+        public void should_be_returned()
         {
-            objectFactory.AssertWasCalled(o => o.CreateFactory<JsonResultFactory>());
+            actionResultRegistry.FindForSelector(new ActionResultSelector()).First().Type.ShouldEqual(typeof (JsonResultFactory));
         }
-
     }
-
-    
-
-
 }

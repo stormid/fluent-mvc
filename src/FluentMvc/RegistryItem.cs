@@ -38,14 +38,25 @@ namespace FluentMvc
         protected ItemActivator ItemActivator { get; set; }
 
         protected RegistryItem(ItemActivator itemActivator, IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+            : this(itemActivator, actionDescriptor, controllerDescriptor)
         {
             Constraint = constraint;
+            
+        }
+
+        protected RegistryItem(ItemActivator itemActivator, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        {
             ItemActivator = itemActivator;
             ActionDescriptor = actionDescriptor;
             ControllerDescriptor = controllerDescriptor;
         }
 
         public bool Satisfies<T>(T selector) where T : RegistrySelector
+        {
+            return SatisfiesCore(selector);
+        }
+
+        protected virtual bool SatisfiesCore<T>(T selector) where T : RegistrySelector
         {
             return Constraint.IsSatisfiedBy(selector);
         }

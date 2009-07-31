@@ -20,9 +20,14 @@ namespace FluentMvc.Spec
             return selector.AcceptTypes.Contains("accept");
         }
 
-        public void SetConstraint(IEnumerable<IConstraint> constraintRegistrations)
+        public void SetConstraints(IEnumerable<IConstraint> constraintRegistrations)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<IConstraint> Constraints
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 

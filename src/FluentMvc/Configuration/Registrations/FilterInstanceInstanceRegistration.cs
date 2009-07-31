@@ -15,6 +15,11 @@ namespace FluentMvc.Configuration.Registrations
             this.itemInstance = itemInstance;
         }
 
+        public FilterInstanceInstanceRegistration(IConstraint constraint, object filterInstance)
+            : this(constraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, filterInstance)
+        {
+        }
+
         public override ActionFilterRegistryItem CreateRegistryItem(Type filterType)
         {
             return new ActionFilterRegistryItem(new InstanceItemActivator(itemInstance), Constraint, ActionDescriptor, ControllerDescriptor);
