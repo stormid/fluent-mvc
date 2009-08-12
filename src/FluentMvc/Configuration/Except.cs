@@ -38,7 +38,7 @@ namespace FluentMvc.Configuration
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(actionDescriptor);
-            var contContraint = new ContinuationConstraint(actionConstraint, controllerTypeConstraint);
+            var contContraint = new ContinuationConstraint(controllerTypeConstraint, actionConstraint);
             return new InverseConstraint(contContraint);
         }
 
