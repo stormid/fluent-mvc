@@ -18,8 +18,6 @@ namespace FluentMvc
             set { acceptTypes = value; }
         }
 
-        public bool IsAjaxRequest { get; private set; }
-
         protected RegistrySelector()
         {
         }
@@ -39,7 +37,6 @@ namespace FluentMvc
         private void RegisterControllerRequestData(HttpRequestBase request)
         {
             AcceptTypes = request.AcceptTypes;
-            IsAjaxRequest = request.IsAjaxRequest();
         }
 
         private bool ControllerContextIsValid()

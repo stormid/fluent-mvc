@@ -6,7 +6,7 @@ namespace FluentMvc.Constraints
     {
         public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
         {
-            return selector.IsAjaxRequest || selector.AcceptTypes.Contains("application/json");
+            return selector.AcceptTypes.Contains("application/json");
         }
     }
 
@@ -14,7 +14,7 @@ namespace FluentMvc.Constraints
     {
         public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
         {
-            return !selector.IsAjaxRequest && selector.AcceptTypes.Contains("text/html");
+            return selector.AcceptTypes.Contains("text/html");
         }
     }
 }
