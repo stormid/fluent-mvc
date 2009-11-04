@@ -42,7 +42,7 @@ namespace FluentMvc.Spec.Unit.Conventions.FilterConventions
     {
         public static bool WasExecuted;
 
-        public void Apply<TDsl>(IFilterRegistration<TDsl> filterRegistration)
+        public void ApplyConvention<TDsl>(IFilterRegistration<TDsl> filterRegistration)
         {
             WasExecuted = true;
             filterRegistration.WithFilter<TestActionFilter>();
