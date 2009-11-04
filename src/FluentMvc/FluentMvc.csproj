@@ -39,10 +39,15 @@
     <Compile Include="ActionFilterRegistryItem.cs" />
     <Compile Include="ActionFilterSelector.cs" />
     <Compile Include="ActionResultResolver.cs" />
+    <Compile Include="Configuration\IFilterRegistration.cs" />
+    <Compile Include="Configuration\IResultFactoryRegistration.cs" />
     <Compile Include="Constraints\AndConstraint.cs" />
     <Compile Include="Configuration\Registrations\FilterInstanceInstanceRegistration.cs" />
     <Compile Include="Configuration\Registrations\TypeRegistration.cs" />
     <Compile Include="Configuration\WhenDsl.cs" />
+    <Compile Include="Conventions\FilterConventionCollection.cs" />
+    <Compile Include="Conventions\IFilterConvention.cs" />
+    <Compile Include="Conventions\IFilterConventionCollection.cs" />
     <Compile Include="IActionFilterResolver.cs" />
     <Compile Include="IActionResultResolver.cs" />
     <Compile Include="ItemActivator.cs" />

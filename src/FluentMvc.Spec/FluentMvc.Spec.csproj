@@ -60,6 +60,7 @@
     <Compile Include="Unit\ConfigurationDsl\ApplySpec.cs" />
     <Compile Include="Unit\ConfigurationDsl\ConfigurationDsl_Take2Spec.cs" />
     <Compile Include="Unit\ConfigurationDsl\FilterConfigurationSpec.cs" />
+    <Compile Include="Unit\Conventions\FilterConventions\FilterConventionCollectionSpec.cs" />
     <Compile Include="Unit\Resolvers\FluentMvcResolverCreateSpec.cs" />
     <Compile Include="Unit\Resolvers\FluentMvcResolverSpecBase.cs" />
     <Compile Include="TestActionResultFactory.cs" />
