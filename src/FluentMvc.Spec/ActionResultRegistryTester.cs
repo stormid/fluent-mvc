@@ -31,7 +31,7 @@ namespace FluentMvc.Spec
             where T : Controller
         {
             var actionDescriptor = func.CreateActionDescriptor();
-            var constraint = new PredefinedConstraint(true);
+            var constraint = PredefinedConstraint.True;
             inner.Add(new ActionResultRegistryItem(typeof(TestActionResultFactory), constraint, actionDescriptor, actionDescriptor.ControllerDescriptor));
 
             return actionDescriptor;

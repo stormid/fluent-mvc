@@ -31,7 +31,7 @@ namespace FluentMvc
 
         public IConstraint Constraint
         {
-            get { return constraint ?? new PredefinedConstraint(true); }
+            get { return constraint ?? PredefinedConstraint.True; }
             protected set { constraint = value; }
         }
 

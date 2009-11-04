@@ -102,14 +102,14 @@ namespace FluentMvc.Configuration
         {
             filterConstaintRegistrations.Add(typeof(TFilter), new HashSet<TransientRegistration>
                                                                   {
-                                                                      new InstanceRegistration(new PredefinedConstraint(true))
+                                                                      new InstanceRegistration(PredefinedConstraint.True)
                                                                   });
             return (TDsl)this;
         }
 
         public TDsl WithFilter<T>(T filterInstance)
         {
-            var registration = new FilterInstanceInstanceRegistration(new PredefinedConstraint(true), filterInstance);
+            var registration = new FilterInstanceInstanceRegistration(PredefinedConstraint.True, filterInstance);
 
             RegisterFilter(filterInstance.GetType(), new[] {registration});
 

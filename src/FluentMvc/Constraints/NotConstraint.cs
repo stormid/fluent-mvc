@@ -1,10 +1,10 @@
 namespace FluentMvc.Constraints
 {
-    public class InverseConstraint : IConstraint
+    public class NotConstraint : IConstraint
     {
         private readonly IConstraint constraint;
 
-        public InverseConstraint(IConstraint constraint)
+        public NotConstraint(IConstraint constraint)
         {
             this.constraint = constraint;
         }

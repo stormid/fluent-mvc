@@ -34,12 +34,12 @@ namespace FluentMvc.Configuration
             return dsl;
         }
 
-        private static InverseConstraint CreateActionConstraint<TController>(ActionDescriptor actionDescriptor)
+        private static NotConstraint CreateActionConstraint<TController>(ActionDescriptor actionDescriptor)
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(actionDescriptor);
-            var contContraint = new ContinuationConstraint(controllerTypeConstraint, actionConstraint);
-            return new InverseConstraint(contContraint);
+            var contContraint = new AndConstraint(controllerTypeConstraint, actionConstraint);
+            return new NotConstraint(contContraint);
         }
 
         public override ConstraintDsl<Except> AndFor<TController>()

@@ -39,7 +39,7 @@
     <Compile Include="ActionFilterRegistryItem.cs" />
     <Compile Include="ActionFilterSelector.cs" />
     <Compile Include="ActionResultResolver.cs" />
-    <Compile Include="Constraints\ContinuationConstraint.cs" />
+    <Compile Include="Constraints\AndConstraint.cs" />
     <Compile Include="Configuration\Registrations\FilterInstanceInstanceRegistration.cs" />
     <Compile Include="Configuration\Registrations\TypeRegistration.cs" />
     <Compile Include="Configuration\WhenDsl.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="Configuration\Except.cs" />
     <Compile Include="Configuration\FluentMvcDslBase.cs" />
     <Compile Include="Constraints\ExpectsJson.cs" />
-    <Compile Include="Constraints\InverseConstraint.cs" />
+    <Compile Include="Constraints\NotConstraint.cs" />
     <Compile Include="EmptyActionDescriptor.cs" />
     <Compile Include="Constraints\PredefinedConstraint.cs" />
     <Compile Include="Constraints\ControllerTypeConstraint.cs" />
