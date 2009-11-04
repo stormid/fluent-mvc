@@ -1,3 +1,5 @@
+using FluentMvc.Conventions;
+
 namespace FluentMvc.Spec.Unit.ConfigurationDsl
 {
     using System;
@@ -38,7 +40,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         {
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             filterInstance = CreateStub<IActionFilter>();
-            FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter(filterInstance).BuildControllerFactory();
         }
 
@@ -304,15 +306,17 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         private IFluentMvcResolver fluentMvcResolver;
         private IActionFilterRegistry actionFilterRegistry;
         private IActionResultRegistry actionResultRegistry;
+        private IFilterConventionCollection filterConventionCollection;
 
         public override void Given()
         {
             fluentMvcResolver = CreateStub<IFluentMvcResolver>();
             actionFilterRegistry = CreateStub<IActionFilterRegistry>();
             actionResultRegistry = CreateStub<IActionResultRegistry>();
+            filterConventionCollection = CreateStub<IFilterConventionCollection>();
 
             Configuration = FluentMvcConfiguration
-                .Create(fluentMvcResolver, actionFilterRegistry, actionResultRegistry);
+                .Create(fluentMvcResolver, actionFilterRegistry, actionResultRegistry, filterConventionCollection);
         }
 
         public override void Because()
@@ -340,6 +344,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             fluentMvcResolver
                 .AssertWasCalled(arr => arr.RegisterActionResultPipeline(Arg<IActionResultPipeline>.Is.Anything));
         }
+
+        [Test]
+        public void should_load_filter_conventions()
+        {
+            filterConventionCollection
+                .AssertWasCalled(x => x.ApplyConventions(Arg<FluentMvcConfiguration>.Is.Anything));
+        }
     }
 
     
@@ -352,7 +363,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public override void Given()
         {
             actionResultRegistry = new ActionResultRegistry();
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), CreateStub<IActionFilterRegistry>(), actionResultRegistry)
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), CreateStub<IActionFilterRegistry>(), actionResultRegistry, CreateStub<IFilterConventionCollection>())
                 .WithResultFactory<JsonResultFactory>(Apply.When<TrueReturningConstraint>());
         }
 

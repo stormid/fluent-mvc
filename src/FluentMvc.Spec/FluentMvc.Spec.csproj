@@ -36,6 +36,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ControllerContextBuilder.cs" />
+    <Compile Include="FalseReturningConstraint.cs" />
     <Compile Include="GettingStartExamples.cs" />
     <Compile Include="Issues\HasItemsExtensionMethod.cs" />
     <Compile Include="Issues\RegisteringFilterTypeForMultipileControllersRemovesIt.cs" />
@@ -45,7 +46,6 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="TestController.cs" />
     <Compile Include="TestActionFilter.cs" />
-    <Compile Include="FalseReturningConstraint.cs" />
     <Compile Include="SecondTestController.cs" />
     <Compile Include="TrueReturningConstraint.cs" />
     <Compile Include="Unit\ActionFilterRegistrySpecs\ActionFilterRegistrySpec.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Unit\ConfigurationDsl\ApplySpec.cs" />
     <Compile Include="Unit\ConfigurationDsl\ConfigurationDsl_Take2Spec.cs" />
     <Compile Include="Unit\ConfigurationDsl\FilterConfigurationSpec.cs" />
+    <Compile Include="Unit\Conventions\FilterConventions\FilterConventionCollectionSpec.cs" />
     <Compile Include="Unit\Resolvers\FluentMvcResolverCreateSpec.cs" />
     <Compile Include="Unit\Resolvers\FluentMvcResolverSpecBase.cs" />
     <Compile Include="TestActionResultFactory.cs" />

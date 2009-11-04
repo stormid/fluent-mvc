@@ -64,5 +64,16 @@ namespace FluentMvc.Spec
                 .WithFilter(new AuthorizeAttribute { Roles = "Role"}, Apply.For<TestController>(tc => tc.ReturnPost()))
                 .BuildControllerFactory();
         }
+
+        [Test]
+        public void define_where_to_find_where_to_find_FilterConventions()
+        {
+            FluentMvcConfiguration.Configure = config =>
+                                                   {
+                                                       config.
+                                                           FilterConventions.
+                                                           LoadFromAssemblyContaining<GettingStartExamples>();
+                                                   };
+        }
     }
 }

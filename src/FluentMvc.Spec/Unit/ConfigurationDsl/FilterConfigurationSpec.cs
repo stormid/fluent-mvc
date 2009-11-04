@@ -1,3 +1,5 @@
+using FluentMvc.Conventions;
+
 namespace FluentMvc.Spec.Unit.ConfigurationDsl
 {
     using System;
@@ -20,7 +22,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         {
             objectFactory = CreateStub<IFluentMvcObjectFactory>();
             actionFilterRegistry = CreateStub<IActionFilterRegistry>();
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .ResolveWith(objectFactory)
                 .WithResultFactory<JsonResultFactory>();
         }
@@ -55,7 +57,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             Expression<Func<TestController, object>> func = c => c.ReturnPost();
             actionDescriptor = func.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<TestActionFilter>();
         }
 
@@ -88,7 +90,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             Expression<Func<TestController, object>> func = c => c.ReturnPost();
             actionDescriptor = func.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<TestActionFilter>()
                 .WithFilter<AuthorizeAttribute>(Apply.For<SecondTestController>());
         }
@@ -119,7 +121,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public override void Given()
         {
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<TestActionFilter>(Apply.When<TrueReturningConstraint>());
         }
 
@@ -149,7 +151,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionDescriptor = func.CreateActionDescriptor();
             anotherActionDescriptor = func2.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<TestActionFilter>(Except.For<TestController>());
         }
 
@@ -188,7 +190,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             secondActionDescriptor = func2.CreateActionDescriptor();
             thirdActionDescriptor = func3.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<TestActionFilter>(Except.For<TestController>().AndFor<ThirdTestController>());
         }
 
@@ -233,7 +235,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             secondActionDescriptor = func2.CreateActionDescriptor();
             thirdActionDescriptor = func3.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>());
         }
 
@@ -278,7 +280,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             secondActionDescriptor = func2.CreateActionDescriptor();
             excludedActionDescriptor = func3.CreateActionDescriptor();
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<AcceptVerbsAttribute>()
                 .WithFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>(func3));
         }
@@ -333,7 +335,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             Expression<Func<TestController, object>> otherFunc = controller => controller.ReturnViewResult();
             actionDescriptor = func.CreateActionDescriptor();
             incorrectActionDescriptor = otherFunc.CreateActionDescriptor();
-            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>())
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<TestActionFilter>(Except.For<SecondTestController>().AndFor<TestController>(func).AndFor<TestController>(t => t.ReturnNull()));
 
             registryTester = new ActionFilterRegistryTester(actionFilterRegistry);

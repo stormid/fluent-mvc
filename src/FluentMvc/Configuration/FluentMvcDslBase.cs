@@ -8,8 +8,7 @@ namespace FluentMvc.Configuration
     using Constraints;
     using Registrations;
 
-    public abstract class FluentMvcDslBase<TDsl>
-        where TDsl : FluentMvcDslBase<TDsl>
+    public abstract class FluentMvcDslBase<TDsl> : IFilterRegistration<TDsl>, IResultFactoryRegistration<TDsl> where TDsl : FluentMvcDslBase<TDsl>
     {
         protected IActionFilterRegistry actionFilterRegistry;
         protected IFluentMvcObjectFactory objectFactory;
@@ -102,14 +101,14 @@ namespace FluentMvc.Configuration
         {
             filterConstaintRegistrations.Add(typeof(TFilter), new HashSet<TransientRegistration>
                                                                   {
-                                                                      new InstanceRegistration(new PredefinedConstraint(true))
+                                                                      new InstanceRegistration(PredefinedConstraint.True)
                                                                   });
             return (TDsl)this;
         }
 
         public TDsl WithFilter<T>(T filterInstance)
         {
-            var registration = new FilterInstanceInstanceRegistration(new PredefinedConstraint(true), filterInstance);
+            var registration = new FilterInstanceInstanceRegistration(PredefinedConstraint.True, filterInstance);
 
             RegisterFilter(filterInstance.GetType(), new[] {registration});
 

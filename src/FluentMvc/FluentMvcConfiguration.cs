@@ -1,3 +1,5 @@
+using FluentMvc.Conventions;
+
 namespace FluentMvc
 {
     using System;
@@ -10,6 +12,8 @@ namespace FluentMvc
     {
         private IFluentMvcResolver fluentMvcResolver;
 
+        public IFilterConventionCollection FilterConventions { get; protected set; }
+
         public static Action<FluentMvcConfiguration> Configure { get; set; }
 
         private FluentMvcConfiguration()
@@ -19,22 +23,24 @@ namespace FluentMvc
             objectFactory = new FluentMvcObjectFactory();
         }
 
-        private FluentMvcConfiguration(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
+        private FluentMvcConfiguration(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry, IFilterConventionCollection filterConventionCollection)
             : this()
         {
             this.fluentMvcResolver = fluentMvcResolver;
             this.actionResultRegistry = actionResultRegistry;
             this.actionFilterRegistry = actionFilterRegistry;
+            FilterConventions = filterConventionCollection;
         }
 
         public static FluentMvcConfiguration Create()
         {
-            return Create(null, new ActionFilterRegistry(new FluentMvcObjectFactory()), new ActionResultRegistry());
+            // TODO: Pass in the null is a bad hack, sort it
+            return Create(null, new ActionFilterRegistry(new FluentMvcObjectFactory()), new ActionResultRegistry(), new FilterConventionCollection());
         }
 
-        public static FluentMvcConfiguration Create(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry)
+        public static FluentMvcConfiguration Create(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry, IFilterConventionCollection filterConventionCollection)
         {
-            return new FluentMvcConfiguration(fluentMvcResolver, actionFilterRegistry, actionResultRegistry);
+            return new FluentMvcConfiguration(fluentMvcResolver, actionFilterRegistry, actionResultRegistry, filterConventionCollection);
         }
         
         public virtual IControllerFactory BuildControllerFactory()
@@ -42,12 +48,18 @@ namespace FluentMvc
             CreateDependencies();
             SetDefaultFactory();
             BuildActionResultFactoryPipeline();
+            RunFilterConventions();
             RegisterFilters();
             PrepareResolver();
 
             IControllerFactory controllerFactory = CreateControllerFactory();
 
             return controllerFactory;
+        }
+
+        private void RunFilterConventions()
+        {
+            FilterConventions.ApplyConventions(this);
         }
 
         private void PrepareResolver()

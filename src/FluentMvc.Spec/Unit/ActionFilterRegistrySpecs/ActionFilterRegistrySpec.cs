@@ -29,7 +29,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof (TestActionFilter), new TrueReturningConstraint(), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof (TestActionFilter), PredefinedConstraint.True, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), new FalseReturningConstraint(), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), PredefinedConstraint.False, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
         }
 
         [Test]

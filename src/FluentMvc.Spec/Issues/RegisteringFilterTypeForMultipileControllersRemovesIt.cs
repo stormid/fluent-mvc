@@ -1,3 +1,5 @@
+using FluentMvc.Conventions;
+
 namespace FluentMvc.Spec.Issues
 {
     using System;
@@ -27,7 +29,7 @@ namespace FluentMvc.Spec.Issues
 
             func = c => c.ReturnPost();
 
-            var config = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>());
+            var config = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>());
 
             config.ExposeConfiguration(x =>
                                            {

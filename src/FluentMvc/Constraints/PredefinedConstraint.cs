@@ -4,7 +4,10 @@ namespace FluentMvc.Constraints
     {
         private readonly bool value;
 
-        public PredefinedConstraint(bool value)
+        public static IConstraint True = new PredefinedConstraint(true);
+        public static IConstraint False = new PredefinedConstraint(false);
+
+        protected PredefinedConstraint(bool value)
         {
             this.value = value;
         }
