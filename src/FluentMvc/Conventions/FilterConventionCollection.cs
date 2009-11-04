@@ -21,7 +21,7 @@ namespace FluentMvc.Conventions
 
             foreach (var filterConvention in convetions)
             {
-                filterConvention.Apply(filterRegistration);
+                filterConvention.ApplyConvention(filterRegistration);
             }
         }
 
