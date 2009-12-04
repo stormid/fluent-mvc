@@ -56,5 +56,11 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             registrations.Length.ShouldEqual(1);
             registrations[0].ActionDescriptor.ActionName.ShouldEqual(expression.CreateActionDescriptor().ActionName);
         }
+
+        [Test]
+        public void Apply_Except()
+        {
+            Apply.For<TestController>().ExceptFor<TestController>(x => x.ReturnPost()).GetConstraintRegistrations(factory).Count().ShouldEqual(2);
+        }
     }
 }
