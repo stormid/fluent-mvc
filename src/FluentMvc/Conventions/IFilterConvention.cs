@@ -4,6 +4,6 @@ namespace FluentMvc.Conventions
 {
     public interface IFilterConvention
     {
-        void ApplyConvention<TDsl>(IFilterRegistration<TDsl> filterRegistration);
+        void ApplyConvention(IFilterRegistration filterRegistration);
     }
 }
