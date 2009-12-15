@@ -3,12 +3,12 @@ using FluentMvc.Configuration.Registrations;
 
 namespace FluentMvc.Configuration
 {
-    public interface IFilterRegistration<TDsl>
+    public interface IFilterRegistration
     {
-        TDsl WithFilter<T>(ConstraintDsl constraint);
-        TDsl WithFilter<TFilter>();
-        TDsl WithFilter<T>(T filterInstance);
-        TDsl WithFilter<T>(T filterInstance, ConstraintDsl constraint);
-        TDsl WithFilter<TFilter>(IEnumerable<TransientRegistration> registrations);
+        void WithFilter<TFilter>(ConstraintDsl constraint);
+        void WithFilter<TFilter>();
+        void WithFilter<TFilter>(TFilter filterInstance);
+        void WithFilter<TFilter>(TFilter filterInstance, ConstraintDsl constraint);
+        void WithFilter<TFilter>(IEnumerable<TransientRegistration> registrations);
     }
 }

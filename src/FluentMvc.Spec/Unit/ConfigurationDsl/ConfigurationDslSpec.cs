@@ -349,7 +349,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public void should_load_filter_conventions()
         {
             filterConventionCollection
-                .AssertWasCalled(x => x.ApplyConventions(Arg<FluentMvcConfiguration>.Is.Anything));
+                .AssertWasCalled(x => x.ApplyConventions(Arg<IFilterRegistration>.Is.Anything));
         }
     }
 
