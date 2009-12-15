@@ -15,7 +15,7 @@ namespace FluentMvc.Conventions
             return this;
         }
 
-        public void ApplyConventions(IFilterRegistration filterRegistration)
+        public void ApplyConventions<TDsl>(IFilterRegistration<TDsl> filterRegistration)
         {
             var convetions = FindConventions();
 

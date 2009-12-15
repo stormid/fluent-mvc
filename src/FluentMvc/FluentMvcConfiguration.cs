@@ -59,7 +59,7 @@ namespace FluentMvc
 
         private void RunFilterConventions()
         {
-            FilterConventions.ApplyConventions(new MvcFilterConfigurationAdapter(this));
+            FilterConventions.ApplyConventions(this);
         }
 
         private void PrepareResolver()
@@ -129,41 +129,6 @@ namespace FluentMvc
             Configure(config);
 
             return config.BuildControllerFactory();
-        }
-    }
-
-    internal class MvcFilterConfigurationAdapter : IFilterRegistration
-    {
-        private readonly FluentMvcConfiguration fluentMvcConfiguration;
-
-        public MvcFilterConfigurationAdapter(FluentMvcConfiguration fluentMvcConfiguration)
-        {
-            this.fluentMvcConfiguration = fluentMvcConfiguration;
-        }
-
-        public void WithFilter<TFilter>(ConstraintDsl constraint)
-        {
-            fluentMvcConfiguration.WithFilter<TFilter>(constraint);
-        }
-
-        public void WithFilter<TFilter>()
-        {
-            fluentMvcConfiguration.WithFilter<TFilter>();
-        }
-
-        public void WithFilter<TFilter>(TFilter filterInstance)
-        {
-            fluentMvcConfiguration.WithFilter(filterInstance);
-        }
-
-        public void WithFilter<TFilter>(TFilter filterInstance, ConstraintDsl constraint)
-        {
-            fluentMvcConfiguration.WithFilter(filterInstance, constraint);
-        }
-
-        public void WithFilter<TFilter>(IEnumerable<TransientRegistration> registrations)
-        {
-            fluentMvcConfiguration.WithFilter<TFilter>(registrations);
         }
     }
 }

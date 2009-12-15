@@ -9,7 +9,7 @@ namespace FluentMvc.Spec.Unit.Conventions.FilterConventions
     public class when_applying_the_conventions : SpecificationBase
     {
         private FilterConventionCollection filterConventionCollection;
-        private IFilterRegistration filterRegistration;
+        private IFilterRegistration<FluentMvcConfiguration> filterRegistration;
 
         public override void Given()
         {
@@ -17,7 +17,7 @@ namespace FluentMvc.Spec.Unit.Conventions.FilterConventions
             filterConventionCollection
                 .LoadFromAssemblyContaining<TestConvention>();
 
-            filterRegistration = CreateStub<IFilterRegistration>();
+            filterRegistration = CreateStub<IFilterRegistration<FluentMvcConfiguration>>();
         }
 
         public override void Because()
@@ -42,7 +42,7 @@ namespace FluentMvc.Spec.Unit.Conventions.FilterConventions
     {
         public static bool WasExecuted;
 
-        public void ApplyConvention(IFilterRegistration filterRegistration)
+        public void ApplyConvention<TDsl>(IFilterRegistration<TDsl> filterRegistration)
         {
             WasExecuted = true;
             filterRegistration.WithFilter<TestActionFilter>();
