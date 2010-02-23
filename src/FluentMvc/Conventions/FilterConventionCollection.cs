@@ -11,7 +11,12 @@ namespace FluentMvc.Conventions
 
         public IFilterConventionCollection LoadFromAssemblyContaining<T>()
         {
-            conventionFinders.Add(new AssemblySearcher(typeof (T).Assembly));
+            return LoadFromAssembly(typeof(T).Assembly);
+        }
+
+        public IFilterConventionCollection LoadFromAssembly(Assembly assembly)
+        {
+            conventionFinders.Add(new AssemblySearcher(assembly));
             return this;
         }
 
