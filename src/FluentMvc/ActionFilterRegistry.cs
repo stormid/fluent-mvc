@@ -11,7 +11,7 @@ namespace FluentMvc
 
         public ActionFilterRegistry(IFluentMvcObjectFactory objectFactory)
         {
-            this.objectFactory = objectFactory;
+            SetObjectFactory(objectFactory);
         }
 
         public void AddFiltersTo(FilterInfo baseFilters, ActionFilterSelector selector)

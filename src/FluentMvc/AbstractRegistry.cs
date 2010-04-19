@@ -1,3 +1,5 @@
+using System;
+
 namespace FluentMvc
 {
     using System.Collections.Generic;
@@ -18,23 +20,20 @@ namespace FluentMvc
 
         public virtual void Add(IEnumerable<TRegistryItem> registryItems)
         {
-            rwLock.EnterWriteLock();
-            try
-            {
-                registry = new HashSet<TRegistryItem>(registry.Concat(registryItems));
-            }
-            finally
-            {
-                rwLock.ExitWriteLock();
-            }
+            PerformActionInLock(() => registry = new HashSet<TRegistryItem>(registry.Concat(registryItems)));
         }
 
         public virtual void Add(TRegistryItem registryItem)
         {
+            PerformActionInLock(() => registry.Add(registryItem));
+        }
+
+        private void PerformActionInLock(Action action)
+        {
             rwLock.EnterWriteLock();
             try
             {
-                registry.Add(registryItem);
+                action();
             }
             finally
             {
@@ -55,20 +54,18 @@ namespace FluentMvc
 
         public virtual TRegistryItem[] FindForSelector(TSelector selector)
         {
-            rwLock.EnterReadLock();
-            try
-            {
-                IEnumerable<TRegistryItem> items = registry;
+            IEnumerable<TRegistryItem> applicable = null;
+            IEnumerable<TRegistryItem> toRemove = null;
 
-                IEnumerable<TRegistryItem> applicable = FindApplicableItems(items, selector);
-                IEnumerable<TRegistryItem> toRemove = FindItemsToRemove(items, selector);
+            PerformActionInLock(() =>
+                                    {
+                                        IEnumerable<TRegistryItem> items = registry;
 
-                return applicable.Except(toRemove, new RegistryEqualityComparer<TRegistryItem>()).Distinct().ToArray();
-            }
-            finally
-            {
-                rwLock.ExitReadLock();
-            }
+                                        applicable = FindApplicableItems(items, selector);
+                                        toRemove = FindItemsToRemove(items, selector);
+                                    });
+
+            return applicable.Except(toRemove, new RegistryEqualityComparer<TRegistryItem>()).Distinct().ToArray();
         }
 
         private IEnumerable<TRegistryItem> FindItemsToRemove(IEnumerable<TRegistryItem> items, TSelector selector)

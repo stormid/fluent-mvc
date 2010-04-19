@@ -1,3 +1,6 @@
+using System;
+using System.Web.Routing;
+
 namespace FluentMvc
 {
     using System.Web;
@@ -18,6 +21,8 @@ namespace FluentMvc
             set { acceptTypes = value; }
         }
 
+        public RouteData RouteData { get; private set; }
+
         protected RegistrySelector()
         {
         }
@@ -28,15 +33,23 @@ namespace FluentMvc
             ControllerDescriptor = controllerDescriptor;
             ControllerContext = controllerContext;
 
-            if (ControllerContextIsValid())
-            {
-                RegisterControllerRequestData(ControllerContext.HttpContext.Request);
-            }
+            if (ControllerContextIsValid()) RegisterControllerRequestData(ControllerContext.HttpContext.Request);
+            if (ControllerRouteDataIsValid()) RegisterControllerRouteData(ControllerContext.RouteData);
+        }
+
+        private void RegisterControllerRouteData(RouteData routeData)
+        {
+            RouteData = routeData;
         }
 
         private void RegisterControllerRequestData(HttpRequestBase request)
         {
             AcceptTypes = request.AcceptTypes;
+        }
+
+        private bool ControllerRouteDataIsValid()
+        {
+            return ControllerContext != null && ControllerContext.RouteData != null;
         }
 
         private bool ControllerContextIsValid()
