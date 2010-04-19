@@ -34,6 +34,14 @@ namespace FluentMvc.Configuration
             return dsl;
         }
 
+        public static ConstraintDsl<Except> ForArea<TArea>() where TArea : AreaRegistration, new()
+        {
+            var dsl = new Except();
+            dsl.AddRegistration(dsl.CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+
+            return dsl;
+        }
+
         private static NotConstraint CreateActionConstraint<TController>(ActionDescriptor actionDescriptor)
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();

@@ -20,9 +20,15 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         }
 
         [Test]
-        public void TESTNAME()
+        public void can_apply()
         {
             Apply.ForArea<TestAreaRegistration>().GetConstraintRegistrations(factory).Count().ShouldBeGreaterThan(0);
+        }
+
+        [Test]
+        public void can_except()
+        {
+            Except.ForArea<TestAreaRegistration>().GetConstraintRegistrations(factory).Count().ShouldBeGreaterThan(0);
         }
     }
 }

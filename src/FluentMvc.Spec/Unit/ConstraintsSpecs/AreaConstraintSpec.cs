@@ -74,7 +74,41 @@ namespace FluentMvc.Spec.Unit.ConstraintsSpecs
         }
 
         [Test]
-        public void should_be_satisfied()
+        public void should_not_be_satisfied()
+        {
+            isSatisfiedBy.ShouldBeFalse();
+        }
+    }
+
+    [TestFixture]
+    public class when_no_area_is_present : SpecificationBase
+    {
+        private AreaConstraint constraint;
+        private bool isSatisfiedBy;
+        private ControllerContext controllerContext;
+
+        public override void Given()
+        {
+            constraint = new AreaConstraint(new TestAreaRegistration());
+
+            var routeData = new RouteData();
+
+            var httpContextBase = CreateStub<HttpContextBase>();
+            httpContextBase.Stub(x => x.Request).Return(CreateStub<HttpRequestBase>());
+
+            controllerContext = new ControllerContext
+            {
+                RequestContext = new RequestContext(httpContextBase, routeData),
+            };
+        }
+
+        public override void Because()
+        {
+            isSatisfiedBy = constraint.IsSatisfiedBy(new ActionFilterSelector(controllerContext, null, null));
+        }
+
+        [Test]
+        public void should_not_be_satisfied()
         {
             isSatisfiedBy.ShouldBeFalse();
         }

@@ -38,9 +38,8 @@ namespace FluentMvc.Configuration
         public static ConstraintDsl<Apply> ForArea<TArea>()
             where TArea : AreaRegistration, new()
         {
-            var registration = new InstanceRegistration(new AreaConstraint(new TArea()));
             var dsl = new Apply();
-            dsl.AddRegistration(registration);
+            dsl.AddRegistration(dsl.CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
 
             return dsl;
         }
