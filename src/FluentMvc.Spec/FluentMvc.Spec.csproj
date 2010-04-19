@@ -50,6 +50,7 @@
     <Compile Include="TrueReturningConstraint.cs" />
     <Compile Include="Unit\ActionFilterRegistrySpecs\ActionFilterRegistrySpec.cs" />
     <Compile Include="Unit\ActionFilterRegistrySpecs\ActionFilterRegistryTester.cs" />
+    <Compile Include="TestAreaRegistration.cs" />
     <Compile Include="Unit\ActionInvokerSpecs\FluentMvcActionInvokerSpec.cs" />
     <Compile Include="Unit\ActionResultFactorySpecs\ActionResultFactoryTester.cs" />
     <Compile Include="Unit\ActionResultFactorySpecs\ActionResultSubFactorySpec.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Unit\ActionResultRegistrySpecs\ActionResultRegistrySpec.cs" />
     <Compile Include="Unit\ActionResultRegistrySpecs\ActionResultRegistrySpecBase.cs" />
     <Compile Include="Unit\ConfigurationDsl\ApplySpec.cs" />
+    <Compile Include="Unit\ConfigurationDsl\AreaConstraintsDslSpec.cs" />
     <Compile Include="Unit\ConfigurationDsl\ConfigurationDsl_Take2Spec.cs" />
     <Compile Include="Unit\ConfigurationDsl\FilterConfigurationSpec.cs" />
     <Compile Include="Unit\ConstraintsSpecs\AreaConstraintSpec.cs" />

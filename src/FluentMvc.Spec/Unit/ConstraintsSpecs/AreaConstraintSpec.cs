@@ -1,8 +1,8 @@
-using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using FluentMvc.Constraints;
+using FluentMvc.Spec.Unit.ActionFilterRegistrySpecs;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -77,36 +77,6 @@ namespace FluentMvc.Spec.Unit.ConstraintsSpecs
         public void should_be_satisfied()
         {
             isSatisfiedBy.ShouldBeFalse();
-        }
-    }
-
-    public class TestAreaRegistration : AreaRegistration
-    {
-        public override void RegisterArea(AreaRegistrationContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string AreaName
-        {
-            get { return "Test"; }
-        }
-    }
-
-    public class AreaConstraint : IConstraint
-    {
-        private readonly TestAreaRegistration areaRegistration;
-
-        public AreaConstraint(TestAreaRegistration areaRegistration)
-        {
-            this.areaRegistration = areaRegistration;
-        }
-
-        public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
-        {
-            var areaName = selector.RouteData.GetRequiredString("area");
-
-            return areaRegistration.AreaName == areaName;
         }
     }
 }

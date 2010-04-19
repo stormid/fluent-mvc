@@ -45,6 +45,7 @@
     <Compile Include="Configuration\Registrations\FilterInstanceInstanceRegistration.cs" />
     <Compile Include="Configuration\Registrations\TypeRegistration.cs" />
     <Compile Include="Configuration\WhenDsl.cs" />
+    <Compile Include="Constraints\AreaConstraint.cs" />
     <Compile Include="Conventions\FilterConventionCollection.cs" />
     <Compile Include="Conventions\IFilterConvention.cs" />
     <Compile Include="Conventions\IFilterConventionCollection.cs" />
