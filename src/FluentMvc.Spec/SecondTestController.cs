@@ -11,6 +11,11 @@ namespace FluentMvc.Spec
         }
 
         public Post ReturnPost() { return new Post(); }
+
+        public ActionResult SomethingWithArguments(string arg1, string arg2)
+        {
+            return null;
+        }
     }
 
     public class ThirdTestController : Controller

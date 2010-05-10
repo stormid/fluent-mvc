@@ -1,10 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc", "FluentMvc\FluentMvc.csproj", "{3C4F825E-7713-430E-9E08-8D09C0798781}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc.Spec", "FluentMvc.Spec\FluentMvc.Spec.csproj", "{AF5E2940-45BC-4C8F-AB22-632D6F385E66}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93332FA3-6D0F-4059-85B9-CB35BE4B8EEB}"
 	ProjectSection(SolutionItems) = preProject
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
@@ -16,6 +12,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuickStart", "QuickStart", "{B440C02D-2E84-4647-BADB-2325F5E8D0BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8B6CF4B3-65BC-40BC-BF85-020A15AD9709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc", "FluentMvc\FluentMvc.csproj", "{3C4F825E-7713-430E-9E08-8D09C0798781}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc.Spec", "FluentMvc.Spec\FluentMvc.Spec.csproj", "{AF5E2940-45BC-4C8F-AB22-632D6F385E66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quickstart", "Quickstart\Quickstart.csproj", "{02A79397-159B-4C29-A3E4-1D60BCFA39BC}"
 EndProject
@@ -42,8 +42,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AF5E2940-45BC-4C8F-AB22-632D6F385E66} = {8B6CF4B3-65BC-40BC-BF85-020A15AD9709}
-		{3C4F825E-7713-430E-9E08-8D09C0798781} = {8B6CF4B3-65BC-40BC-BF85-020A15AD9709}
 		{02A79397-159B-4C29-A3E4-1D60BCFA39BC} = {B440C02D-2E84-4647-BADB-2325F5E8D0BD}
+		{3C4F825E-7713-430E-9E08-8D09C0798781} = {8B6CF4B3-65BC-40BC-BF85-020A15AD9709}
+		{AF5E2940-45BC-4C8F-AB22-632D6F385E66} = {8B6CF4B3-65BC-40BC-BF85-020A15AD9709}
 	EndGlobalSection
 EndGlobal

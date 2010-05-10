@@ -80,7 +80,7 @@ namespace FluentMvc
 
         private bool ControllerHasAction(ActionDescriptor descriptor)
         {
-            return actionDescriptor.ControllerDescriptor.GetCanonicalActions().Any(x => x.ActionName == descriptor.ActionName);
+            return actionDescriptor.ControllerDescriptor.GetCanonicalActions().Any(x => x.ActionName.Equals(descriptor.ActionName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         private bool IsCorrectAction(ActionDescriptor descriptor)
