@@ -20,8 +20,9 @@ namespace FluentMvc.Configuration
 
         internal WhenDsl(TDsl innerDsl, Type guardConstraintType)
         {
-            guardContraintRegistration = CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
             this.innerDsl = innerDsl;
+            guardContraintRegistration = innerDsl.CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
+            //guardContraintRegistration = CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
         }
 
         public override ConstraintDsl<WhenDsl<TDsl>> AndFor<TController>()

@@ -62,6 +62,8 @@
     <Compile Include="ActionResultResolver.cs" />
     <Compile Include="Configuration\IFilterRegistration.cs" />
     <Compile Include="Configuration\IResultFactoryRegistration.cs" />
+    <Compile Include="Configuration\Registrations\ExceptInstanceRegistration.cs" />
+    <Compile Include="Configuration\Registrations\ExceptTransientRegistration.cs" />
     <Compile Include="Constraints\AndConstraint.cs" />
     <Compile Include="Configuration\Registrations\FilterInstanceInstanceRegistration.cs" />
     <Compile Include="Configuration\Registrations\TypeRegistration.cs" />

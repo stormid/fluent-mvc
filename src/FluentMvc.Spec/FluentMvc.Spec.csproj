@@ -59,6 +59,7 @@
     <Compile Include="ControllerContextBuilder.cs" />
     <Compile Include="FalseReturningConstraint.cs" />
     <Compile Include="GettingStartExamples.cs" />
+    <Compile Include="Issues\ExceptWhenNotCorrectlyApplied.cs" />
     <Compile Include="Issues\HasItemsExtensionMethod.cs" />
     <Compile Include="Issues\RegisteringFilterTypeForMultipileControllersRemovesIt.cs" />
     <Compile Include="SpecificationExtensions.cs" />

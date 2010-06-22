@@ -33,8 +33,15 @@ namespace FluentMvc
             foreach (var item in FilterActionFilters<T>(applicableFilters))
             {
                 var filter = CreateFilter<T>(item);
+                BuildUp(filter);
+
                 AddFilter(baseFiltersList, filter);
             }
+        }
+
+        private void BuildUp<T>(T filter)
+        {
+            objectFactory.BuildUpProperties<T>(filter);
         }
 
         private void AddFilter<T>(ICollection<T> baseFiltersList, T filter)

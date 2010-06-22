@@ -13,12 +13,17 @@ namespace FluentMvc.Configuration
 
         public T CreateFactory<T>() where T : IActionResultFactory
         {
-            return (T) Activator.CreateInstance(typeof (T));
+            return (T)Activator.CreateInstance(typeof (T));
         }
 
         public virtual T Resolve<T>(Type concreteType)
         {
             return (T)Activator.CreateInstance(concreteType);
+        }
+
+        public virtual void BuildUpProperties<T>(T filter)
+        {
+            // Default implentation does nothing
         }
     }
 }

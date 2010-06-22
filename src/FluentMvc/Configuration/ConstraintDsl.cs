@@ -69,12 +69,12 @@ namespace FluentMvc.Configuration
             }
         }
 
-        protected InstanceRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        protected virtual InstanceRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
             return new InstanceRegistration(guardConstraint, actionDescriptor, controllerDescriptor);
         }
 
-        protected TransientRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        public virtual TransientRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
             return new TransientRegistration(guardConstraintType, actionDescriptor, controllerDescriptor);
         }

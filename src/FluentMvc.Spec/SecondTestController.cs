@@ -16,6 +16,17 @@ namespace FluentMvc.Spec
         {
             return null;
         }
+        
+        [TestFilter]
+        public ActionResult HasAnAttribute()
+        {
+            return null;
+        }
+    }
+
+    public class TestFilterAttribute : ActionFilterAttribute
+    {
+
     }
 
     public class ThirdTestController : Controller

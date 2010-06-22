@@ -42,26 +42,22 @@ namespace FluentMvc.Configuration
             return dsl;
         }
 
-        private static NotConstraint CreateActionConstraint<TController>(ActionDescriptor actionDescriptor)
+        private static IConstraint CreateActionConstraint<TController>(ActionDescriptor actionDescriptor)
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(actionDescriptor);
             var contContraint = new AndConstraint(controllerTypeConstraint, actionConstraint);
-            return new NotConstraint(contContraint);
+            return contContraint;
         }
 
-        public override ConstraintDsl<Except> AndFor<TController>()
+        protected override InstanceRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            ActionDescriptor actionDescriptor = EmptyActionDescriptor.Instance;
-            this.AddRegistration(new InstanceRegistration(CreateActionConstraint<TController>(actionDescriptor)));
-            return this;
+            return new ExceptInstanceRegistration(guardConstraint, actionDescriptor, controllerDescriptor);
         }
 
-        public override ConstraintDsl<Except> AndFor<TController>(Expression<Func<TController, object>> func)
+        public override TransientRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            AddRegistration(new InstanceRegistration(CreateActionConstraint<TController>(actionDescriptor)));
-            return this;
+            return new ExceptTransientRegistration(guardConstraintType, actionDescriptor, controllerDescriptor);
         }
     }
 }
