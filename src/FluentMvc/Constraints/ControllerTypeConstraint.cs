@@ -1,3 +1,5 @@
+using FluentMvc.Utils;
+
 namespace FluentMvc.Constraints
 {
     using System.Web.Mvc;
@@ -13,7 +15,7 @@ namespace FluentMvc.Constraints
 
         public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
         {
-            return selector.ControllerDescriptor.ControllerType.Equals(controllerDescriptor.ControllerType);
+            return selector.ControllerDescriptor.ControllerType.CanBeCastTo(controllerDescriptor.ControllerType);
         }
     }
 }

@@ -11,5 +11,20 @@ namespace FluentMvc.Utils
             MethodCallExpression methodCall = (MethodCallExpression)expression.Body;
             return methodCall.Method;
         }
+
+        public static bool CanBeCastTo<T>(this Type type)
+        {
+            return type.CanBeCastTo(typeof (T));
+        }
+
+        public static bool CanBeCastTo(this Type type, Type expected)
+        {
+            return expected.IsAssignableFrom(type);
+        }
+
+        public static bool CanBeCastTo<T>(this object instance)
+        {
+            return instance.GetType().CanBeCastTo<T>();
+        }
     }
 }

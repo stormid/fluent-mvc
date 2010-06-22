@@ -59,6 +59,7 @@
     <Compile Include="ControllerContextBuilder.cs" />
     <Compile Include="FalseReturningConstraint.cs" />
     <Compile Include="GettingStartExamples.cs" />
+    <Compile Include="Issues\ControllerTypeConstraintDoesNotWorkWithProxies.cs" />
     <Compile Include="Issues\ExceptWhenNotCorrectlyApplied.cs" />
     <Compile Include="Issues\HasItemsExtensionMethod.cs" />
     <Compile Include="Issues\RegisteringFilterTypeForMultipileControllersRemovesIt.cs" />
@@ -103,6 +104,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\lib\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2">
+      <HintPath>..\..\lib\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
     <Reference Include="MvcContrib.TestHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MvcContrib.TestHelper.dll</HintPath>
