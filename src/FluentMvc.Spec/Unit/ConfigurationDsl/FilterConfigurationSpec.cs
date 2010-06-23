@@ -1,3 +1,5 @@
+using System.Linq;
+using Castle.DynamicProxy;
 using FluentMvc.Conventions;
 
 namespace FluentMvc.Spec.Unit.ConfigurationDsl

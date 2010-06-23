@@ -7,6 +7,9 @@ namespace FluentMvc.Spec
         public ActionResult ReturnViewResult() { return View(); }
         public Post ReturnPost() { return new Post(); }
         public Post ReturnNull() { return null; }
+
+        [HttpPost]
+        public Post ReturnNull(Post post) { return null; }
     }
 
     public class Post

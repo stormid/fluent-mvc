@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using FluentMvc.Utils;
+
 namespace FluentMvc
 {
     using System;
@@ -66,8 +69,12 @@ namespace FluentMvc
             if (ControllerDescriptor == EmptyControllerDescriptor.Instance)
                 return true;
 
-            // HACK: Fugly and makes kittens cry, sort it!
-            return ControllerDescriptor.ControllerType.Equals(selector.ControllerDescriptor.ControllerType) && ControllerDescriptor.ControllerName.Equals(selector.ControllerDescriptor.ControllerName, StringComparison.InvariantCultureIgnoreCase);
+            var descriptor = selector.ControllerDescriptor;
+
+            var isCorrectType = descriptor.ControllerType.CanBeCastTo(ControllerDescriptor.ControllerType);
+            var isCorrentControllerName = descriptor.ControllerName.StartsWith(ControllerDescriptor.ControllerName, StringComparison.CurrentCultureIgnoreCase);
+
+            return isCorrectType && isCorrentControllerName;
         }
 
         public bool AppliesToAction<T>(T selector)  where T : RegistrySelector
@@ -75,25 +82,38 @@ namespace FluentMvc
             if (ActionDescriptor == EmptyActionDescriptor.Instance)
                 return true;
 
-            return IsCorrectAction(selector.ActionDescriptor) && ControllerHasAction(selector.ActionDescriptor);
-        }
 
-        private bool ControllerHasAction(ActionDescriptor descriptor)
-        {
-            return actionDescriptor.ControllerDescriptor.GetCanonicalActions().Any(x => x.ActionName.Equals(descriptor.ActionName, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        private bool IsCorrectAction(ActionDescriptor descriptor)
-        {
-            var reflectedActionDescriptor = ActionDescriptor as ReflectedActionDescriptor;
-            var selectorReflectedActionDescriptor = descriptor as ReflectedActionDescriptor;
-
-            return reflectedActionDescriptor.MethodInfo.Equals(selectorReflectedActionDescriptor.MethodInfo);
+            return new ActionDescriptorComparer().Compare(ActionDescriptor, selector.ActionDescriptor) > 0;
         }
 
         public TItem Create<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
         {
             return ItemActivator.Activate<TItem>(fluentMvcObjectFactory);
+        }
+    }
+
+    public class ActionDescriptorComparer : IComparer<ActionDescriptor>
+    {
+        public int Compare(ActionDescriptor x, ActionDescriptor y)
+        {
+            return IsCorrectAction(x, y) && ControllerHasAction(x,y)? 1 : 0;
+        }
+
+        private bool IsCorrectAction(ActionDescriptor actionDescriptor, ActionDescriptor descriptor)
+        {
+            var reflectedActionDescriptor = actionDescriptor as ReflectedActionDescriptor;
+            var selectorReflectedActionDescriptor = descriptor as ReflectedActionDescriptor;
+
+            var isCorrectAction = reflectedActionDescriptor.MethodInfo.Name.Equals(selectorReflectedActionDescriptor.MethodInfo.Name, StringComparison.CurrentCultureIgnoreCase);
+
+            var hasCorrectParamters = reflectedActionDescriptor.GetParameters().Length.Equals(selectorReflectedActionDescriptor.GetParameters().Length);
+
+            return isCorrectAction && hasCorrectParamters;
+        }
+
+        private bool ControllerHasAction(ActionDescriptor actionDescriptor, ActionDescriptor descriptor)
+        {
+            return actionDescriptor.ControllerDescriptor.GetCanonicalActions().Any(x => x.ActionName.Equals(descriptor.ActionName, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

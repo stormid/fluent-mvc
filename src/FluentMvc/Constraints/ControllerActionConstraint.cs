@@ -21,10 +21,7 @@ namespace FluentMvc.Constraints
             if (selectorDescriptor == EmptyActionDescriptor.Instance)
                 return true;
 
-            var reflectedActionDescriptor = descriptor as ReflectedActionDescriptor;
-            var selectorReflectedActionDescriptor = selectorDescriptor as ReflectedActionDescriptor;
-
-            return reflectedActionDescriptor.MethodInfo.Equals(selectorReflectedActionDescriptor.MethodInfo);
+            return new ActionDescriptorComparer().Compare(descriptor, selectorDescriptor) > 0;
         }
     }
 }
