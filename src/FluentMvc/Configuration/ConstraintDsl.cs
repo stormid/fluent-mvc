@@ -36,7 +36,7 @@ namespace FluentMvc.Configuration
         }
 
         public virtual ConstraintDsl<TDsl> ExceptFor<TController>(Expression<Func<TController, object>> func) where TController : Controller
-        {
+        {   
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(actionDescriptor);

@@ -425,4 +425,40 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
         }
     }
+
+    [TestFixture]
+    public class when_adding_a_filter_with_a_when_except_for_a_specific_action : DslSpecBase
+    {
+        private ActionDescriptor actionDescriptor;
+        private ActionDescriptor exceptforActionDescriptor;
+        private IActionFilterRegistry actionFilterRegistry;
+
+        public override void Given()
+        {
+            actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
+            Expression<Func<SecondTestController, object>> func = controller => controller.ReturnPost();
+            Expression<Func<TestController, object>> exceptForFunc = controller => controller.ReturnViewResult();
+            actionDescriptor = func.CreateActionDescriptor();
+            exceptforActionDescriptor = exceptForFunc.CreateActionDescriptor();
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
+                .WithFilter<TestActionFilter>(Apply.When<TrueReturningConstraint>().ExceptFor(exceptForFunc));
+        }
+
+        public override void Because()
+        {
+            Configuration.BuildControllerFactory();
+        }
+
+        [Test]
+        public void should_not_return_the_filter_for_the_ignored_action()
+        {
+            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), exceptforActionDescriptor, exceptforActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+        }
+
+        [Test]
+        public void should_return_the_attribute_for_any_none_ignored_action()
+        {
+            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+        }
+    }
 }

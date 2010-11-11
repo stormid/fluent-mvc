@@ -2,18 +2,18 @@ namespace FluentMvc.Constraints
 {
     public class AndConstraint : IConstraint
     {
-        private readonly IConstraint first;
-        private readonly IConstraint second;
+        private readonly IConstraint left;
+        private readonly IConstraint right;
 
-        public AndConstraint(IConstraint first, IConstraint second)
+        public AndConstraint(IConstraint left, IConstraint right)
         {
-            this.first = first;
-            this.second = second;
+            this.left = left;
+            this.right = right;
         }
 
         public bool IsSatisfiedBy<T>(T selector) where T : RegistrySelector
         {
-            return first.IsSatisfiedBy(selector) && second.IsSatisfiedBy(selector);
+            return left.IsSatisfiedBy(selector) && right.IsSatisfiedBy(selector);
         }
     }
 }

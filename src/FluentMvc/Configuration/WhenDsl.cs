@@ -49,6 +49,12 @@ namespace FluentMvc.Configuration
             return this;
         }
 
+        public override ConstraintDsl<WhenDsl<TDsl>> ExceptFor<TController>(Expression<Func<TController, object>> func)
+        {
+            innerDsl.ExceptFor(func);
+            return this;
+        }
+
         public override IEnumerable<TransientRegistration> GetConstraintRegistrations(IFluentMvcObjectFactory objectFactory)
         {
             IConstraint guardConstraint = CreateGuardConstraint(objectFactory);
