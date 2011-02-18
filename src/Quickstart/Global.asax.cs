@@ -33,29 +33,29 @@
         {
             RegisterRoutes(RouteTable.Routes);
 
-            FluentMvcConfiguration
-                .Configure = x =>
-                                 {
-                                     x.UsingControllerFactory(new DefaultControllerFactory());
+            var filterProvider = FluentMvcConfiguration
+                .ConfigureFilterProvider(x =>
+                                             {
+                                                 x.WithResultFactory<ActionResultFactory>()
+                                                     .WithResultFactory<JsonResultFactory>()
+                                                     .WithResultFactory<ViewResultFactory>(isDefault : true);
 
-                                     x.WithResultFactory<ActionResultFactory>()
-                                         .WithResultFactory<JsonResultFactory>()
-                                         .WithResultFactory<ViewResultFactory>(Is.Default);
+                                                 x.WithResultFactory<ErrorThrowingResultFactory>(
+                                                     Apply.For<HomeController>(hc => hc.ErrorResultFactory()));
 
-                                     x.WithResultFactory<ErrorThrowingResultFactory>(
-                                         Apply.For<HomeController>(hc => hc.ErrorResultFactory()));
+                                                 x.WithFilter<HandleErrorAttribute>();
+                                                 x.WithFilter<AuthorizeAttribute>(
+                                                     Except
+                                                         .For<AccountController>(ac => ac.LogOn())
+                                                         .AndFor<AccountController>(
+                                                             ac => ac.LogOn(null, null, false, null))
+                                                         .AndFor<HomeController>());
 
-                                     x.WithFilter<HandleErrorAttribute>();
-                                     x.WithFilter<AuthorizeAttribute>(
-                                         Except
-                                             .For<AccountController>(ac => ac.LogOn())
-                                             .AndFor<AccountController>(ac => ac.LogOn(null, null, false, null))
-                                             .AndFor<HomeController>());
+                                                 x.WithFilter<ErrorThrowingFilter>(
+                                                     Apply.When<ExpectsHtml>().For<HomeController>(hc => hc.About()));
+                                             });
 
-                                     x.WithFilter<ErrorThrowingFilter>(Apply.When<ExpectsHtml>().For<HomeController>(hc => hc.About()));
-                                 };
-
-            ControllerBuilder.Current.BuildFromFluentMcv();
+            FilterProviders.Providers.Add(filterProvider);
         }
     }
 

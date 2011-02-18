@@ -30,6 +30,7 @@ namespace FluentMvc.Configuration
             return (TDsl)this;
         }
 
+        [Obsolete]
         public virtual TDsl UsingControllerFactory(IControllerFactory controllerFactory)
         {
             Convention.ControllerFactory = controllerFactory;
@@ -101,14 +102,14 @@ namespace FluentMvc.Configuration
         {
             filterConstaintRegistrations.Add(typeof(TFilter), new HashSet<TransientRegistration>
                                                                   {
-                                                                      new InstanceRegistration(PredefinedConstraint.True)
+                                                                      new InstanceRegistration(PredefinedConstraint.True, FilterScope.Action)
                                                                   });
             return (TDsl)this;
         }
 
         public TDsl WithFilter<T>(T filterInstance)
         {
-            var registration = new FilterInstanceInstanceRegistration(PredefinedConstraint.True, filterInstance);
+            var registration = new FilterInstanceInstanceRegistration(PredefinedConstraint.True, filterInstance, FilterScope.Global);
 
             RegisterFilter(filterInstance.GetType(), new[] {registration});
 
@@ -119,7 +120,7 @@ namespace FluentMvc.Configuration
         {
             IEnumerable<TransientRegistration> registrations = constraint.GetConstraintRegistrations(objectFactory);
 
-            RegisterFilter(filterInstance.GetType(), registrations.Select(x => new FilterInstanceInstanceRegistration(x.Constraint, x.ActionDescriptor, x.ControllerDescriptor, filterInstance)).Cast<TransientRegistration>());
+            RegisterFilter(filterInstance.GetType(), registrations.Select(x => new FilterInstanceInstanceRegistration(x.Constraint, x.ActionDescriptor, x.ControllerDescriptor, filterInstance, x.Scope)));
 
             return (TDsl)this;
         }

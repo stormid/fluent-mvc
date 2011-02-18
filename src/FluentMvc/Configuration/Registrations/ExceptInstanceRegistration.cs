@@ -5,8 +5,8 @@ namespace FluentMvc.Configuration.Registrations
 {
     public class ExceptInstanceRegistration : InstanceRegistration
     {
-        public ExceptInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
-            : base(new NotConstraint(guardConstraint), actionDescriptor, controllerDescriptor)
+        public ExceptInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, FilterScope filterScope)
+            : base(new NotConstraint(guardConstraint), actionDescriptor, controllerDescriptor, filterScope)
         {
         }
     }

@@ -1,3 +1,5 @@
+using FluentMvc.Utils;
+
 namespace FluentMvc
 {
     using System;
@@ -6,7 +8,7 @@ namespace FluentMvc
     using Constraints;
 
     public class ActionResultRegistryItem
-        : RegistryItem
+        : RegistryItem<ActionResultSelector>
     {
         public ActionResultRegistryItem(Type actionFilterType, IConstraint constraints, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
             : base(new TypeItemActivator(actionFilterType), constraints, actionDescriptor, controllerDescriptor)
@@ -17,5 +19,11 @@ namespace FluentMvc
         {
             Constraint = new ListConstraint(factory.Constraints);
         }
+
+        //public override bool AppliesToController(ActionResultSelector selector)
+        //{
+        //    var descriptor = selector.ControllerDescriptor;        //    var isCorrectType = descriptor.ControllerType.CanBeCastTo(ControllerDescriptor.ControllerType);        //    var isCorrentControllerName = descriptor.ControllerName.StartsWith(ControllerDescriptor.ControllerName, StringComparison.CurrentCultureIgnoreCase);
+        //    return isCorrectType && isCorrentControllerName;
+        //}
     }
 }

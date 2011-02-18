@@ -13,16 +13,11 @@ namespace FluentMvc.Spec
         [Test]
         public void new_configuration()
         {
-            FluentMvcConfiguration.Configure = config =>
+            var provider = FluentMvcConfiguration.ConfigureFilterProvider(config =>
                                                    {
-                                                       config.UsingControllerFactory(new DefaultControllerFactory());
-
-                                                       config.WithResultFactory<ActionResultFactory>(Is.Default);
-
+                                                       config.WithResultFactory<ActionResultFactory>(isDefault:true);
                                                        config.WithFilter<AuthorizeAttribute>();
-                                                   };
-
-            ControllerBuilder.Current.BuildFromFluentMcv();
+                                                   });
         }
 
         [Test]
@@ -30,39 +25,25 @@ namespace FluentMvc.Spec
         {
             FluentMvcConfiguration.Create()
                 .WithConvention(new MvcConvention())
-                .BuildControllerFactory();
-        }
-
-        [Test]
-        public void Standard_Mvc_Custom_ControllerFactory()
-        {
-            // Change this to your factory of choice
-            IControllerFactory customControllerFactory = new DefaultControllerFactory();
-
-            FluentMvcConfiguration.Create()
-                .WithConvention(new MvcConvention())
-                .UsingControllerFactory(customControllerFactory)
-                .BuildControllerFactory();
+                .BuildFilterProvider();
         }
 
         [Test]
         public void Securing_a_specific_action()
         {
             FluentMvcConfiguration.Create()
-                .UsingControllerFactory(new DefaultControllerFactory())
                 .WithConvention(new MvcConvention())
                 .WithFilter<AuthorizeAttribute>(Apply.For<TestController>(tc => tc.ReturnPost()))
-                .BuildControllerFactory();
+                .BuildFilterProvider();
         }
 
         [Test]
         public void Securing_a_specific_action_for_a_role()
         {
             FluentMvcConfiguration.Create()
-                .UsingControllerFactory(new DefaultControllerFactory())
                 .WithConvention(new MvcConvention())
                 .WithFilter(new AuthorizeAttribute { Roles = "Role"}, Apply.For<TestController>(tc => tc.ReturnPost()))
-                .BuildControllerFactory();
+                .BuildFilterProvider();
         }
 
         [Test]

@@ -41,46 +41,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
             filterInstance = CreateStub<IActionFilter>();
             FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
-                .WithFilter(filterInstance).BuildControllerFactory();
+                .WithFilter(filterInstance).BuildFilterProvider();
         }
 
         [Test]
         public void should_be_registered_using_the_supplied_type()
         {
             actionFilterRegistry.Registrations.First().Create<IActionFilter>(CreateStub<IFluentMvcObjectFactory>()).ShouldEqual(filterInstance);
-        }
-    }
-
-
-    [TestFixture]
-    public class When_creating_a_factory_with_an_inner_controllerfactory : DslSpecBase
-    {
-        private IControllerFactory Factory;
-        private DefaultControllerFactory ExpectedControllerFactory;
-
-        public override void Given()
-        {
-            ExpectedControllerFactory = new DefaultControllerFactory();
-            Configuration = FluentMvcConfiguration.Create()
-                .UsingControllerFactory(ExpectedControllerFactory);
-        }
-
-        public override void Because()
-        {
-            Factory = Configuration
-                .BuildControllerFactory();
-        }
-
-        [Test]
-        public void Should_set_inner_conventions_controller_factory()
-        {
-            Configuration.Convention.ControllerFactory.ShouldBeTheSameAs(ExpectedControllerFactory);
-        }
-
-        [Test]
-        public void Should_create_the_factory()
-        {
-            Factory.ShouldNotBeNull();
         }
     }
 
@@ -321,7 +288,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
 
         public override void Because()
         {
-            Configuration.BuildControllerFactory();
+            Configuration.BuildFilterProvider();
         }
 
         [Test]
@@ -369,7 +336,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
 
         public override void Because()
         {
-            Configuration.BuildControllerFactory();
+            Configuration.BuildFilterProvider();
         }
 
         [Test]

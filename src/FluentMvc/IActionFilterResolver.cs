@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FluentMvc
 {
     using System.Web.Mvc;
@@ -5,6 +7,6 @@ namespace FluentMvc
     public interface IActionFilterResolver
     {
         void SetActionFilterRegistry(IActionFilterRegistry registry);
-        void AddFiltersTo(FilterInfo filters, ActionFilterSelector actionFilterSelector);
+        IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor);
     }
 }

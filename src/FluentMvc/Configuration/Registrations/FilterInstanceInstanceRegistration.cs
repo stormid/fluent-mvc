@@ -9,20 +9,25 @@ namespace FluentMvc.Configuration.Registrations
     {
         private readonly object itemInstance;
 
-        public FilterInstanceInstanceRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, object itemInstance)
-            : base(constraint, actionDescriptor, controllerDescriptor)
+        public FilterInstanceInstanceRegistration(IConstraint constraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, object itemInstance, FilterScope filterScope)
+            : base(constraint, actionDescriptor, controllerDescriptor, filterScope)
         {
             this.itemInstance = itemInstance;
         }
 
-        public FilterInstanceInstanceRegistration(IConstraint constraint, object filterInstance)
-            : this(constraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, filterInstance)
+        public FilterInstanceInstanceRegistration(IConstraint constraint, object filterInstance, FilterScope filterScope)
+            : this(constraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, filterInstance, filterScope)
         {
         }
 
-        public override ActionFilterRegistryItem CreateRegistryItem(Type filterType)
+        //public override ActionFilterRegistryItem CreateRegistryItem(Type filterType)
+        //{
+        //    return new ActionFilterRegistryItem(new InstanceItemActivator(itemInstance), Constraint, ActionDescriptor, ControllerDescriptor);
+        //}
+
+        protected override ItemActivator GetTypeItemActivator(Type filterType)
         {
-            return new ActionFilterRegistryItem(new InstanceItemActivator(itemInstance), Constraint, ActionDescriptor, ControllerDescriptor);
+            return new InstanceItemActivator(itemInstance);
         }
     }
 }

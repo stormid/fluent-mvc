@@ -8,7 +8,7 @@ namespace FluentMvc
 
     public abstract class AbstractRegistry<TRegistryItem, TSelector> : IRegistry<TRegistryItem, TSelector>
         where TSelector : RegistrySelector
-        where TRegistryItem : RegistryItem
+        where TRegistryItem : RegistryItem<TSelector>
     {
         private HashSet<TRegistryItem> registry = new HashSet<TRegistryItem>();
         private readonly ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
@@ -65,7 +65,19 @@ namespace FluentMvc
                                         toRemove = FindItemsToRemove(items, selector);
                                     });
 
-            return applicable.Except(toRemove, new RegistryEqualityComparer<TRegistryItem>()).Distinct().ToArray();
+            return applicable.Except(toRemove, new RegistryEqualityComparer<TRegistryItem, TSelector>()).Distinct().ToArray();
+        }
+
+        public TRegistryItem[] FindForSelectors(params TSelector[] selectors)
+        {
+            var list = new HashSet<TRegistryItem>(new RegistryEqualityComparer<TRegistryItem, TSelector>());
+
+            foreach (var registryItem in selectors.SelectMany(FindForSelector))
+            {
+                list.Add(registryItem);   
+            }
+
+            return list.ToArray();
         }
 
         private IEnumerable<TRegistryItem> FindItemsToRemove(IEnumerable<TRegistryItem> items, TSelector selector)
@@ -84,7 +96,7 @@ namespace FluentMvc
         }
     }
 
-    public class RegistryEqualityComparer<T> : IEqualityComparer<T> where T : RegistryItem
+    public class RegistryEqualityComparer<T, T1> : IEqualityComparer<T> where T : RegistryItem<T1> where T1 : RegistrySelector
     {
         public bool Equals(T x, T y)
         {
