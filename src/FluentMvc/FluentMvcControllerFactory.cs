@@ -1,3 +1,6 @@
+using System;
+using System.Web.SessionState;
+
 namespace FluentMvc
 {
     using System.Web;
@@ -25,6 +28,11 @@ namespace FluentMvc
             controller.ActionInvoker = FluentMvcActionInvoker.Create(resolver);
             
             return controller;
+        }
+
+        public SessionStateBehavior GetControllerSessionBehavior(RequestContext requestContext, string controllerName)
+        {
+            return innerControllerFactory.GetControllerSessionBehavior(requestContext, controllerName);
         }
 
         public void ReleaseController(IController controller)

@@ -5,7 +5,6 @@ namespace FluentMvc.Spec
     using Configuration;
     using FluentMvc;
     using NUnit.Framework;
-    using Utils;
 
     [TestFixture]
     public class GettingStartExamples
@@ -17,7 +16,7 @@ namespace FluentMvc.Spec
                                                    {
                                                        config.UsingControllerFactory(new DefaultControllerFactory());
 
-                                                       config.WithResultFactory<ActionResultFactory>(Is.Default);
+                                                       config.WithResultFactory<ActionResultFactory>(Configuration.Is.Default);
 
                                                        config.WithFilter<AuthorizeAttribute>();
                                                    };

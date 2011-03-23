@@ -1,1 +1,0 @@
-Please refer to FluentMvc.Spec.GettingStartExamples
