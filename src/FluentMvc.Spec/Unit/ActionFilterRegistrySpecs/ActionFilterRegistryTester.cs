@@ -6,7 +6,6 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
     using System.Linq.Expressions;
     using System.Web.Mvc;
     using NUnit.Framework;
-    using NUnit.Framework.SyntaxHelpers;
     using Utils;
 
     internal class ActionFilterRegistryTester

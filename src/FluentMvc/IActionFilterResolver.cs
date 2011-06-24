@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FluentMvc
 {
     using System.Web.Mvc;

@@ -29,6 +29,12 @@ namespace FluentMvc.Configuration
             return Add<ControllerTypeConstraint<TController>>(actionDescriptor, actionDescriptor.ControllerDescriptor);
         }
 
+        public virtual ConstraintDsl<TDsl> AndForArea<TArea>() where TArea : AreaRegistration, new()
+        {
+            AddRegistration(CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            return this;
+        }
+
         protected virtual ConstraintDsl<TDsl> Add<TConstraint>(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
             AddRegistration(CreateTypeRegistration(typeof(TConstraint), actionDescriptor, controllerDescriptor));
@@ -36,7 +42,7 @@ namespace FluentMvc.Configuration
         }
 
         public virtual ConstraintDsl<TDsl> ExceptFor<TController>(Expression<Func<TController, object>> func) where TController : Controller
-        {
+        {   
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(actionDescriptor);

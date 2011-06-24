@@ -11,3 +11,5 @@ _ReSharper*
 *.cache
 TestResult.xml
 .svn
+build_artifacts/
+build_output/

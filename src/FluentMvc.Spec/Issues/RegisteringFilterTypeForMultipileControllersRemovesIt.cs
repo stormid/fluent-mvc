@@ -38,7 +38,7 @@ namespace FluentMvc.Spec.Issues
                                                x.WithFilter<TestActionFilter>(Apply.For<TestController>().AndFor<SecondTestController>());
                                            });
 
-            config.BuildControllerFactory();
+            config.BuildFilterProvider();
         }
 
         [Test]
