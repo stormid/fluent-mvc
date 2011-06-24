@@ -42,20 +42,6 @@ namespace FluentMvc
         {
             return new FluentMvcConfiguration(fluentMvcResolver, actionFilterRegistry, actionResultRegistry, filterConventionCollection);
         }
-        
-        public virtual IControllerFactory BuildControllerFactory()
-        {
-            CreateDependencies();
-            SetDefaultFactory();
-            BuildActionResultFactoryPipeline();
-            RunFilterConventions();
-            RegisterFilters();
-            PrepareResolver();
-
-            IControllerFactory controllerFactory = CreateControllerFactory();
-
-            return controllerFactory;
-        }
 
         private void RunFilterConventions()
         {
@@ -113,22 +99,47 @@ namespace FluentMvc
             }
         }
 
-        protected IControllerFactory CreateControllerFactory()
-        {
-            return new FluentMvcControllerFactory(Convention.ControllerFactory, fluentMvcResolver);
-        }
-
         public void ExposeConfiguration(Action<FluentMvcConfiguration> action)
         {
             action(this);
         }
 
-        public static IControllerFactory ConfigureAndBuildControllerFactory()
+        [Obsolete]
+        public virtual IControllerFactory BuildControllerFactory()
+        {
+            throw new InvalidOperationException();
+        }
+
+        private IFilterProvider constructFilterProvider()
+        {
+            CreateDependencies();
+            SetDefaultFactory();
+            BuildActionResultFactoryPipeline();
+            RunFilterConventions();
+            RegisterFilters();
+            PrepareResolver();
+
+            return new FluentMvcFilterProvider(fluentMvcResolver);
+        }
+
+        public IFilterProvider BuildFilterProvider()
+        {
+            return constructFilterProvider();
+        }
+
+        public static IFilterProvider ConfigureAndBuildFilterProvider()
         {
             var config = Create();
             Configure(config);
 
-            return config.BuildControllerFactory();
+            return config.BuildFilterProvider();
+        }
+
+        public static IFilterProvider ConfigureFilterProvider(Action<FluentMvcConfiguration> configureAction)
+        {
+            Configure = configureAction;
+
+            return ConfigureAndBuildFilterProvider();
         }
     }
 

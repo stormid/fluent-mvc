@@ -30,6 +30,7 @@ namespace FluentMvc.Configuration
             return (TDsl)this;
         }
 
+        [Obsolete]
         public virtual TDsl UsingControllerFactory(IControllerFactory controllerFactory)
         {
             Convention.ControllerFactory = controllerFactory;

@@ -28,25 +28,25 @@ namespace FluentMvc
             objectFactory = factory;
         }
 
-        private void FilterAndAddFilters<T>(ICollection<T> baseFiltersList, IEnumerable<ActionFilterRegistryItem> applicableFilters)
+        private void FilterAndAddFilters<T>(IList<T> baseFiltersList, IEnumerable<ActionFilterRegistryItem> applicableFilters)
         {
+            IList<T> filtersToAdd = new List<T>();
             foreach (var item in FilterActionFilters<T>(applicableFilters))
             {
                 var filter = CreateFilter<T>(item);
                 BuildUp(filter);
+                filtersToAdd.Add(filter);
+            }
 
-                AddFilter(baseFiltersList, filter);
+            foreach (var filter in filtersToAdd.Reverse())
+            {
+                baseFiltersList.Insert(0, filter);
             }
         }
 
         private void BuildUp<T>(T filter)
         {
             objectFactory.BuildUpProperties<T>(filter);
-        }
-
-        private void AddFilter<T>(ICollection<T> baseFiltersList, T filter)
-        {
-            baseFiltersList.Add(filter);
         }
 
         private T CreateFilter<T>(RegistryItem item)
