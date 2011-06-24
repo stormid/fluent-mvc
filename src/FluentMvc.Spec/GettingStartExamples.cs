@@ -5,7 +5,6 @@ namespace FluentMvc.Spec
     using Configuration;
     using FluentMvc;
     using NUnit.Framework;
-    using Utils;
 
     [TestFixture]
     public class GettingStartExamples
