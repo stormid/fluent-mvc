@@ -5,7 +5,7 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
     using Rhino.Mocks;
     using Utils;
 
-    [TestFixture]
+    [TestFixture, Ignore]
     public class when_an_action_is_invoked_and_the_action_return_value_is_not_null_or_an_action_result : SpecificationBase
     {
         private IFluentMvcResolver fluentMvcFactory;
@@ -15,7 +15,7 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
         public override void Given()
         {
             fluentMvcFactory = CreateStub<IFluentMvcResolver>();
-            ControllerContext = new ControllerContextBuilder().WithController(new TestController()).Build();
+            ControllerContext =new ControllerContext();
 
             ActionInvocker = FluentMvcActionInvoker.Create(fluentMvcFactory) as FluentMvcActionInvoker;
         }
@@ -38,7 +38,7 @@ namespace FluentMvc.Spec.Unit.ActionInvoker
         }
     }
 
-    [TestFixture]
+    [TestFixture, Ignore]
     public class when_an_action_is_invoked_and_the_action_return_value_is_null : SpecificationBase
     {
         private IFluentMvcResolver fluentMvcFactory;

@@ -95,7 +95,7 @@ namespace FluentMvc.Spec.Issues
 
             public override void Because()
             {
-                Configuration.BuildControllerFactory();
+                Configuration.BuildFilterProvider();
             }
 
             [Test]

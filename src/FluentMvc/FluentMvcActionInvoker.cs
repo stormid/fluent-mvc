@@ -11,20 +11,6 @@ namespace FluentMvc
             this.fluentMvcResolver = fluentMvcResolver;
         }
 
-        protected override FilterInfo GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
-        {
-            FilterInfo baseFilters = base.GetFilters(controllerContext, actionDescriptor);
-            var actionFilterSelector = GetActonFilterSelector(controllerContext, actionDescriptor);
-            fluentMvcResolver.AddFiltersTo(baseFilters, actionFilterSelector);
-
-            return baseFilters;
-        }
-
-        private ActionFilterSelector GetActonFilterSelector(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
-        {
-            return new ActionFilterSelector(controllerContext, actionDescriptor, actionDescriptor.ControllerDescriptor);
-        }
-
         protected override ActionResult CreateActionResult(ControllerContext controllerContext, ActionDescriptor actionDescriptor, object actionReturnValue)
         {
             if (!(actionReturnValue is ActionResult))

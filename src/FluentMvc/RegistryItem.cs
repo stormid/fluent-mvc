@@ -82,7 +82,6 @@ namespace FluentMvc
             if (ActionDescriptor == EmptyActionDescriptor.Instance)
                 return true;
 
-
             return new ActionDescriptorComparer().Compare(ActionDescriptor, selector.ActionDescriptor) > 0;
         }
 

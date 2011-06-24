@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FluentMvc
 {
     using System.Web.Mvc;
@@ -6,11 +8,13 @@ namespace FluentMvc
 
     public class FluentMvcResolver : IFluentMvcResolver
     {
+        private readonly IFluentMvcObjectFactory objectFactory;
         private readonly IActionResultResolver actionResultResolver;
         private readonly IActionFilterResolver actionFilterResolver;
 
         public FluentMvcResolver(IActionResultRegistry actionResultRegistry, IActionFilterRegistry actionFilterRegistry, IFluentMvcObjectFactory objectFactory)
         {
+            this.objectFactory = objectFactory;
             actionFilterResolver = new ActionFilterResolver(actionFilterRegistry);
             actionResultResolver = new ActionResultResolver(actionResultRegistry, objectFactory);
         }
@@ -59,6 +63,15 @@ namespace FluentMvc
         {
             actionFilterResolver.AddFiltersTo(baseFilterInfo, selector);
         }
+
+        public void BuildUpFilters(IEnumerable<Filter> attributeFilters)
+        {
+            foreach (var attributeFilter in attributeFilters)
+            {
+                objectFactory.BuildUpProperties(attributeFilter);
+            }
+        }
+
         #endregion
     }
 
