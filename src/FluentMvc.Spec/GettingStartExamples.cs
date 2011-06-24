@@ -14,7 +14,7 @@ namespace FluentMvc.Spec
         {
             var provider = FluentMvcConfiguration.ConfigureFilterProvider(config =>
                                                    {
-                                                       config.WithResultFactory<ActionResultFactory>(Is.Default);
+                                                       config.WithResultFactory<ActionResultFactory>(Configuration.Is.Default);
                                                        config.WithFilter<AuthorizeAttribute>();
                                                    });
         }

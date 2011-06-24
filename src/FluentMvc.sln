@@ -3,10 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93332FA3-6D0F-4059-85B9-CB35BE4B8EEB}"
 	ProjectSection(SolutionItems) = preProject
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		FluentMvc.smp = FluentMvc.smp
 		Readme.txt = Readme.txt
-		Todo.txt = Todo.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuickStart", "QuickStart", "{B440C02D-2E84-4647-BADB-2325F5E8D0BD}"
