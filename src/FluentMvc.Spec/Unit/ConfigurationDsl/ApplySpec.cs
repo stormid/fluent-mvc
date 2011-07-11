@@ -69,5 +69,11 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             Apply.For<TestController>().AndForArea<TestAreaRegistration>().GetConstraintRegistrations(factory).Count().
                 ShouldEqual(2);
         }
+
+        [Test]
+        public void Apply_ExceptWhen()
+        {
+            Apply.For<TestController>().Except<FalseReturningConstraint>().GetConstraintRegistrations(factory).Count().ShouldEqual(2);
+        }
     }
 }

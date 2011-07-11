@@ -50,6 +50,13 @@ namespace FluentMvc.Configuration
             AddRegistration(CreateInstanceRegistration(new NotConstraint(contContraint), actionDescriptor, actionDescriptor.ControllerDescriptor));
             return this;
         }
+
+        public virtual ConstraintDsl<TDsl> Except<TConstraint>()
+            where TConstraint : IConstraint
+        {
+            AddRegistration(new ExceptTransientRegistration(typeof(TConstraint), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            return this;
+        }
     }
 
     public class ConstraintDsl
