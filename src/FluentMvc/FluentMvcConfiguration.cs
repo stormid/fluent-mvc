@@ -64,7 +64,7 @@ namespace FluentMvc
                 actionResultRegistry = new ActionResultRegistry();
 
             if (fluentMvcResolver == null)
-                fluentMvcResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, objectFactory);
+                fluentMvcResolver = new FluentMvcResolver(actionResultRegistry, objectFactory, new ActionFilterResolver(actionFilterRegistry, objectFactory));
         }
 
         private void SetDefaultFactory()

@@ -15,7 +15,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
         public override void Given()
         {
             pipeline = CreateStub<IActionResultPipeline>();
-            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, CreateStub<IFluentMvcObjectFactory>(), new ActionFilterResolver(actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>()));
         }
 
         public override void Because()
@@ -39,7 +39,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
         public override void Given()
         {
             Selector = CreateStub<ActionResultSelector>();
-            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, CreateStub<IFluentMvcObjectFactory>(), new ActionFilterResolver(actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>()));
             CatchAllFactory = CreateStub<IActionResultFactory>();
             actionResultResolver.SetDefaultFactory(CatchAllFactory);
         }
@@ -79,7 +79,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
                 .Return(ExpectedActionResult);
 
             FactoryOptions = CreateStub<ActionResultSelector>();
-            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, CreateStub<IFluentMvcObjectFactory>(), new ActionFilterResolver(actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>()));
             actionResultResolver.RegisterActionResultPipeline(pipeline);
         }
 
@@ -112,7 +112,7 @@ namespace FluentMvc.Spec.Unit.DefaultActionResultResolver
                 .Return(ExpectedActionResult);
 
             FactoryOptions = CreateStub<ActionResultSelector>();
-            actionResultResolver = new FluentMvcResolver(actionResultRegistry, actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>());
+            actionResultResolver = new FluentMvcResolver(actionResultRegistry, CreateStub<IFluentMvcObjectFactory>(), new ActionFilterResolver(actionFilterRegistry, CreateStub<IFluentMvcObjectFactory>()));
             actionResultResolver.RegisterActionResultPipeline(pipeline);
         }
 

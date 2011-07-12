@@ -25,7 +25,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
         private IList<IActionFilter> ReturnedFilters()
         {
             var filterInfo = new FilterInfo();
-            actionFilterRegistry.AddFiltersTo(filterInfo, new ActionFilterSelector());
+            actionFilterRegistry.AddFiltersTo(filterInfo, new EmptyActionFilterSelector());
             return filterInfo.ActionFilters;
         }
 
@@ -42,14 +42,18 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
         public int CountReturnedForControllerAndAction(ActionDescriptor actionDescriptor)
         {
             return actionFilterRegistry
-                .FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor))
+                .FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor))
                 .Count();
         }
 
         public int CountReturnedForControllerAndAction<TController>(Expression<Func<TController, object>> func) where TController : Controller
         {
             var actionDescriptor = func.CreateActionDescriptor();
-            return CountReturnedForControllerAndAction(actionDescriptor);
+
+            return actionFilterRegistry
+                .FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor))
+                .Count();
+            
         }
 
     }

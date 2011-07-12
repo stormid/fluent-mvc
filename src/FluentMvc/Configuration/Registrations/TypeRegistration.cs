@@ -8,15 +8,17 @@ namespace FluentMvc.Configuration.Registrations
     {
         private ControllerDescriptor controllerDescriptor;
         private ActionDescriptor actionDescriptor;
+        private FilterScope scope;
 
-        protected TransientRegistration(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        protected TransientRegistration(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, FilterScope scope)
         {
             ActionDescriptor = actionDescriptor;
             ControllerDescriptor = controllerDescriptor;
+            this.scope = scope;
         }
 
-        public TransientRegistration(Type type, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
-            : this(actionDescriptor, controllerDescriptor)
+        public TransientRegistration(Type type, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, FilterScope scope)
+            : this(actionDescriptor, controllerDescriptor, scope)
         {
             ConstraintType = type;
         }
@@ -37,14 +39,31 @@ namespace FluentMvc.Configuration.Registrations
 
         protected Type ConstraintType { get; set; }
 
+        public FilterScope Scope { get { return scope; } }
+
         public virtual void Prepare(IFluentMvcObjectFactory factory)
         {
             Constraint = factory.CreateConstraint(ConstraintType);
         }
 
-        public virtual ActionFilterRegistryItem CreateRegistryItem(Type filterType)
+        public ActionFilterRegistryItem CreateRegistryItem(Type filterType)
         {
-            return new ActionFilterRegistryItem(new TypeItemActivator(filterType), Constraint, ActionDescriptor, ControllerDescriptor);
+            if (ControllerDescriptor == EmptyControllerDescriptor.Instance && ActionDescriptor == EmptyActionDescriptor.Instance)
+                return new GlobalActionFilterRegistryItem(GetTypeItemActivator(filterType), Constraint);
+
+            if (ControllerDescriptor != EmptyControllerDescriptor.Instance && ActionDescriptor == EmptyActionDescriptor.Instance)
+                return new ControllerRegistryItem(GetTypeItemActivator(filterType), Constraint, ControllerDescriptor);
+
+            if (ControllerDescriptor != EmptyControllerDescriptor.Instance && ActionDescriptor != EmptyActionDescriptor.Instance)
+                return new ControllerActionRegistryItem(GetTypeItemActivator(filterType), Constraint, ActionDescriptor, ControllerDescriptor);
+
+            throw new InvalidOperationException();
+        }
+
+        protected virtual ItemActivator GetTypeItemActivator(Type filterType)
+        {
+            return new TypeItemActivator(filterType);
         }
     }
+
 }

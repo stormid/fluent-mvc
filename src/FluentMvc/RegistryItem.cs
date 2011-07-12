@@ -9,7 +9,7 @@ namespace FluentMvc
     using Configuration;
     using Constraints;
 
-    public class RegistryItem
+    public abstract class RegistryItem<T>  where T : RegistrySelector
     {
         private IConstraint constraint;
         private ControllerDescriptor controllerDescriptor;
@@ -54,30 +54,22 @@ namespace FluentMvc
             ControllerDescriptor = controllerDescriptor;
         }
 
-        public bool Satisfies<T>(T selector) where T : RegistrySelector
+        public bool Satisfies(T selector)
         {
             return SatisfiesCore(selector);
         }
 
-        protected virtual bool SatisfiesCore<T>(T selector) where T : RegistrySelector
+        protected virtual bool SatisfiesCore(T selector)
         {
             return Constraint.IsSatisfiedBy(selector);
         }
 
-        public bool AppliesToController<T>(T selector) where T : RegistrySelector
+        public bool AppliesToController(T selector)
         {
-            if (ControllerDescriptor == EmptyControllerDescriptor.Instance)
-                return true;
+            if (ControllerDescriptor == EmptyControllerDescriptor.Instance)                return true;            var descriptor = selector.ControllerDescriptor;            var isCorrectType = descriptor.ControllerType.CanBeCastTo(ControllerDescriptor.ControllerType);            var isCorrentControllerName = descriptor.ControllerName.StartsWith(ControllerDescriptor.ControllerName, StringComparison.CurrentCultureIgnoreCase);
+            return isCorrectType && isCorrentControllerName;        }
 
-            var descriptor = selector.ControllerDescriptor;
-
-            var isCorrectType = descriptor.ControllerType.CanBeCastTo(ControllerDescriptor.ControllerType);
-            var isCorrentControllerName = descriptor.ControllerName.StartsWith(ControllerDescriptor.ControllerName, StringComparison.CurrentCultureIgnoreCase);
-
-            return isCorrectType && isCorrentControllerName;
-        }
-
-        public bool AppliesToAction<T>(T selector)  where T : RegistrySelector
+        public virtual bool AppliesToAction(T selector)
         {
             if (ActionDescriptor == EmptyActionDescriptor.Instance)
                 return true;
@@ -85,9 +77,14 @@ namespace FluentMvc
             return new ActionDescriptorComparer().Compare(ActionDescriptor, selector.ActionDescriptor) > 0;
         }
 
-        public TItem Create<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
+        public virtual TItem Create<TItem>(IFluentMvcObjectFactory fluentMvcObjectFactory)
         {
             return ItemActivator.Activate<TItem>(fluentMvcObjectFactory);
+        }
+
+        public virtual object Create(IFluentMvcObjectFactory fluentMvcObjectFactory)
+        {
+            return ItemActivator.Activate(fluentMvcObjectFactory);
         }
     }
 

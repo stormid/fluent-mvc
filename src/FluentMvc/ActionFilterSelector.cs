@@ -2,8 +2,10 @@ namespace FluentMvc
 {
     using System.Web.Mvc;
 
-    public class ActionFilterSelector : RegistrySelector
+    public abstract class ActionFilterSelector : RegistrySelector
     {
+        public FilterScope Scope { get; protected set; }
+
         public ActionFilterSelector()
         {
         }
@@ -12,5 +14,9 @@ namespace FluentMvc
             : base(actionDescriptor, controllerDescriptor, controllerContext)
         {
         }
+    }
+
+    public class EmptyActionFilterSelector : ActionFilterSelector
+    {
     }
 }

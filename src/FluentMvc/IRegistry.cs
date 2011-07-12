@@ -4,7 +4,6 @@ namespace FluentMvc
 
     public interface IRegistry<TRegistryItem, TSelector>
         where TSelector : RegistrySelector
-        where TRegistryItem : RegistryItem
     {
         TRegistryItem[] Registrations { get; }
         void Add(IEnumerable<TRegistryItem> registryItems);
@@ -12,5 +11,7 @@ namespace FluentMvc
         TRegistryItem Create(TSelector selector);
         bool CanSatisfy(TSelector selector);
         TRegistryItem[] FindForSelector(TSelector selector);
+        TRegistryItem[] FindForSelectors(params TSelector[] selectors);
+
     }
 }

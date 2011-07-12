@@ -38,7 +38,7 @@
                                              {
                                                  x.WithResultFactory<ActionResultFactory>()
                                                      .WithResultFactory<JsonResultFactory>()
-                                                     .WithResultFactory<ViewResultFactory>(Is.Default);
+                                                     .WithResultFactory<ViewResultFactory>(isDefault: true);
 
                                                  x.WithResultFactory<ErrorThrowingResultFactory>(
                                                      Apply.For<HomeController>(hc => hc.ErrorResultFactory()));

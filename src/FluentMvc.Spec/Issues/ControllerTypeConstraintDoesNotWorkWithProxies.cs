@@ -25,7 +25,7 @@ namespace FluentMvc.Spec.Issues
             var actionDescriptor = func.CreateActionDescriptor();
 
             controllerTypeConstraint
-                .IsSatisfiedBy(new ActionFilterSelector(null, actionDescriptor, actionDescriptor.ControllerDescriptor))
+                .IsSatisfiedBy(new ControllerFilterSelector(null, actionDescriptor.ControllerDescriptor, EmptyActionDescriptor.Instance))
                 .ShouldBeTrue();
         }
 
@@ -41,7 +41,7 @@ namespace FluentMvc.Spec.Issues
             var actionDescriptor = new ReflectedActionDescriptor(controllerType.GetMethod("ReturnViewResult"), "ReturnViewResult", new ReflectedControllerDescriptor(controllerType));
 
             controllerTypeConstraint
-                .IsSatisfiedBy(new ActionFilterSelector(null, actionDescriptor, actionDescriptor.ControllerDescriptor))
+                .IsSatisfiedBy(new ControllerFilterSelector(null, actionDescriptor.ControllerDescriptor, EmptyActionDescriptor.Instance))
                 .ShouldBeTrue();
         }
 
@@ -54,7 +54,7 @@ namespace FluentMvc.Spec.Issues
             var actionDescriptor = new ReflectedActionDescriptor(method, "ReturnNull", new ReflectedControllerDescriptor(typeof(TestController)));
 
             var registry = new ActionFilterRegistry(new FluentMvcObjectFactory());
-            registry.Add(new ActionFilterRegistryItem(typeof(TestFilter), controllerTypeConstraint, actionDescriptor, actionDescriptor.ControllerDescriptor));
+            registry.Add(new ControllerActionRegistryItem(typeof(TestFilter), controllerTypeConstraint, actionDescriptor, actionDescriptor.ControllerDescriptor));
 
             var proxyGenerator = new ProxyGenerator();
             var interfaceProxyWithTarget = proxyGenerator.CreateClassProxy<TestController>();
@@ -65,7 +65,7 @@ namespace FluentMvc.Spec.Issues
             var proxyActionDescriptor = new ReflectedActionDescriptor(methodInfos.First(x => x.Name.Equals("ReturnNull") && x.GetParameters().Count() == 0), "ReturnNull", new ReflectedControllerDescriptor(controllerType));
 
             registry
-                .CanSatisfy(new ActionFilterSelector(null, proxyActionDescriptor, proxyActionDescriptor.ControllerDescriptor))
+                .CanSatisfy(new ControllerActionFilterSelector(null, proxyActionDescriptor, proxyActionDescriptor.ControllerDescriptor))
                 .ShouldBeTrue();
         }
 
@@ -102,7 +102,7 @@ namespace FluentMvc.Spec.Issues
             public void should_return_the_attribute_for_any_none_ignored_action()
             {
                 actionFilterRegistry
-                    .FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor))
+                    .FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor))
                     .Length.ShouldEqual(1);
             }
         }

@@ -1,3 +1,6 @@
+using System.Linq.Expressions;
+using FluentMvc.Utils;
+
 namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 {
     using System;
@@ -8,7 +11,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
     using Rhino.Mocks;
     using ActionFilterRegistry=FluentMvc.ActionFilterRegistry;
 
-    [TestFixture]
+    [TestFixture, Ignore("Covered due to global filters")]
     public class When_registering_an_action_filter_not_associated_with_a_controller_with_no_constraints : SpecificationBase
     {
         private IActionFilterRegistry actionFilterRegistry;
@@ -29,7 +32,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof (TestActionFilter), PredefinedConstraint.True, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            actionFilterRegistryTester.RegisterFilter(new GlobalActionFilterRegistryItem(typeof(TestActionFilter), PredefinedConstraint.True));
         }
 
         [Test]
@@ -61,7 +64,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), PredefinedConstraint.False, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            actionFilterRegistryTester.RegisterFilter(new GlobalActionFilterRegistryItem(typeof(TestActionFilter), PredefinedConstraint.False));
         }
 
         [Test]
@@ -92,7 +95,9 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
 
         public override void Because()
         {
-            actionFilterRegistryTester.RegisterFilter(new ActionFilterRegistryItem(typeof(TestActionFilter), new ControllerTypeConstraint<SecondTestController>(), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            Expression<Func<SecondTestController, object>> func = c => c.ReturnPost();
+            var actionDescriptor = func.CreateActionDescriptor();
+            actionFilterRegistryTester.RegisterFilter(new ControllerRegistryItem(typeof(TestActionFilter), PredefinedConstraint.True, actionDescriptor.ControllerDescriptor));
         }
 
         [Test]

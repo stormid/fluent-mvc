@@ -17,14 +17,14 @@ namespace FluentMvc.Configuration
 
         public static ConstraintDsl<Apply> For<TController>() where TController : Controller
         {
-            var registration = new InstanceRegistration(new ControllerTypeConstraint<TController>(), EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController)));
+            var registration = new InstanceRegistration(new ControllerTypeConstraint<TController>(), EmptyActionDescriptor.Instance, new ReflectedControllerDescriptor(typeof(TController)), FilterScope.Controller);
             return CreateDsl(registration);
         }
 
         public static ConstraintDsl<Apply> For<TController>(Expression<Func<TController, object>> func) where TController : Controller
         {
             ActionDescriptor actionDescriptor = func.CreateActionDescriptor();
-            return CreateDsl(new InstanceRegistration(new ControllerActionConstraint(actionDescriptor), actionDescriptor, actionDescriptor.ControllerDescriptor));
+            return CreateDsl(new InstanceRegistration(new ControllerActionConstraint(actionDescriptor), actionDescriptor, actionDescriptor.ControllerDescriptor, FilterScope.Action));
         }
 
         private static Apply CreateDsl(TransientRegistration constraintRegistration)
@@ -39,21 +39,9 @@ namespace FluentMvc.Configuration
             where TArea : AreaRegistration, new()
         {
             var dsl = new Apply();
-            dsl.AddRegistration(dsl.CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            dsl.AddRegistration(dsl.CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, FilterScope.Global));
 
             return dsl;
-        }
-    }
-
-
-
-    public class Is
-    {
-        private static bool isDefault = true;
-
-        public static bool Default
-        {
-            get { return isDefault; }
         }
     }
 }
