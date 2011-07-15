@@ -36,7 +36,7 @@ namespace FluentMvc
             {
                 yield return new Filter(filter, FilterScope.Global, null);
             }
-
+            
             foreach (var filter in filterInfo.ExceptionFilters)
             {
                 yield return new Filter(filter, FilterScope.Global, null);
