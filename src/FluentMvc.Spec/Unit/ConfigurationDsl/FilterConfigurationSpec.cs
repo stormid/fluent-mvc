@@ -426,7 +426,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         }
     }
 
-    [TestFixture, Ignore("Come back to")]
+    [TestFixture]
     public class when_adding_a_filter_with_a_when_except_for_a_specific_action : DslSpecBase
     {
         private ActionDescriptor actionDescriptor;
@@ -441,7 +441,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionDescriptor = func.CreateActionDescriptor();
             exceptforActionDescriptor = exceptForFunc.CreateActionDescriptor();
             Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
-                .WithFilter<TestActionFilter>(Apply.When<TrueReturningConstraint>().ExceptFor(exceptForFunc));
+                .WithFilter<TestActionFilter>(Apply.For<SecondTestController>().ExceptFor(exceptForFunc));
         }
 
         public override void Because()
@@ -459,6 +459,42 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         public void should_return_the_filter_for_any_none_ignored_action()
         {
             actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+        }
+    }
+
+    [TestFixture]
+    public class when_adding_a_filter_with_a_when_except_for_a_specific_controller : DslSpecBase
+    {
+        private ActionDescriptor actionDescriptor;
+        private ActionDescriptor exceptActionDescriptor;
+        private IActionFilterRegistry actionFilterRegistry;
+
+        public override void Given()
+        {
+            actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
+            Expression<Func<TestController, object>> func = controller => controller.ReturnPost();
+            Expression<Func<SecondTestController, object>> exceptFunc = controller => controller.ReturnPost();
+            actionDescriptor = func.CreateActionDescriptor();
+            exceptActionDescriptor = exceptFunc.CreateActionDescriptor();
+            Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
+                .WithFilter<TestActionFilter>(Apply.For<TestController>().ExceptFor<SecondTestController>());
+        }
+
+        public override void Because()
+        {
+            Configuration.BuildFilterProvider();
+        }
+
+        [Test]
+        public void should_return_the_filter_for_any_non_ignored_controller()
+        {
+            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, actionDescriptor.ControllerDescriptor)).Count().ShouldEqual(1);
+        }
+
+        [Test]
+        public void should_not_return_the_filter_for_ignored_controller()
+        {
+            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, exceptActionDescriptor.ControllerDescriptor)).Count().ShouldEqual(0);
         }
     }
 }
