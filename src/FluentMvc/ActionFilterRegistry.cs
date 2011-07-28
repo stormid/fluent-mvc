@@ -1,3 +1,5 @@
+using System;
+
 namespace FluentMvc
 {
     using System.Collections.Generic;
@@ -46,10 +48,15 @@ namespace FluentMvc
 
         private void BuildUp<T>(T filter)
         {
-            objectFactory.BuildUpProperties<T>(filter);
+            objectFactory.BuildUpProperties(filter);
         }
 
-        private T CreateFilter<T>(RegistryItem item)
+        private void AddFilter<T>(ICollection<T> baseFiltersList, T filter)
+        {
+            baseFiltersList.Add(filter);
+        }
+
+        private T CreateFilter<T>(ActionFilterRegistryItem item)
         {
             return item.Create<T>(objectFactory);
         }

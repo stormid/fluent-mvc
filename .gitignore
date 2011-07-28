@@ -13,3 +13,7 @@ TestResult.xml
 .svn
 build_artifacts/
 build_output/
+*.bak
+*.orig
+*.dotCover
+*.bin

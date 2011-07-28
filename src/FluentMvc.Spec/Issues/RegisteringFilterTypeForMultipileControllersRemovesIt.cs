@@ -45,7 +45,7 @@ namespace FluentMvc.Spec.Issues
         public void should_return_the_correct_filters()
         {
             var actionDesc = func.CreateActionDescriptor();
-            ActionFilterRegistryItem[] selector = actionFilterRegistry.FindForSelector(new ActionFilterSelector(null, actionDesc, actionDesc.ControllerDescriptor));
+            ActionFilterRegistryItem[] selector = actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(null, actionDesc, actionDesc.ControllerDescriptor));
 
             selector.Length.ShouldEqual(1);
         }

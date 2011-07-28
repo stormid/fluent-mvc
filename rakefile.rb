@@ -94,29 +94,29 @@ zip :package => :unit_tests do |zip|
 	zip.output_path = [props[:artifacts]]
 end
 
-desc "Create the nuspec"
-nuspec :create_nuget_spec => :package do |nuspec|
-   nuspec.id = "FluentMvc"
-   nuspec.version = BUILD_NUMBER_BASE + ".0"
-   nuspec.authors = "Chris Canal"
-   nuspec.owners = "Chris Canal"
-   nuspec.description = "FluentMvc is a library for adding conventions to ASP.NET MVC using a fluent configuration API."
-   nuspec.summary = "FluentMvc is a library for adding conventions to ASP.NET MVC using a fluent configuration API."
-   nuspec.language = "en-US"
-   nuspec.licenseUrl = "https://github.com/carcer/FluentMvc/blob/master/LICENSE"
-   nuspec.projectUrl = "https://github.com/carcer/FluentMvc"
-   nuspec.working_directory = [props[:artifacts]]
-   nuspec.output_file = "FluentMvc.nuspec"
-   nuspec.tags = "mvc"
-end
+# desc "Create the nuspec"
+# nuspec :create_nuget_spec => :package do |nuspec|
+   # nuspec.id = "FluentMvc"
+   # nuspec.version = BUILD_NUMBER_BASE + ".0"
+   # nuspec.authors = "Chris Canal"
+   # nuspec.owners = "Chris Canal"
+   # nuspec.description = "FluentMvc is a library for adding conventions to ASP.NET MVC using a fluent configuration API."
+   # nuspec.summary = "FluentMvc is a library for adding conventions to ASP.NET MVC using a fluent configuration API."
+   # nuspec.language = "en-US"
+   # nuspec.licenseUrl = "https://github.com/carcer/FluentMvc/blob/master/LICENSE"
+   # nuspec.projectUrl = "https://github.com/carcer/FluentMvc"
+   # nuspec.working_directory = [props[:artifacts]]
+   # nuspec.output_file = "FluentMvc.nuspec"
+   # nuspec.tags = "mvc"
+# end
 
-desc "Create the nuget package"
-nugetpack :create_nuget_package => :create_nuget_spec do |nuget|
-   nuget.command = File.join(props[:lib], "nuget.exe")
-   nuget.nuspec = File.join(props[:artifacts], "FluentMvc.nuspec")
-   nuget.base_folder = props[:stage]
-   nuget.output = props[:artifacts]
-end
+# desc "Create the nuget package"
+# nugetpack :create_nuget_package => :create_nuget_spec do |nuget|
+   # nuget.command = File.join(props[:lib], "nuget.exe")
+   # nuget.nuspec = File.join(props[:artifacts], "FluentMvc.nuspec")
+   # nuget.base_folder = props[:stage]
+   # nuget.output = props[:artifacts]
+# end
 
 def get_commit_hash_and_date
 	begin

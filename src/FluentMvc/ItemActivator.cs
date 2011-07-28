@@ -11,6 +11,11 @@ namespace FluentMvc
         {
             return ActivateCore<T>(fluentMvcObjectFactory);
         }
+        
+        public object Activate(IFluentMvcObjectFactory fluentMvcObjectFactory)
+        {
+            return ActivateCore<object>(fluentMvcObjectFactory);
+        }
 
         protected virtual T ActivateCore<T>(IFluentMvcObjectFactory fluentMvcObjectFactory)
         {

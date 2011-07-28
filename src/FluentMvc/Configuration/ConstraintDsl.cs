@@ -15,7 +15,7 @@ namespace FluentMvc.Configuration
         protected static WhenDsl<TDsl> When<T>(TDsl innerDsl)
             where T : IConstraint
         {
-            return new WhenDsl<TDsl>(innerDsl, typeof(T));
+            return new WhenDsl<TDsl>(innerDsl, typeof(T), FilterScope.Global);
         }
 
         public virtual ConstraintDsl<TDsl> AndFor<TController>() where TController : Controller
@@ -31,20 +31,20 @@ namespace FluentMvc.Configuration
 
         public virtual ConstraintDsl<TDsl> AndForArea<TArea>() where TArea : AreaRegistration, new()
         {
-            AddRegistration(CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            AddRegistration(CreateInstanceRegistration(new AreaConstraint(new TArea()), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, FilterScope.Global));
             return this;
         }
 
         protected virtual ConstraintDsl<TDsl> Add<TConstraint>(ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
         {
-            AddRegistration(CreateTypeRegistration(typeof(TConstraint), actionDescriptor, controllerDescriptor));
+            AddRegistration(CreateTypeRegistration(typeof(TConstraint), actionDescriptor, controllerDescriptor, FilterScope.Global));
             return this;
         }
 
         public virtual ConstraintDsl<TDsl> ExceptFor<TController>() where TController : Controller
         {
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
-            AddRegistration(new ExceptInstanceRegistration(controllerTypeConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            AddRegistration(new ExceptInstanceRegistration(controllerTypeConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, FilterScope.Controller));
             return this;
         }
 
@@ -54,14 +54,14 @@ namespace FluentMvc.Configuration
             var controllerTypeConstraint = new ControllerTypeConstraint<TController>();
             var actionConstraint = new ControllerActionConstraint(actionDescriptor);
             var contContraint = new AndConstraint(controllerTypeConstraint, actionConstraint);
-            AddRegistration(CreateInstanceRegistration(new NotConstraint(contContraint), actionDescriptor, actionDescriptor.ControllerDescriptor));
+            AddRegistration(CreateInstanceRegistration(new NotConstraint(contContraint), actionDescriptor, actionDescriptor.ControllerDescriptor, FilterScope.Action));
             return this;
         }
 
         public virtual ConstraintDsl<TDsl> Except<TConstraint>()
             where TConstraint : IConstraint
         {
-            AddRegistration(new ExceptTransientRegistration(typeof(TConstraint), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance));
+            AddRegistration(new ExceptTransientRegistration(typeof(TConstraint), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, FilterScope.Action));
             return this;
         }
     }
@@ -89,14 +89,14 @@ namespace FluentMvc.Configuration
             }
         }
 
-        protected virtual InstanceRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        protected virtual InstanceRegistration CreateInstanceRegistration(IConstraint guardConstraint, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, FilterScope filterScope)
         {
-            return new InstanceRegistration(guardConstraint, actionDescriptor, controllerDescriptor);
+            return new InstanceRegistration(guardConstraint, actionDescriptor, controllerDescriptor, filterScope);
         }
 
-        public virtual TransientRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor)
+        public virtual TransientRegistration CreateTypeRegistration(Type guardConstraintType, ActionDescriptor actionDescriptor, ControllerDescriptor controllerDescriptor, FilterScope filterScope)
         {
-            return new TransientRegistration(guardConstraintType, actionDescriptor, controllerDescriptor);
+            return new TransientRegistration(guardConstraintType, actionDescriptor, controllerDescriptor, filterScope);
         }
     }
 }

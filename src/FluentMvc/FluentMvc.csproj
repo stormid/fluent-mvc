@@ -118,7 +118,6 @@
     <Compile Include="ActionResultSelector.cs" />
     <Compile Include="FluentMvcResolver.cs" />
     <Compile Include="ActionResultFactories\IActionResultFactory.cs" />
-    <Compile Include="FluentMvcActionInvoker.cs" />
     <Compile Include="FluentMvcConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>

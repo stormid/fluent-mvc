@@ -77,7 +77,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_be_able_to_retrieve_item()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new GlobalActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance)).Length.ShouldEqual(1);
         }
     }
 
@@ -111,7 +111,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_be_able_to_retrieve_item_that_does_not_have_a_constaint()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
         }
     }
 
@@ -165,13 +165,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_not_return_for_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
         }
 
         [Test]
         public void should_return_for_none_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), anotherActionDescriptor, anotherActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), anotherActionDescriptor, anotherActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
         }
     }
 
@@ -204,19 +204,19 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_not_return_for_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
         }
 
         [Test]
         public void should_return_for_none_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), secondActionDescriptor, secondActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), secondActionDescriptor, secondActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
         }
 
         [Test]
         public void should_not_return_for_none_matching_second_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), thirdActionDescriptor, thirdActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), thirdActionDescriptor, thirdActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
         }
     }
 
@@ -249,19 +249,19 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_not_return_for_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
         }
 
         [Test]
         public void should_return_for_none_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), secondActionDescriptor, secondActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), secondActionDescriptor, secondActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
         }
 
         [Test]
         public void should_not_return_for_none_matching_second_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), thirdActionDescriptor, thirdActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), thirdActionDescriptor, thirdActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
         }
     }
 
@@ -272,6 +272,8 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         private ActionDescriptor actionDescriptor;
         private ActionDescriptor secondActionDescriptor;
         private ActionDescriptor excludedActionDescriptor;
+        private IFluentMvcObjectFactory fluentMvcObjectFactory;
+        private ActionFilterResolver resolver;
 
         public override void Given()
         {
@@ -281,10 +283,16 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
             actionDescriptor = func.CreateActionDescriptor();
             secondActionDescriptor = func2.CreateActionDescriptor();
             excludedActionDescriptor = func3.CreateActionDescriptor();
-            actionFilterRegistry = new ActionFilterRegistry(CreateStub<IFluentMvcObjectFactory>());
+
+            fluentMvcObjectFactory = CreateStub<IFluentMvcObjectFactory>();
+            fluentMvcObjectFactory.Stub(x => x.Resolve<object>(Arg<Type>.Is.Anything)).Return(CreateStub<IActionFilter>());
+
+            actionFilterRegistry = new ActionFilterRegistry(fluentMvcObjectFactory);
             Configuration = FluentMvcConfiguration.Create(CreateStub<IFluentMvcResolver>(), actionFilterRegistry, CreateStub<IActionResultRegistry>(), CreateStub<IFilterConventionCollection>())
                 .WithFilter<AcceptVerbsAttribute>()
-                .WithFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor<ThirdTestController>(func3));
+                .WithFilter<AuthorizeAttribute>(Except.For<TestController>().AndFor(func3));
+
+            resolver = new ActionFilterResolver(actionFilterRegistry, fluentMvcObjectFactory);
         }
 
         public override void Because()
@@ -295,34 +303,35 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_return_for_only_global_filter_for_matching_controller_type_of_authorize()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor))
-                .Length.ShouldEqual(1);
+            resolver.GetFilters(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)
+                .Count().ShouldEqual(1);
         }
 
         [Test]
         public void should_return_for_matching_controller_and_different_action()
         {
             Expression<Func<ThirdTestController, object>> func = c => c.ReturnNull();
-            var descriptor = func.CreateActionDescriptor();
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), descriptor, descriptor.ControllerDescriptor)).Length
-                .ShouldEqual(2);
+            var localDescriptor = func.CreateActionDescriptor();
+            var count = resolver.GetFilters(new ControllerContext(), localDescriptor, localDescriptor.ControllerDescriptor).Count();
+            count.ShouldEqual(2);
+
         }
 
         [Test]
         public void should_return_all_for_none_matching_controller_type()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), secondActionDescriptor, secondActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(2);
+            resolver.GetFilters(new ControllerContext(), secondActionDescriptor, secondActionDescriptor.ControllerDescriptor).Count().ShouldEqual(2);
         }
 
         [Test]
         public void should_return_global_filter_only_for_excluded_controller()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), excludedActionDescriptor, excludedActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), excludedActionDescriptor, excludedActionDescriptor.ControllerDescriptor))[0].Type.ShouldEqual(typeof(AcceptVerbsAttribute));
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), excludedActionDescriptor, excludedActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), excludedActionDescriptor, excludedActionDescriptor.ControllerDescriptor))[0].Type.ShouldEqual(typeof(AcceptVerbsAttribute));
         }
     }
 
-    [TestFixture]
+    [TestFixture, Ignore]
     public class when_registering_an_action_filter_with_a_constraint_targeting_a_specific_action : DslSpecBase
     {
         private IActionFilterRegistry actionFilterRegistry;
@@ -377,7 +386,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         {
             Expression<Func<ThirdTestController, object>> otherFunc = controller => controller.ReturnPost();
             ActionDescriptor descriptior = otherFunc.CreateActionDescriptor();
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), descriptior, descriptior.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), descriptior, descriptior.ControllerDescriptor)).Length.ShouldEqual(1);
         }
 
         [Test]
@@ -385,7 +394,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         {
             Expression<Func<ThirdTestController, object>> otherFunc = controller => controller.ReturnNull();
             ActionDescriptor descriptior = otherFunc.CreateActionDescriptor();
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), descriptior, descriptior.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), descriptior, descriptior.ControllerDescriptor)).Length.ShouldEqual(1);
         }
 
     }
@@ -416,13 +425,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_not_return_the_attribute_for_the_ignored_action()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), incorrectActionDescriptor, incorrectActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), incorrectActionDescriptor, incorrectActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
         }
 
         [Test]
         public void should_return_the_attribute_for_any_none_ignored_action()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
         }
     }
 
@@ -452,13 +461,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_not_return_the_filter_for_the_ignored_action()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), exceptforActionDescriptor, exceptforActionDescriptor.ControllerDescriptor)).Length.ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), exceptforActionDescriptor, exceptforActionDescriptor.ControllerDescriptor)).Count().ShouldEqual(0);
         }
 
         [Test]
         public void should_return_the_filter_for_any_none_ignored_action()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Length.ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), actionDescriptor, actionDescriptor.ControllerDescriptor)).Count().ShouldEqual(1);
         }
     }
 
@@ -488,13 +497,13 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         [Test]
         public void should_return_the_filter_for_any_non_ignored_controller()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, actionDescriptor.ControllerDescriptor)).Count().ShouldEqual(1);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, actionDescriptor.ControllerDescriptor)).Count().ShouldEqual(1);
         }
 
         [Test]
         public void should_not_return_the_filter_for_ignored_controller()
         {
-            actionFilterRegistry.FindForSelector(new ActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, exceptActionDescriptor.ControllerDescriptor)).Count().ShouldEqual(0);
+            actionFilterRegistry.FindForSelector(new ControllerActionFilterSelector(new ControllerContext(), EmptyActionDescriptor.Instance, exceptActionDescriptor.ControllerDescriptor)).Count().ShouldEqual(0);
         }
     }
 }

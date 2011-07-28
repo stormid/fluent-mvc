@@ -10,6 +10,7 @@ namespace FluentMvc.Configuration
 
     public class WhenDsl<TDsl> : ConstraintDsl<WhenDsl<TDsl>> where TDsl : ConstraintDsl<TDsl>
     {
+        public FilterScope Scope { get; set; }
         private readonly TransientRegistration guardContraintRegistration;
         private readonly TDsl innerDsl;
 
@@ -18,10 +19,11 @@ namespace FluentMvc.Configuration
             get { return innerDsl.ConstraintRegistrations.Concat(new[] { guardContraintRegistration }).ToArray(); }
         }
 
-        internal WhenDsl(TDsl innerDsl, Type guardConstraintType)
+        internal WhenDsl(TDsl innerDsl, Type guardConstraintType, FilterScope scope)
         {
+            Scope = scope;
             this.innerDsl = innerDsl;
-            guardContraintRegistration = innerDsl.CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
+            guardContraintRegistration = innerDsl.CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, scope);
             //guardContraintRegistration = CreateTypeRegistration(guardConstraintType, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
         }
 
@@ -57,6 +59,7 @@ namespace FluentMvc.Configuration
 
         public override ConstraintDsl<WhenDsl<TDsl>> ExceptFor<TController>(Expression<Func<TController, object>> func)
         {
+            // record action/controller details here
             innerDsl.ExceptFor(func);
             return this;
         }
@@ -68,13 +71,13 @@ namespace FluentMvc.Configuration
             if (!innerDsl.ConstraintRegistrations.Any())
             {
                 // HACK: This is here to support no following constraint being defined
-                yield return CreateInstanceRegistration(guardConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance);
+                yield return CreateInstanceRegistration(guardConstraint, EmptyActionDescriptor.Instance, EmptyControllerDescriptor.Instance, FilterScope.Global);
             } 
 
             foreach (var registration in innerDsl.ConstraintRegistrations)
             {
                 registration.Prepare(objectFactory);
-                yield return CreateInstanceRegistration(new AndConstraint(guardConstraint, registration.Constraint), registration.ActionDescriptor, registration.ControllerDescriptor);
+                yield return CreateInstanceRegistration(new AndConstraint(guardConstraint, registration.Constraint), registration.ActionDescriptor, registration.ControllerDescriptor, registration.Scope);
             }
         }
 

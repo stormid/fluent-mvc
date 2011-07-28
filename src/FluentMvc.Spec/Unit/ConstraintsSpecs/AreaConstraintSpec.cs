@@ -34,7 +34,7 @@ namespace FluentMvc.Spec.Unit.ConstraintsSpecs
 
         public override void Because()
         {
-            isSatisfiedBy = constraint.IsSatisfiedBy(new ActionFilterSelector(controllerContext, null, null));
+            isSatisfiedBy = constraint.IsSatisfiedBy(new ControllerActionFilterSelector(controllerContext, null, null));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace FluentMvc.Spec.Unit.ConstraintsSpecs
 
         public override void Because()
         {
-            isSatisfiedBy = constraint.IsSatisfiedBy(new ActionFilterSelector(controllerContext, null, null));
+            isSatisfiedBy = constraint.IsSatisfiedBy(new ControllerActionFilterSelector(controllerContext, null, null));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace FluentMvc.Spec.Unit.ConstraintsSpecs
 
         public override void Because()
         {
-            isSatisfiedBy = constraint.IsSatisfiedBy(new ActionFilterSelector(controllerContext, null, null));
+            isSatisfiedBy = constraint.IsSatisfiedBy(new ControllerActionFilterSelector(controllerContext, null, null));
         }
 
         [Test]

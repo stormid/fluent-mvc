@@ -76,7 +76,6 @@
     <Compile Include="Unit\ActionFilterRegistrySpecs\ActionFilterRegistrySpec.cs" />
     <Compile Include="Unit\ActionFilterRegistrySpecs\ActionFilterRegistryTester.cs" />
     <Compile Include="TestAreaRegistration.cs" />
-    <Compile Include="Unit\ActionInvokerSpecs\FluentMvcActionInvokerSpec.cs" />
     <Compile Include="Unit\ActionResultFactorySpecs\ActionResultFactoryTester.cs" />
     <Compile Include="Unit\ActionResultFactorySpecs\ActionResultSubFactorySpec.cs" />
     <Compile Include="Unit\ActionResultFactorySpecs\JsonResultSpec.cs" />
@@ -88,6 +87,8 @@
     <Compile Include="Unit\ConfigurationDsl\FilterConfigurationSpec.cs" />
     <Compile Include="Unit\ConstraintsSpecs\AreaConstraintSpec.cs" />
     <Compile Include="Unit\Conventions\FilterConventions\FilterConventionCollectionSpec.cs" />
+    <Compile Include="Unit\FluentMvcFilterProviderSpec.cs" />
+    <Compile Include="Unit\Resolvers\ActionFilterResolverSpec.cs" />
     <Compile Include="Unit\Resolvers\FluentMvcResolverCreateSpec.cs" />
     <Compile Include="Unit\Resolvers\FluentMvcResolverSpecBase.cs" />
     <Compile Include="TestActionResultFactory.cs" />
