@@ -79,7 +79,7 @@ end
 desc "Runs unit tests"
 nunit :unit_tests => :build do |nunit|
   Dir.mkdir props[:artifacts] unless exists?(props[:artifacts])
-  nunit.command = "lib/NUnit/bin/nunit-console.exe"
+  nunit.command = "lib/NUnit/nunit-console.exe"
   nunit.options '/nothread', '/nologo', "/xml=#{File.join(props[:artifacts], 'nunit-test-results.xml')}"
   nunit.assemblies File.join(props[:src], "FluentMvc.Spec/bin/#{BUILD_CONFIG}/FluentMvc.Spec.dll")
 end
