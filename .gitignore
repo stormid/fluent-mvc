@@ -17,3 +17,4 @@ build_output/
 *.orig
 *.dotCover
 *.bin
+*ncrunch*
