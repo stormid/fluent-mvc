@@ -5,7 +5,7 @@ require 'albacore'
 
 BUILD_NUMBER_BASE = '0.1.0'
 BUILD_NUMBER = ENV["BUILD_NUMBER"].nil? ? 0 : ENV["BUILD_NUMBER"]
-PRODUCT = 'FluentMvc'
+PRODUCT = 'Storm.FluentMvc'
 CLR_TOOLS_VERSION = 'v4.0.30319'
 
 BUILD_CONFIG = ENV['BUILD_CONFIG'] || 'Release'
