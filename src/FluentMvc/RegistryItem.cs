@@ -100,11 +100,30 @@ namespace FluentMvc
             var reflectedActionDescriptor = actionDescriptor as ReflectedActionDescriptor;
             var selectorReflectedActionDescriptor = descriptor as ReflectedActionDescriptor;
 
-            var isCorrectAction = reflectedActionDescriptor.MethodInfo.Name.Equals(selectorReflectedActionDescriptor.MethodInfo.Name, StringComparison.CurrentCultureIgnoreCase);
+            var isCorrectAction = 
+                ActionNamesAreEqual(selectorReflectedActionDescriptor, reflectedActionDescriptor) &&
+                ParametersAreEqual(reflectedActionDescriptor.GetParameters(), selectorReflectedActionDescriptor.GetParameters());
+            
+            return isCorrectAction;
+        }
 
-            var hasCorrectParamters = reflectedActionDescriptor.GetParameters().Length.Equals(selectorReflectedActionDescriptor.GetParameters().Length);
+        private static bool ActionNamesAreEqual(ReflectedActionDescriptor selectorReflectedActionDescriptor, ReflectedActionDescriptor reflectedActionDescriptor)
+        {
+            return reflectedActionDescriptor.MethodInfo.Name.Equals(selectorReflectedActionDescriptor.MethodInfo.Name, StringComparison.CurrentCultureIgnoreCase);
+        }
 
-            return isCorrectAction && hasCorrectParamters;
+        private bool ParametersAreEqual(ParameterDescriptor[] params0, ParameterDescriptor[] params1)
+        {
+            if (params0.Length != params1.Length) return false;
+
+            for (var i = 0; i < params0.Length; i++)
+            {
+                var param0 = params0[i];
+                var param1 = params1[i];
+
+                if (param0.ParameterName != param1.ParameterName || param0.ParameterType != param1.ParameterType) return false;
+            }
+            return true;
         }
 
         private bool ControllerHasAction(ActionDescriptor actionDescriptor, ActionDescriptor descriptor)
