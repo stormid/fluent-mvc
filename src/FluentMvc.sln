@@ -15,7 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc", "FluentMvc\Flue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentMvc.Spec", "FluentMvc.Spec\FluentMvc.Spec.csproj", "{AF5E2940-45BC-4C8F-AB22-632D6F385E66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quickstart", "Quickstart\Quickstart.csproj", "{02A79397-159B-4C29-A3E4-1D60BCFA39BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quickstart", "Quickstart\Quickstart.csproj", "{40B8B2A4-7B45-423F-A067-593F1E5C35F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{835FB0EF-5613-48E9-9FFC-E6254D1D3C31}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,16 +38,16 @@ Global
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02A79397-159B-4C29-A3E4-1D60BCFA39BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B8B2A4-7B45-423F-A067-593F1E5C35F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B8B2A4-7B45-423F-A067-593F1E5C35F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B8B2A4-7B45-423F-A067-593F1E5C35F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B8B2A4-7B45-423F-A067-593F1E5C35F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{02A79397-159B-4C29-A3E4-1D60BCFA39BC} = {B440C02D-2E84-4647-BADB-2325F5E8D0BD}
+		{40B8B2A4-7B45-423F-A067-593F1E5C35F8} = {B440C02D-2E84-4647-BADB-2325F5E8D0BD}
 		{3C4F825E-7713-430E-9E08-8D09C0798781} = {8B6CF4B3-65BC-40BC-BF85-020A15AD9709}
 		{AF5E2940-45BC-4C8F-AB22-632D6F385E66} = {8B6CF4B3-65BC-40BC-BF85-020A15AD9709}
 	EndGlobalSection

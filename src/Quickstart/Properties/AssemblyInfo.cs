@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Quickstart")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("e4ums")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Quickstart")]
-[assembly: AssemblyCopyright("Copyright © e4ums 2009")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8c944d19-c68d-41e1-bb6e-e21c71d5ab28")]
+[assembly: Guid("f6de9387-b0d3-438f-85a4-753195c7aa48")]
 
 // Version information for an assembly consists of the following four values:
 //
