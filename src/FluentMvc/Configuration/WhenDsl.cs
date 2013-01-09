@@ -51,6 +51,12 @@ namespace FluentMvc.Configuration
             return this;
         }
 
+        public override ConstraintDsl<WhenDsl<TDsl>> ExceptFor<TController>()
+        {
+            innerDsl.ExceptFor<TController>();
+            return this;
+        }
+
         public override ConstraintDsl<WhenDsl<TDsl>> ExceptFor<TController>(Expression<Func<TController, object>> func)
         {
             // record action/controller details here
