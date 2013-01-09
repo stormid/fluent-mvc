@@ -11,7 +11,7 @@ namespace FluentMvc.Spec.Unit.ActionFilterRegistrySpecs
     using Rhino.Mocks;
     using ActionFilterRegistry=FluentMvc.ActionFilterRegistry;
 
-    [TestFixture, Ignore("Covered due to global filters")]
+    [TestFixture]
     public class When_registering_an_action_filter_not_associated_with_a_controller_with_no_constraints : SpecificationBase
     {
         private IActionFilterRegistry actionFilterRegistry;

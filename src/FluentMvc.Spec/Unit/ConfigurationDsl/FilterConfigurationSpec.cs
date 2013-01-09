@@ -331,7 +331,7 @@ namespace FluentMvc.Spec.Unit.ConfigurationDsl
         }
     }
 
-    [TestFixture, Ignore]
+    [TestFixture]
     public class when_registering_an_action_filter_with_a_constraint_targeting_a_specific_action : DslSpecBase
     {
         private IActionFilterRegistry actionFilterRegistry;
