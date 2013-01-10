@@ -10,7 +10,7 @@
 	<copyright>Chris Canal, Storm ID Ltd.</copyright>
     <licenseUrl>https://github.com/stormid/FluentMvc/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/stormid/FluentMvc</projectUrl>
-    <tags>fluent, aspnetmkvc, aspnet, mvc</tags>
+    <tags>fluent, aspnetmvc, aspnet, mvc</tags>
   </metadata>
   <files>
     <file src="build_output\FluentMvc.dll" target="lib\net40" />
