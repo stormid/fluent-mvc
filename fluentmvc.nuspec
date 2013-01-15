@@ -11,12 +11,6 @@
     <licenseUrl>https://github.com/stormid/FluentMvc/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/stormid/FluentMvc</projectUrl>
     <tags>fluent, aspnetmvc, aspnet, mvc</tags>
-    <dependencies>
-      <dependency  id="Microsoft.AspNet.Mvc" version="4.0.20710.0" />
-      <dependency  id="Microsoft.AspNet.Razor" version="2.0.20715.0" />
-      <dependency  id="Microsoft.AspNet.WebPages" version="2.0.20710.0" />
-      <dependency  id="Microsoft.Web.Infrastructure" version="1.0.0.0" />
-    </dependencies>
   </metadata>
   <files>
     <file src="build_output\FluentMvc.dll" target="lib\net40" />

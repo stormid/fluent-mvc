@@ -3,7 +3,7 @@ COPYRIGHT = 'Copyright 2009-2011 Chris Canal. All rights reserved.'
 include FileTest
 require 'albacore'
 
-BUILD_NUMBER_BASE = '0.1.0'
+BUILD_NUMBER_BASE = '1.0.0'
 BUILD_NUMBER = ENV["BUILD_NUMBER"].nil? ? 0 : ENV["BUILD_NUMBER"]
 PRODUCT = 'Storm.FluentMvc'
 CLR_TOOLS_VERSION = 'v4.0.30319'
