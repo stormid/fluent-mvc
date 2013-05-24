@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FluentMvc.Configuration;
 
@@ -8,6 +9,12 @@ namespace FluentMvc.Conventions
     public class FilterConventionCollection : IFilterConventionCollection
     {
         private readonly IList<IFilterConventionSearcher> conventionFinders = new List<IFilterConventionSearcher>();
+        private IFilterConventionActivator filterConventionActivator;
+
+        public FilterConventionCollection(IFilterConventionActivator filterConventionActivator)
+        {
+            this.filterConventionActivator = filterConventionActivator;
+        }
 
         public IFilterConventionCollection LoadFromAssemblyContaining<T>()
         {
@@ -24,15 +31,25 @@ namespace FluentMvc.Conventions
         {
             var convetions = FindConventions();
 
-            foreach (var filterConvention in convetions)
+            foreach (var filterConvention in convetions.Select(type => ActivateConvention(type)))
             {
                 filterConvention.ApplyConvention(filterRegistration);
             }
         }
 
-        private IEnumerable<IFilterConvention> FindConventions()
+        public void SetConventionActivator(IFilterConventionActivator activator)
         {
-            var conventions = new List<IFilterConvention>();
+            filterConventionActivator = activator;
+        }
+
+        private IFilterConvention ActivateConvention(Type type)
+        {
+            return filterConventionActivator.Activate(type);
+        }
+
+        private IEnumerable<Type> FindConventions()
+        {
+            var conventions = new List<Type>();
             foreach (var filterConventionSearcher in conventionFinders)
             {
                 conventions.AddRange(filterConventionSearcher.Find());
@@ -40,36 +57,5 @@ namespace FluentMvc.Conventions
 
             return conventions;
         }
-    }
-
-    public class AssemblySearcher : IFilterConventionSearcher
-    {
-        private readonly Assembly assembly;
-
-        public AssemblySearcher(Assembly assembly)
-        {
-            this.assembly = assembly;
-        }
-
-        public IEnumerable<IFilterConvention> Find()
-        {
-            var types = assembly.GetTypes();
-
-            foreach (var type in types)
-            {
-                if (IsAFilterConvention(type))
-                    yield return Activator.CreateInstance(type) as IFilterConvention; // TODO: Replace this simple implemntation
-            }
-        }
-
-        private bool IsAFilterConvention(Type type)
-        {
-            return typeof (IFilterConvention).IsAssignableFrom(type);
-        }
-    }
-
-    public interface IFilterConventionSearcher
-    {
-        IEnumerable<IFilterConvention> Find();
     }
 }

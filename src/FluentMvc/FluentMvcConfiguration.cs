@@ -1,3 +1,4 @@
+using System.Linq;
 using FluentMvc.Conventions;
 
 namespace FluentMvc
@@ -34,8 +35,7 @@ namespace FluentMvc
 
         public static FluentMvcConfiguration Create()
         {
-            // TODO: Pass in the null is a bad hack, sort it
-            return Create(null, new ActionFilterRegistry(new FluentMvcObjectFactory()), new ActionResultRegistry(), new FilterConventionCollection());
+            return Create(new NullMvcResolver(), new ActionFilterRegistry(new FluentMvcObjectFactory()), new ActionResultRegistry(), new FilterConventionCollection(FilterConventionActivator.Default));
         }
 
         public static FluentMvcConfiguration Create(IFluentMvcResolver fluentMvcResolver, IActionFilterRegistry actionFilterRegistry, IActionResultRegistry actionResultRegistry, IFilterConventionCollection filterConventionCollection)
@@ -63,7 +63,7 @@ namespace FluentMvc
             if ( actionResultRegistry == null)
                 actionResultRegistry = new ActionResultRegistry();
 
-            if (fluentMvcResolver == null)
+            if (fluentMvcResolver.GetType() == typeof(NullMvcResolver))
                 fluentMvcResolver = new FluentMvcResolver(actionResultRegistry, objectFactory, new ActionFilterResolver(actionFilterRegistry, objectFactory));
         }
 
@@ -93,10 +93,7 @@ namespace FluentMvc
         {
             Type key = registration.Key;
 
-            foreach (var reg in registration.Value)
-            {
-                yield return reg.CreateRegistryItem(key);
-            }
+            return registration.Value.Select(reg => reg.CreateRegistryItem(key));
         }
 
         public void ExposeConfiguration(Action<FluentMvcConfiguration> action)

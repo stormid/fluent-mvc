@@ -73,9 +73,14 @@
     <Compile Include="Configuration\Registrations\TypeRegistration.cs" />
     <Compile Include="Configuration\WhenDsl.cs" />
     <Compile Include="Constraints\AreaConstraint.cs" />
+    <Compile Include="Conventions\AssemblySearcher.cs" />
+    <Compile Include="Conventions\DefaultFilterConventionActivator.cs" />
+    <Compile Include="Conventions\FilterConventionActivator.cs" />
     <Compile Include="Conventions\FilterConventionCollection.cs" />
+    <Compile Include="Conventions\IFilterConventionActivator.cs" />
     <Compile Include="Conventions\IFilterConvention.cs" />
     <Compile Include="Conventions\IFilterConventionCollection.cs" />
+    <Compile Include="Conventions\IFilterConventionSearcher.cs" />
     <Compile Include="FluentMvcFilterProvider.cs" />
     <Compile Include="IActionFilterResolver.cs" />
     <Compile Include="IActionResultResolver.cs" />
