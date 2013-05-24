@@ -1,3 +1,5 @@
+using FluentMvc.Conventions;
+
 namespace FluentMvc.Spec
 {
     using System.Web.Mvc;
@@ -52,7 +54,8 @@ namespace FluentMvc.Spec
                                                    {
                                                        config.
                                                            FilterConventions.
-                                                           LoadFromAssemblyContaining<GettingStartExamples>();
+                                                           LoadFromAssemblyContaining<GettingStartExamples>()
+                                                           .SetConventionActivator(FilterConventionActivator.Default);
                                                    };
         }
     }
