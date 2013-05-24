@@ -13,7 +13,7 @@ namespace FluentMvc.Spec.Unit.Conventions.FilterConventions
 
         public override void Given()
         {
-            filterConventionCollection = new FilterConventionCollection();
+            filterConventionCollection = new FilterConventionCollection(FilterConventionActivator.Default);
             filterConventionCollection
                 .LoadFromAssemblyContaining<TestConvention>();
 

@@ -8,5 +8,6 @@ namespace FluentMvc.Conventions
         IFilterConventionCollection LoadFromAssemblyContaining<T>();
         IFilterConventionCollection LoadFromAssembly(Assembly assembly);
         void ApplyConventions(IFilterRegistration registration);
+        void SetConventionActivator(IFilterConventionActivator filterConventionActivator);
     }
 }
